@@ -17,7 +17,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 	</head>
 	<body>
-		<div class="container" id="app">
+		<div id="app">
 		<script src="{{mix('js/app.js')}}" ></script>
 	</body>
 </html>

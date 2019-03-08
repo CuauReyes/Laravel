@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Card from "react-bootstrap/Card";
 import "./PlantCard.scss";
 
 export default class PlantCard extends Component {
@@ -7,25 +8,20 @@ export default class PlantCard extends Component {
 	}
 
 	componentDidMount() {
-		axios.get("/api/projects").then(response => {
-			this.setState({
-				projects: response.data
-			});
-		});
+		// axios.get("/api/v1/plant?id=1").then(response => {
+		// 	this.setState({
+		// 		projects: response.data
+		// 	});
+		// });
 	}
-	render() {
-		return (
-			<div className="container">
-				<div className="row justify-content-center">
-					<div className="col-md-8">
-						<div className="card">
-							<div className="card-header">Example Component</div>
 
-							<div className="card-body">I'm an example component!</div>
-						</div>
-					</div>
-				</div>
-			</div>
+	render() {
+		const { plant } = this.props;
+		return (
+			<Card>
+				<Card.Title> {plant.title} </Card.Title>
+				<Card.Footer> {plant.description} </Card.Footer>
+			</Card>
 		);
 	}
 }

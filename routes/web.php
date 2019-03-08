@@ -11,15 +11,16 @@
 |
 */
 
+
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('getDevice', 'DeviceController@index')->name('device.index');
+Route::get('/api/v1/getDevice', 'DeviceController@index')->name('device.index');
 
-Route::get('getPlant', 'PlantController@index')->name('plant.index');
+Route::get('/api/v1/getPlant', 'PlantController@index')->name('plant.index');
 

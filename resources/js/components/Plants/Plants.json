@@ -1,0 +1,19 @@
+{
+	"plants": [{
+		"title": "Planta 0",
+		"description": "DASDADDA",
+		"img": "vw.png"
+	}, {
+		"title": "Planta 1",
+		"description": "DASDADDA",
+		"img": "nissan.png"
+	}, {
+		"title": "Planta 2",
+		"description": "DASDADDA",
+		"img": "audi.png"
+	}, {
+		"title": "Planta 3",
+		"description": "DASDADDA",
+		"img": "hyundai.png"
+	}]
+}
