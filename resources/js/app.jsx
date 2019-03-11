@@ -10,6 +10,9 @@ import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import Plant from "./components/Plant/Plant";
 import Header from "./components/Header/Header";
+import Admin from "./components/Admin/Admin";
+import Devices from "./components/Devices/Devices";
+import Sensor from "./components/Sensor/Sensor";
 
 const history = createBrowserHistory();
 
@@ -24,6 +27,9 @@ class App extends Component {
 					<Route exact path="/plants/:id" component={Plant} />
 					<Route exact default path="/login" component={SignIn} />
 					<Route exact path="/register" component={SignUp} />
+					<Route exact path="/admin" component={Admin} />
+					<Route exact path="/devices" component={Devices} />
+					<Route exact path="/sensor" component={Sensor} />
 				</div>
 			</Router>
 		);

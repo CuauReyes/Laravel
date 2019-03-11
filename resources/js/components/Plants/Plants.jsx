@@ -21,7 +21,10 @@ export default class Plants extends Component {
 	}
 
 	render() {
+		
 		const { plants } = this.state;
+		console.log(plants);
+
 		return (
 			<div className="container mt-5">
 				<div className="row col-sm-12">

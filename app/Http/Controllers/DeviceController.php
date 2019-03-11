@@ -81,8 +81,49 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
+<<<<<<< HEAD
+    public function destroy(Device $device)
+    {
+        //
+    }
+
+    public function mostrar()
+    {
+        $URL = "https://offices_9.data.thethingsnetwork.org/api/v2/devices";
+        $conexion = curl_init();
+
+            curl_setopt($conexion, CURLOPT_URL, $URL);
+            curl_setopt($conexion, CURLOPT_HTTPGET, TRUE);
+            curl_setopt($conexion, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Authorization: key ttn-account-v2.uBNF9XTlQ43DfRURMKqLGN31qLS2p5F82d4gsCWUnfM'));
+            curl_setopt($conexion, CURLOPT_SSLVERSION, 6);
+            curl_setopt($conexion, CURLOPT_RETURNTRANSFER, 1);
+    
+        $respuesta = curl_exec($conexion);
+        curl_close($conexion);
+        $Devices = json_decode($respuesta);
+        return ($Devices);
+    }
+
+    public function mostrarUno()
+    {
+        $URL = "https://offices_9.data.thethingsnetwork.org/api/v2/query?last=10d";
+        $conexion = curl_init();
+
+            curl_setopt($conexion, CURLOPT_URL, $URL);
+            curl_setopt($conexion, CURLOPT_HTTPGET, TRUE);
+            curl_setopt($conexion, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Authorization: key ttn-account-v2.uBNF9XTlQ43DfRURMKqLGN31qLS2p5F82d4gsCWUnfM'));
+            curl_setopt($conexion, CURLOPT_SSLVERSION, 6);
+            curl_setopt($conexion, CURLOPT_RETURNTRANSFER, 1);
+    
+        $respuesta = curl_exec($conexion);
+        curl_close($conexion);
+        $Devices = json_decode($respuesta);
+        return ($Devices);
+    }
+=======
 	public function destroy(Device $device)
 	{
 		//
 	}
+>>>>>>> 2432c83622ce13c175014546f18dbdd63c356479
 }
