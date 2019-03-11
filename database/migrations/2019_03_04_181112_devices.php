@@ -14,16 +14,18 @@ class Devices extends Migration
 	public function up()
 	{
 		Schema::create('devices', function (Blueprint $table) {
-			$table->dropColumn('plant_id');
 
 			$table->bigIncrements('id');
 			$table->string('type');
 			$table->integer('battery');
 			$table->integer('status');
 			$table->timestamps();
+
+			$table->integer('plant_id')->unsigned();
 			$table->foreign('plant_id')
-				->references('id')->on('plant')
-				->onDelete('cascade');
+				->references('id')->on('plants')
+				->onDelete('cascade')
+				->onUpdate('cascade');
 		});
 	}
 

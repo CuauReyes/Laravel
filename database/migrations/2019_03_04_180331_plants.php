@@ -21,8 +21,14 @@ class Plants extends Migration
 			$table->string('url');
 			$table->string('key');
 			$table->string('img');
-			$table->integer('status');
+			$table->integer('status')->nullable();
 			$table->timestamps();
+
+			$table->integer('user_id')->unsigned();
+			$table->foreign('user_id')
+				->references('id')->on('users')
+				->onDelete('cascade')
+				->onUpdate('cascade');
 		});
 	}
 

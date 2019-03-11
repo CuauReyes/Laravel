@@ -16,8 +16,7 @@ class PlantController extends Controller
 	public function index()
 	{
 		//
-		$Plants = Plant::all();
-		return ($Plants);
+		return Plant::with('user')->get();
 	}
 
 	/**
@@ -47,12 +46,12 @@ class PlantController extends Controller
      * @param  \App\Plant  $plant
      * @return \Illuminate\Http\Response
      */
-	public function show(Plant $plant)
+	public function show($id)
 	{
 		//
-		$devices = Device::all();
-		$plant->merge($devices);
-		return $plant;
+		$plant = Plant::with('plant')->find($id);
+
+		return response()->json($plant, 200);
 	}
 
 	/**

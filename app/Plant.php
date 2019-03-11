@@ -6,8 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plant extends Model
 {
-    public function plants()
-    {
-        return $this->belongsToMany(Device::class, 'devices_plants', 'devices_id','plants_id');
-    }
+	protected $fillable = [
+		'description',
+		'name',
+		'location',
+		'img',
+		'user_id',
+	];
+
+	public function user()
+	{
+		return $this->belongsTo('App\User');
+	}
+
+	public function devices()
+	{
+		return $this->hasMany('App\Device');
+	}
 }
