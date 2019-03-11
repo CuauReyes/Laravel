@@ -21,7 +21,9 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::group(['prefix' => 'v1'], function () {
+Route::group(['react' => 'v1'], function () {
+	Route::get('plants', 'PlantController@index');
+	
 	Route::group(['prefix' => 'auth'], function () {
 		Route::post('login', 'AuthController@login');
 		Route::post('signup', 'AuthController@signup');

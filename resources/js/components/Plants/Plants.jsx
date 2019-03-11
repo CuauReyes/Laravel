@@ -16,13 +16,14 @@ export default class Plants extends Component {
 	}
 
 	componentDidMount() {
-		// axios.get("/api/projects").then(response => {
-		// 	this.setState({
-		// 		projects: response.data
-		// 	});
-		// });
+		axios.get("/api/v1/getPlant").then(response => {
+		this.setState({ 
+			projects: response.data
+			 });
+			 console.log(response.data);
+		 });
 	}
-	render() {
+		render() {
 		return (
 			<div className="container mt-5">
 				<div className="row col-sm-12">

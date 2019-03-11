@@ -8,6 +8,7 @@ import Plants from "./Components/Plants/Plants";
 import createBrowserHistory from "history/createBrowserHistory";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
+import Admin from "./components/Admin/Admin";
 
 const history = createBrowserHistory();
 
@@ -20,6 +21,7 @@ class App extends Component {
 					<Route exact path="/plants" component={Plants} />
 					<Route exact default path="/login" component={SignIn} />
 					<Route exact path="/register" component={SignUp} />
+					<Route exact path="/admin" component={Admin} />
 				</div>
 			</Router>
 		);
