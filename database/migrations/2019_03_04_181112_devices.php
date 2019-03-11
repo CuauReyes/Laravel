@@ -13,9 +13,10 @@ class Devices extends Migration
      */
 	public function up()
 	{
+		Schema::dropIfExists('devices');
 		Schema::create('devices', function (Blueprint $table) {
 
-			$table->bigIncrements('id');
+			$table->increments('id');
 			$table->string('type');
 			$table->integer('battery');
 			$table->integer('status');
@@ -36,7 +37,6 @@ class Devices extends Migration
      */
 	public function down()
 	{
-		Schema::dropForeign(['plant_id']);
 		Schema::dropIfExists('devices');
 	}
 }

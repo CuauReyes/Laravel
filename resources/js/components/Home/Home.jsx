@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./Home.scss";
-import Header from "../Header/Header";
+// import Header from "../Header/Header";
 import Plants from "../Plants/Plants";
 import { Route } from "react-router";
-import Plant from "../Plant/Plant";
+// import Plant from "../Plant/Plant";
 
 export default class Home extends Component {
 	render() {

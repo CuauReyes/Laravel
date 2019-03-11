@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Device;
 use App\Plant;
 
 class DevicesTableSeeder extends Seeder
@@ -18,7 +19,7 @@ class DevicesTableSeeder extends Seeder
 		$faker = \Faker\Factory::create();
 
 		for ($i = 0; $i < 52; $i++) {
-			Plant::create([
+			Device::create([
 				'type' => $faker->sentence,
 				'battery' => 100,
 				'status' => 1,
