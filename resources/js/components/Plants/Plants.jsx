@@ -25,8 +25,11 @@ export default class Plants extends Component {
 	render() {
 		return (
 			<div className="container mt-5">
-				<h2>Plantas</h2>
-				<div className="row justify-content-center">
+				<div className="row col-sm-12">
+					<h2>Plantas</h2>
+				</div>
+
+				<div className="row col-sm-12 justify-content-center">
 					{plants.map((plant, key) => (
 						<div key={key} className="col-xs-12 col-sm-6 col-md-4 p-2">
 							<PlantCard plant={plant} />

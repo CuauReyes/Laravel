@@ -9,7 +9,7 @@ export default class Header extends Component {
 	render() {
 		return (
 			<header>
-				<Navbar bg="dark" variant="dark" expand="lg">
+				<Navbar bg="dark" variant="light" expand="lg">
 					<Nav className="mr-auto" />
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Navbar.Brand href="#home"> NoTe </Navbar.Brand>
