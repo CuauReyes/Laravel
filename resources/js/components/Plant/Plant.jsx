@@ -2,21 +2,25 @@ import React, { Component } from "react";
 import "./Plant.scss";
 
 export default class Plant extends Component {
-    render() {
-        return (
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header">Example Component</div>
+	constructor() {
+		super();
+		this.state = {
+			plant: []
+		};
+	}
 
-                            <div className="card-body">
-                                I'm an example component!
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+	componentDidMount() {
+		const { id } = this.props.match.params;
+		axios.get(`http://localhost:8000/api/v1/plants/${id}`).then(response => {
+			console.log(response.data);
+			this.setState({
+				plant: response.data
+			});
+		});
+	}
+
+	render() {
+		const { plant } = this.state;
+		return <div className="container">{plant.name}</div>;
+	}
 }

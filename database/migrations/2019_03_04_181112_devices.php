@@ -6,29 +6,35 @@ use Illuminate\Database\Migrations\Migration;
 
 class Devices extends Migration
 {
-    /**
+	/**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('devices', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('type');
-            $table->integer('battery');
-            $table->integer('status');
-            $table->timestamps();
-        });
-    }
+	public function up()
+	{
+		Schema::create('devices', function (Blueprint $table) {
+			$table->dropColumn('plant_id');
 
-    /**
+			$table->bigIncrements('id');
+			$table->string('type');
+			$table->integer('battery');
+			$table->integer('status');
+			$table->timestamps();
+			$table->foreign('plant_id')
+				->references('id')->on('plant')
+				->onDelete('cascade');
+		});
+	}
+
+	/**
      * Reverse the migrations.
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::dropIfExists('devices');
-    }
+	public function down()
+	{
+		Schema::dropForeign(['plant_id']);
+		Schema::dropIfExists('devices');
+	}
 }

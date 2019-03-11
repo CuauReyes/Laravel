@@ -3,19 +3,17 @@ import "./Plants.scss";
 import axios from "axios";
 import Card from "react-bootstrap/Card";
 import PlantCard from "./PlantCard/PlantCard";
-import PlantsJson from "./Plants.json";
-
-const plants = PlantsJson.plants;
 
 export default class Plants extends Component {
 	constructor() {
 		super();
 		this.state = {
-			projects: []
+			plants: []
 		};
 	}
 
 	componentDidMount() {
+<<<<<<< HEAD
 		axios.get("/api/v1/getPlant").then(response => {
 		this.setState({ 
 			projects: response.data
@@ -24,13 +22,24 @@ export default class Plants extends Component {
 		 });
 	}
 		render() {
+=======
+		axios.get("api/v1/plants").then(response => {
+			this.setState({
+				plants: response.data
+			});
+		});
+	}
+
+	render() {
+		const { plants } = this.state;
+>>>>>>> 110de7bcfe8125ff4be49aa052e1959b06b7f4ea
 		return (
 			<div className="container mt-5">
 				<div className="row col-sm-12">
 					<h2>Plantas</h2>
 				</div>
 
-				<div className="row col-sm-12 justify-content-center">
+				<div className="row col-sm-12">
 					{plants.map((plant, key) => (
 						<div key={key} className="col-xs-12 col-sm-6 col-md-4 p-2">
 							<PlantCard plant={plant} />

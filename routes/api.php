@@ -2,35 +2,27 @@
 
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::group(['prefix' => 'v1'], function () {
 
-// Route::middleware('auth:api')->post('/login', function (Request $request) {
-// 	return $request->user();
-// });
+	Route::get('plants', 'PlantController@index');
+	Route::get('plants/{plant}', 'PlantController@show');
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+	Route::get('devices', 'DeviceController@show');
+	Route::get('devices/{device}', 'DeviceController@show');
 
+<<<<<<< HEAD
 Route::group(['react' => 'v1'], function () {
 	Route::get('plants', 'PlantController@index');
 	
+=======
+>>>>>>> 110de7bcfe8125ff4be49aa052e1959b06b7f4ea
 	Route::group(['prefix' => 'auth'], function () {
 		Route::post('login', 'AuthController@login');
 		Route::post('signup', 'AuthController@signup');
 
-		Route::group(['middleware' => 'auth:api'], function() {
-				Route::get('logout', 'AuthController@logout');
-				Route::get('user', 'AuthController@user');
+		Route::group(['middleware' => 'auth:api'], function () {
+			Route::get('logout', 'AuthController@logout');
+			Route::get('user', 'AuthController@user');
 		});
 	});
 });

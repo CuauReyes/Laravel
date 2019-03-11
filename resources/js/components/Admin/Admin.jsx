@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import "./Admin.scss";
 import Sidebar from './Assets/Sidebar';
 
 export default class Admin extends Component {
+<<<<<<< HEAD
     render() {
         return (
             <div className="row">
@@ -132,4 +132,21 @@ export default class Admin extends Component {
             
         );
     }
+=======
+	render() {
+		return (
+			<div className="container">
+				<div className="row">
+					<div className="col-md-8">
+						<div className="card">
+							<div className="card-header">Example Component</div>
+
+							<div className="card-body">I'm an example component!</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
+>>>>>>> 110de7bcfe8125ff4be49aa052e1959b06b7f4ea
 }
