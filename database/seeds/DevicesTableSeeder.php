@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Plant;
 
 class DevicesTableSeeder extends Seeder
 {
@@ -14,28 +15,15 @@ class DevicesTableSeeder extends Seeder
 		//
 
 
-		for ($i = 0; $i < 50; $i++) {
-				$type = array(
-					1 => "COUNTER",
-					2 => "TEMPERATURE",
-					3 => "ON-OFF",
-					4 => "OPEN-CLOSE"
-				);
+		$faker = \Faker\Factory::create();
 
-				$dato = $type[rand(1, 4)];
-
-				echo $dato;
-
-				$battery = rand(1, 100);
-
-				$status = rand(0, 1);
-
-				DB::table('devices')->insert([
-					'type' => $dato,
-					'battery' => $battery,
-					'status' => $status,
-					'plant_id' => rand(1, 5)
-				]);
-			}
+		for ($i = 0; $i < 52; $i++) {
+			Plant::create([
+				'type' => $faker->sentence,
+				'battery' => 100,
+				'status' => 1,
+				'plant_id' => Plant::all()->random()->id,
+			]);
+		}
 	}
 }

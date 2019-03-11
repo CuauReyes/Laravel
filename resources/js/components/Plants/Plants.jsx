@@ -13,7 +13,7 @@ export default class Plants extends Component {
 	}
 
 	componentDidMount() {
-		axios.get("api/v1/plants").then(response => {
+		axios.get("http://localhost:8000/api/v1/plants").then(response => {
 			this.setState({
 				plants: response.data
 			});

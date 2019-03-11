@@ -5,10 +5,10 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'v1'], function () {
 
 	Route::get('plants', 'PlantController@index');
-	Route::get('plants/{plant}', 'PlantController@show');
+	Route::get('plants/{id}', 'PlantController@show');
 
 	Route::get('devices', 'DeviceController@show');
-	Route::get('devices/{device}', 'DeviceController@show');
+	Route::get('devices/{id}', 'DeviceController@show');
 
 	Route::group(['prefix' => 'auth'], function () {
 		Route::post('login', 'AuthController@login');

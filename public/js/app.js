@@ -76677,7 +76677,7 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("api/v1/plants").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("http://localhost:8000/api/v1/plants").then(function (response) {
         _this2.setState({
           plants: response.data
         });
