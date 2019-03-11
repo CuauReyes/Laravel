@@ -13,16 +13,6 @@ export default class Plants extends Component {
 	}
 
 	componentDidMount() {
-<<<<<<< HEAD
-		axios.get("/api/v1/getPlant").then(response => {
-		this.setState({ 
-			projects: response.data
-			 });
-			 console.log(response.data);
-		 });
-	}
-		render() {
-=======
 		axios.get("api/v1/plants").then(response => {
 			this.setState({
 				plants: response.data
@@ -31,8 +21,10 @@ export default class Plants extends Component {
 	}
 
 	render() {
+		
 		const { plants } = this.state;
->>>>>>> 110de7bcfe8125ff4be49aa052e1959b06b7f4ea
+		console.log(plants);
+
 		return (
 			<div className="container mt-5">
 				<div className="row col-sm-12">

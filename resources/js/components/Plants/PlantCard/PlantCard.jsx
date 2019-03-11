@@ -13,7 +13,7 @@ export default class PlantCard extends Component {
 	render() {
 		const { plant } = this.props;
 		return (
-			<Link to={"/plants/" + plant.id}>
+			<Link to={"/devices"}>
 				<Card href="">
 					<Card.Img variant="top" src={mitsubishi} />
 					<Card.Body>
