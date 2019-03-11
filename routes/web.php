@@ -12,7 +12,7 @@ Route::get('/devices', function () {
 	return view('welcome');
 });
 
-Route::get('/deviceID', function () {
+Route::get('/sensor', function () {
 	return view('welcome');
 });
 

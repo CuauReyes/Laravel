@@ -6,7 +6,7 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::get('plants', 'PlantController@index');
 	Route::get('devices', 'DeviceController@mostrar');
 
-	Route::get('deviceID', 'DeviceController@mostrarUno');
+	Route::get('sensor', 'DeviceController@mostrarUno');
 
 	Route::get('plants/{plant}', 'PlantController@show');
 

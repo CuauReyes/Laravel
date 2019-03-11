@@ -12,7 +12,7 @@ import Plant from "./components/Plant/Plant";
 import Header from "./components/Header/Header";
 import Admin from "./components/Admin/Admin";
 import Devices from "./components/Devices/Devices";
-import Device from "./components/Device/Device";
+import Sensor from "./components/Sensor/Sensor";
 
 const history = createBrowserHistory();
 
@@ -29,7 +29,7 @@ class App extends Component {
 					<Route exact path="/register" component={SignUp} />
 					<Route exact path="/admin" component={Admin} />
 					<Route exact path="/devices" component={Devices} />
-					<Route exact path="/devicesID" component={Device} />
+					<Route exact path="/sensor" component={Sensor} />
 				</div>
 			</Router>
 		);
