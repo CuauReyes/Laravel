@@ -16,12 +16,19 @@ class DevicesTableSeeder extends Seeder
 		//
 
 
+		$types = [
+			'COUNTER',
+			'ON-OFF',
+			'OPEN-CLOSE'
+		];
+
 		$faker = \Faker\Factory::create();
 
-		for ($i = 0; $i < 52; $i++) {
+		for ($i = 0; $i < 152; $i++) {
+			$type  = $types[rand(0, 2)];
 			Device::create([
-				'type' => $faker->sentence,
-				'battery' => 100,
+				'type' => $type,
+				'battery' => rand(0, 100),
 				'status' => 1,
 				'plant_id' => Plant::all()->random()->id,
 			]);

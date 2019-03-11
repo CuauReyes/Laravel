@@ -15,7 +15,7 @@ class PlantsTableSeeder extends Seeder
 	{
 		$faker = \Faker\Factory::create();
 
-		for ($i = 0; $i < 52; $i++) {
+		for ($i = 0; $i < 5; $i++) {
 			Plant::create([
 				'description' => $faker->paragraph,
 				'name' => $faker->sentence,

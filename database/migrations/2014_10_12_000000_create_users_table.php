@@ -19,14 +19,10 @@ class CreateUsersTable extends Migration
 			'oauth_auth_codes',
 			'oauth_clients',
 			'oauth_personal_access_clients',
-			'oauth_refresh_tokens',
-			'reserved_oauth_access_tokens'
+			'oauth_refresh_tokens'
 		];
 		foreach ($oauth_tables as $table) {
 			DB::statement('DROP TABLE IF EXISTS ' . $table);
-			// DB::statement('CREATE TABLE ' . $table . ' LIKE reserved_' . $table);
-			// DB::statement('INSERT ' . $table . ' SELECT * FROM reserved_' . $table);
-			// DB::statement('DROP TABLE IF EXISTS reserved_' . $table);
 		}
 
 		Schema::dropIfExists('users');
