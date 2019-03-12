@@ -35,7 +35,7 @@ export default class Plants extends Component {
 
 					<div className="col-sm-12 d-flex flex-wrap">
 						{plants.map((plant, key) => (
-							<div key={key} className="col-xs-12 col-sm-6 col-md-4 p-2">
+							<div key={key} className="col-xs-12 col-sm-6 col-md-3 p-2">
 								<PlantCard plant={plant} />
 							</div>
 						))}

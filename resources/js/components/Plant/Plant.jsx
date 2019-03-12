@@ -18,7 +18,6 @@ export default class Plant extends Component {
 	componentDidMount() {
 		const { plantId } = this.props.match.params;
 		Axios.get(api.plants.get(plantId)).then(response => {
-			console.log(response.data);
 			this.setState({
 				plant: response.data,
 				devices: response.data.devices
@@ -33,7 +32,7 @@ export default class Plant extends Component {
 				<Header />
 				<div className="container-fluid mt-5">
 					<div className="col-sm-12">
-						<h2>Planta: {plant.name}</h2>
+						<h2> {plant.name}</h2>
 					</div>
 					<div className="col-sm-12 d-flex flex-wrap">
 						{devices.map((device, key) => (

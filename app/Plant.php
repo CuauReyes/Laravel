@@ -25,4 +25,9 @@ class Plant extends Model
 	{
 		return $this->hasMany('App\Device');
 	}
+
+	public function values()
+	{
+		return $this->hasManyThrough('App\Device', 'App\Value');
+	}
 }

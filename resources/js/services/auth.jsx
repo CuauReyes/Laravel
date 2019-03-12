@@ -21,6 +21,10 @@ export default class AuthService {
 				.then(response => {
 					if (response.data) {
 						window.localStorage.setItem("token", response.data.access_token);
+						window.localStorage.setItem(
+							"user",
+							JSON.stringify(response.data.user)
+						);
 						resolve(response.data);
 					}
 					reject();

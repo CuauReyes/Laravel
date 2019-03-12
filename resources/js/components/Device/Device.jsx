@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import { Chart } from "react-charts";
 
 export default class Device extends Component {
 	constructor() {
@@ -31,11 +32,44 @@ export default class Device extends Component {
 	render() {
 		const { device, plant } = this.state;
 		console.log(device);
+		let lineChart;
+		if (device) {
+			let data = [];
+			device.values.forEach(val => {
+				console.log(val)
+				data.push([
+					new Date(val.created_at),
+					val.value,
+				])
+			})
+			lineChart = (
+				<div
+					style={{
+						width: "100%",
+						height: "300px"
+					}}
+				>
+					<Chart
+						data={[
+							{
+								label: device.type,
+								data: data
+							}
+						]}
+						axes={[
+							{ type: "linear", position: "left" },
+							{ primary: true, type: "time", position: "bottom" },
+						]}
+					/>
+				</div>
+			);
+
+		}
 		return (
 			<div className="device">
 				<Header />
 				{device ? (
-					<div className="container-fluid mt-5">
+					<div className="container-fluid">
 						<div className="d-flex flex-wrap col-sm-12 mb-3">
 							<Link to={`/plants/${plant.id}`}> Planta {plant.name} </Link>
 						</div>
@@ -62,7 +96,7 @@ export default class Device extends Component {
 											</Card.Title>
 											<Card.Text className="text-truncate">
 												{" "}
-												{device ? device.values[0].value : null}
+												{device.values ? device.values[0].value : null}
 											</Card.Text>
 										</div>
 									</Card.Body>
@@ -79,7 +113,7 @@ export default class Device extends Component {
 												Último conexión
 											</Card.Title>
 											<Card.Text className="text-truncate">
-												{device ? device.values[0].created_at : null}
+												{device.values ? device.values[0].created_at : null}
 											</Card.Text>
 										</div>
 									</Card.Body>
@@ -118,6 +152,11 @@ export default class Device extends Component {
 									</Card.Body>
 								</Card>
 							</div>
+						</div>
+
+						<div className="col-sm-12 d-flex flex-wrap mb-5">
+						<div className="col-sm-12">
+						{lineChart}</div>
 						</div>
 						<div className="col-sm-12 d-flex flex-wrap">
 							<div className="col-sm-12">

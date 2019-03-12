@@ -25,6 +25,11 @@ export default class DeviceCard extends Component {
 					<div className="flex-row align-items-center">
 						<FontAwesomeIcon icon="battery-full" className="mr-2" />
 						<FontAwesomeIcon icon="exclamation-triangle" className="mr-2" />
+						<div className="row">
+							<div className="col-sm-12">
+								Último valor: {device.values[0].value}
+							</div>
+						</div>
 					</div>
 				</Card.Footer>
 			</Card>

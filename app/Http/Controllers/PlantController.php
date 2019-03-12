@@ -59,7 +59,7 @@ class PlantController extends Controller
 	public function show($id)
 	{
 		//
-		$plant = Plant::with('user', 'devices')->find($id);
+		$plant = Plant::with('user', 'devices', 'devices.values')->find($id);
 
 		return response()->json($plant, 200);
 	}

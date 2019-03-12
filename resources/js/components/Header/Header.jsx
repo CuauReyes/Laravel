@@ -20,6 +20,8 @@ class Header extends React.Component {
 	}
 
 	render() {
+		const user = JSON.parse(window.localStorage.getItem("user"));
+		console.log(user);
 		return (
 			<header>
 				<Navbar bg="dark" variant="dark" expand="md">
@@ -31,7 +33,11 @@ class Header extends React.Component {
 						<LinkContainer to="/">
 							<NavLink>Plantas</NavLink>
 						</LinkContainer>
-						<NavDropdown title="Dropdown" id="basic-nav-dropdown">
+						<Nav className="mr-auto" />
+						<NavDropdown
+							title={user ? user.name : "Usuario"}
+							id="basic-nav-dropdown"
+						>
 							<NavDropdown.Item> Perfil </NavDropdown.Item>
 							<NavDropdown.Divider />
 							<NavDropdown.Item onClick={this.logout}>Salir</NavDropdown.Item>
