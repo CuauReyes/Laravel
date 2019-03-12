@@ -21,3 +21,7 @@ Route::get('/admin', function () {
 });
 
 Auth::routes();
+
+//usuarios
+
+

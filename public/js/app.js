@@ -75683,7 +75683,7 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("http://localhost:8000/api/v1/plants").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("api/v1/plants").then(function (response) {
         _this2.setState({
           plants: response.data
         });
@@ -76088,16 +76088,20 @@ function (_Component) {
         className: "card-header"
       }, "Agregar nuevo cliente:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        action: "",
+        method: "post"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         class: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        for: "name"
       }, "Nombre:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
+        type: "text",
         class: "form-control",
-        id: "email"
+        id: "name",
+        name: "name"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         class: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -76105,19 +76109,20 @@ function (_Component) {
       }, "Correo:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "email",
         class: "form-control",
-        id: "email"
+        id: "email",
+        name: "email"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         class: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        for: "password"
       }, "Contrase\xF1a:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
+        type: "text",
         class: "form-control",
-        id: "email"
+        id: "password"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         class: "btn btn-primary"
-      }, "Aceptar")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Aceptar"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-header"

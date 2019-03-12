@@ -15,21 +15,23 @@ export default class Admin extends Component {
                         <div className="card ">
                             <div className="card-header">Agregar nuevo cliente:</div>
                             <div className="col-md-4">
+                            <form action="" method="post">
                             <div className="card-body">
                                 <div class="form-group">
-                                <label for="email">Nombre:</label>
-                                <input type="email" class="form-control" id="email" />
+                                <label for="name">Nombre:</label>
+                                <input type="text" class="form-control" id="name" name="name"/>
                                 </div>
                                 <div class="form-group">
                                 <label for="email">Correo:</label>
-                                <input type="email" class="form-control" id="email" />
+                                <input type="email" class="form-control" id="email" name="email"/>
                                 </div>
                                 <div class="form-group">
-                                <label for="email">Contraseña:</label>
-                                <input type="email" class="form-control" id="email" />
+                                <label for="password">Contraseña:</label>
+                                <input type="text" class="form-control" id="password" />
                                 </div>
                                 <button type="submit" class="btn btn-primary">Aceptar</button>
                             </div>
+                            </form>
                             </div>
                         </div>
                         <div className="card">

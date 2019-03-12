@@ -81,7 +81,6 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
     public function destroy(Device $device)
     {
         //
@@ -120,10 +119,4 @@ class DeviceController extends Controller
         $Devices = json_decode($respuesta);
         return ($Devices);
     }
-=======
-	public function destroy(Device $device)
-	{
-		//
-	}
->>>>>>> 2432c83622ce13c175014546f18dbdd63c356479
 }
