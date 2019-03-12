@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import "./Device.scss";
 import axios from "axios";
 import Header from "../Header/Header";
+import { api } from "../../const/api";
+import deviceImg from "./assets/device1.jpg";
+import Card from "react-bootstrap/Card";
+import Table from "react-bootstrap/Table";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 export default class Device extends Component {
 	constructor() {
 		super();
 		this.state = {
-			device: []
+			device: null,
+			plant: {}
 		};
 	}
 
@@ -15,25 +22,136 @@ export default class Device extends Component {
 		const { deviceId } = this.props.match.params;
 		axios.get(api.devices.get(deviceId)).then(response => {
 			this.setState({
-				device: response.data
+				device: response.data,
+				plant: response.data.plant
 			});
 		});
 	}
 
 	render() {
-		const { device } = this.state;
+		const { device, plant } = this.state;
+		console.log(device);
 		return (
-			<div>
+			<div className="device">
 				<Header />
-				<div className="container-fluid mt-5">
-					<div className="row justify-content-center">
-						<div className="col-md-8">
-							{device.map((device, key) => (
-								<p>Localización: {device}</p>
-							))}
+				{device ? (
+					<div className="container-fluid mt-5">
+						<div className="d-flex flex-wrap col-sm-12 mb-3">
+							<Link to={`/plants/${plant.id}`}> Planta {plant.name} </Link>
+						</div>
+						<div className="d-flex flex-wrap col-sm-12 mb-5">
+							<div className="col-sm-2 col-lg-1">
+								<img className="device-img" src={deviceImg} />
+							</div>
+							<div className="col-sm-10">
+								<h2> {device.name} </h2>
+								<h4> {device.type} </h4>
+							</div>
+						</div>
+
+						<div className="d-flex flex-wrap col-sm-12">
+							<div className="col-12 col-sm-6 col-md-3 mb-3">
+								<Card>
+									<Card.Body className="d-flex align-items-center">
+										<div className="col-3 col-sm-4 fa-3x align-items-center justify-content-center d-flex">
+											<FontAwesomeIcon icon="power-off" />
+										</div>
+										<div className="col-sm-8">
+											<Card.Title className="text-truncate">
+												Último dato
+											</Card.Title>
+											<Card.Text className="text-truncate">
+												{" "}
+												{device ? device.values[0].value : null}
+											</Card.Text>
+										</div>
+									</Card.Body>
+								</Card>
+							</div>
+							<div className="col-12 col-sm-6 col-md-3 mb-3">
+								<Card>
+									<Card.Body className="d-flex align-items-center">
+										<div className="col-3 col-sm-4 fa-3x align-items-center justify-content-center d-flex">
+											<FontAwesomeIcon icon="wifi" />
+										</div>
+										<div className="col-sm-8">
+											<Card.Title className="text-truncate">
+												Último conexión
+											</Card.Title>
+											<Card.Text className="text-truncate">
+												{device ? device.values[0].created_at : null}
+											</Card.Text>
+										</div>
+									</Card.Body>
+								</Card>
+							</div>
+							<div className="col-12 col-sm-6 col-md-3 mb-3">
+								<Card>
+									<Card.Body className="d-flex align-items-center">
+										<div className="col-3 col-sm-4 fa-3x align-items-center justify-content-center d-flex">
+											<FontAwesomeIcon icon="exclamation-triangle" />
+										</div>
+										<div className="col-sm-8">
+											<Card.Title className="text-truncate">
+												{" "}
+												Estado{" "}
+											</Card.Title>
+											<Card.Text className="text-truncate">
+												Advertencia
+											</Card.Text>
+										</div>
+									</Card.Body>
+								</Card>
+							</div>
+							<div className="col-12 col-sm-6 col-md-3 mb-3">
+								<Card>
+									<Card.Body className="d-flex align-items-center">
+										<div className="col-3 col-sm-4 fa-3x align-items-center justify-content-center d-flex">
+											<FontAwesomeIcon icon="bolt" />
+										</div>
+										<div className="col-sm-8">
+											<Card.Title className="text-truncate">
+												Consumo eléctrico
+											</Card.Title>
+											<Card.Text className="text-truncate"> 120kWh </Card.Text>
+										</div>
+									</Card.Body>
+								</Card>
+							</div>
+						</div>
+						<div className="col-sm-12 d-flex flex-wrap">
+							<div className="col-sm-12">
+								<Card>
+									<Card.Header>
+										<Card.Title>Historial</Card.Title>
+									</Card.Header>
+									<Card.Body>
+										<Table responsive>
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Valor</th>
+													<th>Fecha</th>
+												</tr>
+											</thead>
+											<tbody>
+												{device.values
+													? device.values.map((val, index) => (
+															<tr key={index}>
+																<td> {val.count}</td>
+																<td>{val.value}</td>
+																<td>{val.created_at}</td>
+															</tr>
+													  ))
+													: null}
+											</tbody>
+										</Table>
+									</Card.Body>
+								</Card>
+							</div>
 						</div>
 					</div>
-				</div>
+				) : null}
 			</div>
 		);
 	}

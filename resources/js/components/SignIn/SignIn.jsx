@@ -6,13 +6,14 @@ import Form from "react-bootstrap/Form";
 import "./SignIn.scss";
 import { withRouter } from "react-router-dom";
 import microchip from "./assets/microchip.svg";
-import axios from "axios";
+import AuthService from "../../services/auth";
 import { api } from "../../const/api";
+import Axios from "axios";
 
 class SignIn extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { email: "", password: "" };
+		this.state = { email: "", password: "", rememberMe: false, error: null };
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,33 +30,21 @@ class SignIn extends Component {
 	}
 
 	handleSubmit(event) {
-		axios
-			.post(
-				api.auth.login,
-				{
-					email: this.state.email,
-					password: this.state.password
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"X-Requested-With": "XMLHttpRequest"
-					}
-				}
-			)
+		this.setState({ error: null });
+		let auth = new AuthService();
+		auth
+			.login(this.state.email, this.state.password, this.state.rememberMe)
 			.then(response => {
-				if (response.data) {
-					window.localStorage.setItem("token", response.data.access_token);
-					this.props.history.push("/plants");
-				}
+				this.props.history.push("/plants");
 			})
 			.catch(err => {
-				console.error(err);
+				this.setState({ error: "Usuario o contraseña incorrecta" });
 			});
 		event.preventDefault();
 	}
 
 	render() {
+		const { error } = this.state;
 		const carousel = (
 			<Carousel interval={10000}>
 				<Carousel.Item>
@@ -110,8 +99,16 @@ class SignIn extends Component {
 					/>
 				</Form.Group>
 
+				{error ? <div>{error}</div> : null}
+
 				<Form.Group controlId="formBasicCheckbox">
-					<Form.Check type="checkbox" label="Recordarme" />
+					<Form.Check
+						type="checkbox"
+						label="Recordarme"
+						name="rememberMe"
+						value={this.state.rememberMe}
+						onChange={this.handleChange}
+					/>
 				</Form.Group>
 
 				<Button variant="primary" type="submit">

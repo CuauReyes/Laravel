@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
 import "./Plant.scss";
 import DeviceCard from "./DeviceCard/DeviceCard";
@@ -33,10 +32,6 @@ export default class Plant extends Component {
 			<div>
 				<Header />
 				<div className="container-fluid mt-5">
-					{/* <Breadcrumb>
-					<Link to="/">Plants</Link>>
-					<Breadcrumb.Item active>{plant.name}</Breadcrumb.Item>
-				</Breadcrumb> */}
 					<div className="col-sm-12">
 						<h2>Planta: {plant.name}</h2>
 					</div>

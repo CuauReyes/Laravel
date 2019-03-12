@@ -27,13 +27,54 @@ class ValuesTableSeeder extends Seeder
 		curl_close($connection);
 		$values = json_decode($response);
 
+		$devices = Device::all();
+
 		for ($i = 0; $i < count($values); $i++) {
 
+			$idDevice = Device::where('name', '=', $values[$i]->device_id)->firstOrFail()->id;
+			$device = Device::find($idDevice);
+			$device->count = $device->count + 1;
+
 			Value::create([
-				'count' => $values[$i]->Bcount ? $values[$i]->Bcount : 0,
 				'value' => $values[$i]->Cvalue ? $values[$i]->Cvalue : 0,
-				'device_id' => Device::where('name', '=', $values[$i]->device_id)->firstOrFail()->id
+				'count' => $device->count,
+				'device_id' => $idDevice
 			]);
+
+			$device->save();
+		}
+
+		for ($i = 0; $i < count($devices); $i++) {
+			$device = Device::find($devices->get($i)->id);
+
+			for ($j = 0; $j < 50; $j++) {
+				$device->count = $device->count + 1;
+
+				if ($device->type === 'ON-OFF') {
+					Value::create([
+						'value' => strval(rand(0, 1)),
+						'count' => $device->count,
+						'device_id' => $device->id
+					]);
+				}
+
+				if ($device->type === 'OPEN-CLOSE') {
+					Value::create([
+						'value' => strval(rand(0, 1)),
+						'count' => $device->count,
+						'device_id' => $device->id
+					]);
+				}
+
+				if ($device->type === 'COUNTER') {
+					Value::create([
+						'value' => strval($device->count),
+						'count' => $device->count,
+						'device_id' => $device->id
+					]);
+				}
+				$device->save();
+			}
 		}
 	}
 }

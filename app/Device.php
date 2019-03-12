@@ -18,4 +18,9 @@ class Device extends Model
 	{
 		return $this->belongsTo('App\Plant');
 	}
+
+	public function values()
+	{
+		return $this->hasMany('App\Value')->orderBy('id', 'desc');
+	}
 }

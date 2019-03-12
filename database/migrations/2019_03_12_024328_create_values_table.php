@@ -15,7 +15,7 @@ class CreateValuesTable extends Migration
 	{
 		Schema::create('values', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->string('count');
+			$table->bigInteger('count')->default(0);
 			$table->string('value');
 
 			$table->integer('device_id')->unsigned();

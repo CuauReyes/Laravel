@@ -52,7 +52,7 @@ class DevicesTableSeeder extends Seeder
 		for ($i = 0; $i < 152; $i++) {
 			$type  = $types[rand(0, 2)];
 			Device::create([
-				'name' => $faker->sentence,
+				'name' => 'Device ' . $i,
 				'type' => $type,
 				'battery' => rand(0, 100),
 				'status' => 1,

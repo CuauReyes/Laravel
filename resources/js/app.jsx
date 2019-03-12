@@ -17,7 +17,10 @@ import {
 	faBatteryQuarter,
 	faBatteryThreeQuarters,
 	faCheckCircle,
-	faExclamationTriangle
+	faExclamationTriangle,
+	faPowerOff,
+	faBolt,
+	faWifi
 } from "@fortawesome/free-solid-svg-icons";
 import Plants from "./Components/Plants/Plants";
 import Plant from "./Components/Plant/Plant";
@@ -32,15 +35,16 @@ library.add(
 	faBatteryQuarter,
 	faBatteryThreeQuarters,
 	faCheckCircle,
-	faExclamationTriangle
+	faExclamationTriangle,
+	faPowerOff,
+	faBolt,
+	faWifi
 );
 
 const history = createBrowserHistory();
 
 class App extends Component {
 	render() {
-		const isAuth = window.localStorage.getItem("token");
-		console.log(isAuth);
 		return (
 			<Router history={history} className="App">
 				<div id="main">

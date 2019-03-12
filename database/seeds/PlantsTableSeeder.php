@@ -18,7 +18,7 @@ class PlantsTableSeeder extends Seeder
 		for ($i = 0; $i < 5; $i++) {
 			Plant::create([
 				'description' => $faker->paragraph,
-				'name' => $faker->sentence,
+				'name' => 'Planta ' . $i,
 				'location' => $faker->sentence,
 				'url' => $faker->sentence,
 				'key' => $faker->sentence,
