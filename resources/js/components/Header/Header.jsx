@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -6,11 +6,19 @@ import { LinkContainer } from "react-router-bootstrap";
 // import { Link } from "react-router-dom";
 import NavLink from "react-bootstrap/NavLink";
 import "./Header.scss";
+import { withRouter } from "react-router-dom";
 
-export default class Header extends Component {
-	logout() {
-		console.log("log");
+class Header extends React.Component {
+	constructor(props) {
+		super(props);
+		this.logout = this.logout.bind(this);
 	}
+
+	logout() {
+		window.localStorage.clear("token");
+		this.props.history.push("/login");
+	}
+
 	render() {
 		return (
 			<header>
@@ -24,11 +32,7 @@ export default class Header extends Component {
 							<NavLink>Plantas</NavLink>
 						</LinkContainer>
 						<NavDropdown title="Dropdown" id="basic-nav-dropdown">
-							<NavDropdown.Item href="#action/3.1"> Perfil </NavDropdown.Item>
-							<NavDropdown.Item href="#action/3.2">
-								Another action
-							</NavDropdown.Item>
-							<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+							<NavDropdown.Item> Perfil </NavDropdown.Item>
 							<NavDropdown.Divider />
 							<NavDropdown.Item onClick={this.logout}>Salir</NavDropdown.Item>
 						</NavDropdown>
@@ -38,3 +42,5 @@ export default class Header extends Component {
 		);
 	}
 }
+
+export default withRouter(Header);

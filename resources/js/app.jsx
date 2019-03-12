@@ -2,8 +2,7 @@ require("./bootstrap");
 
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Router, Route } from "react-router";
-import Home from "./Components/Home/Home";
+import { Redirect, Router, Route } from "react-router";
 import createBrowserHistory from "history/createBrowserHistory";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
@@ -20,6 +19,10 @@ import {
 	faCheckCircle,
 	faExclamationTriangle
 } from "@fortawesome/free-solid-svg-icons";
+import Plants from "./Components/Plants/Plants";
+import Plant from "./Components/Plant/Plant";
+import Device from "./Components/Device/Device";
+import PrivateRoute from "./components/PrivateRoute";
 
 library.add(
 	faMicrochip,
@@ -36,13 +39,18 @@ const history = createBrowserHistory();
 
 class App extends Component {
 	render() {
+		const isAuth = window.localStorage.getItem("token");
+		console.log(isAuth);
 		return (
 			<Router history={history} className="App">
 				<div id="main">
-					<Route path="/" component={Home} />
-					<Route exact path="/login" component={SignIn} />
+					<PrivateRoute exact path="/" component={Plants} />
+					<PrivateRoute exact path="/plants" component={Plants} />
+					<PrivateRoute exact path="/plants/:plantId" component={Plant} />
+					<PrivateRoute exact path="/device/:deviceId" component={Device} />
+					<PrivateRoute exact path="/admin" component={Admin} />
+					<Route exact default path="/login" component={SignIn} />
 					<Route exact path="/register" component={SignUp} />
-					<Route exact path="/admin" component={Admin} />
 				</div>
 			</Router>
 		);

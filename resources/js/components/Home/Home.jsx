@@ -14,10 +14,10 @@ export default class Home extends Component {
 		return (
 			<div>
 				<Header />
-				<Route exact path="/" component={Plants} />
-				<Route exact path={`/plants`} component={Plants} />
-				<Route exact path={`/plants/:plantId`} component={Plant} />
-				<Route exact path={`/device/:deviceId`} component={Device} />
+				<Route exact path="" component={Plants} />
+				<Route exact path="/plants" component={Plants} />
+				<Route exact path="/plants/:plantId" component={Plant} />
+				<Route exact path="/device/:deviceId" component={Device} />
 			</div>
 		);
 	}
