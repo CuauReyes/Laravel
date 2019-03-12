@@ -13,7 +13,7 @@ export default class Devices extends Component {
 	}
 
 	componentDidMount() {
-		axios.get("api/v1/devices").then(response => {
+		axios.get("http://localhost:8000/api/v1/devices").then(response => {
 			this.setState({
 				devices: response.data
 			});
@@ -22,17 +22,13 @@ export default class Devices extends Component {
 
 	render() {
 		const { devices } = this.state;
-		console.log(devices);
 		return (
-
 			<div className="container">
 				<div className="row justify-content-center">
 					<div className="col-md-8">
-					{devices.map((device, key) => (
-						<p>Localización: {devices}</p>
-						
-					)
-					)}
+						{devices.map((device, key) => (
+							<p>Localización: {devices}</p>
+						))}
 					</div>
 				</div>
 			</div>

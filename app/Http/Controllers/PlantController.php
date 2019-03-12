@@ -16,7 +16,7 @@ class PlantController extends Controller
 	public function index()
 	{
 		//
-		return Plant::with('user')->get();
+		return Plant::with('user', 'devices')->get();
 	}
 
 	/**

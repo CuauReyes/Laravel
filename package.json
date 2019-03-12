@@ -32,9 +32,13 @@
 		"webpack-livereload-plugin": "^1.2.0"
 	},
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.15",
+		"@fortawesome/free-solid-svg-icons": "^5.7.2",
+		"@fortawesome/react-fontawesome": "^0.1.4",
 		"react-bootstrap": "^1.0.0-beta.5",
 		"react-charts": "^2.0.0-alpha.12",
 		"react-router": "^4.3.1",
+		"react-router-bootstrap": "^0.24.4",
 		"react-router-dom": "^4.3.1"
 	}
 }

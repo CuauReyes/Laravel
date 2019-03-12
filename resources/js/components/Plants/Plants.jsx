@@ -21,17 +21,15 @@ export default class Plants extends Component {
 	}
 
 	render() {
-		
 		const { plants } = this.state;
-		console.log(plants);
 
 		return (
-			<div className="container mt-5">
-				<div className="row col-sm-12">
+			<div className="container-fluid mt-5">
+				<div className="col-sm-12">
 					<h2>Plantas</h2>
 				</div>
 
-				<div className="row col-sm-12">
+				<div className="col-sm-12 d-flex flex-wrap">
 					{plants.map((plant, key) => (
 						<div key={key} className="col-xs-12 col-sm-6 col-md-4 p-2">
 							<PlantCard plant={plant} />

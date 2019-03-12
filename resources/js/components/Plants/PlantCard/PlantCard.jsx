@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
-import "./PlantCard.scss";
 import { Link } from "react-router-dom";
 import mitsubishi from "../assets/mitsubishi.png";
-const imgsPath = require.context("../assets", true);
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./PlantCard.scss";
 
 export default class PlantCard extends Component {
 	constructor() {
@@ -13,15 +13,21 @@ export default class PlantCard extends Component {
 	render() {
 		const { plant } = this.props;
 		return (
-			<Link to={"/devices"}>
-				<Card href="">
-					<Card.Img variant="top" src={mitsubishi} />
-					<Card.Body>
-						<Card.Title> {plant.name} </Card.Title>
-						<Card.Footer> {plant.description} </Card.Footer>
-					</Card.Body>
-				</Card>
-			</Link>
+			<Card className="plant-card">
+				<Link to={"/plants/" + plant.id}>
+					<Card.Header className="text-truncate">{plant.name}</Card.Header>
+				</Link>
+				<Card.Img variant="top" src={mitsubishi} />
+				<Card.Body className="d-flex flex-column">
+					<Card.Text className="flex-fill"> {plant.description} </Card.Text>
+				</Card.Body>
+				<Card.Footer>
+					<div className="flex-row align-items-center">
+						<FontAwesomeIcon icon="microchip" className="mr-2" />
+						{plant.devices.length}
+					</div>
+				</Card.Footer>
+			</Card>
 		);
 	}
 }
