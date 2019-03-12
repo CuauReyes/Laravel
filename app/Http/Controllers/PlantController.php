@@ -37,7 +37,17 @@ class PlantController extends Controller
      */
 	public function store(Request $request)
 	{
-		//
+		$plant = new Plant([
+			'name'     => $request->name,
+			'description'     => $request->description,
+			'location'     => $request->location,
+			'url'     => $request->url,
+			'key'     => $request->key,
+			'img' => $request->img,
+			'status'     => $request->status,
+			'user_id'     => $request->user_id,
+		]);
+		$plant->save();
 	}
 
 	/**

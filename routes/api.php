@@ -3,20 +3,22 @@
 use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1'], function () {
-Route::post('clientes', ['as'=> 'clientes.store', 'uses'=>'AuthController@signup']);
 
 	Route::get('plants', 'PlantController@index');
+	Route::post('plants', 'PlantController@store');
+
 	Route::get('plants/{id}', 'PlantController@show');
 
 	Route::get('devices', 'DeviceController@index');
 	Route::get('devices/{id}', 'DeviceController@show');
+	Route::post('devices', 'DeviceController@store');
 
 	//Route::get('devices', 'DeviceController@show');
 	//Route::get('devices/{device}', 'DeviceController@show');
 
 	Route::group(['prefix' => 'auth'], function () {
 		Route::post('login', 'AuthController@login');
-		Route::post('signup', 'AuthController@signup');
+		Route::post('register', 'AuthController@signup');
 
 		Route::group(['middleware' => 'auth:api'], function () {
 			Route::get('logout', 'AuthController@logout');

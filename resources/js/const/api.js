@@ -12,6 +12,7 @@ const api = {
 	devices: {
 		all: `${apiURI}/${DEVICES}`,
 		get: (id) => `${apiURI}/${DEVICES}/${id}`,
+		post: `${apiURI}/${DEVICES}`,
 	},
 	auth: {
 		login: `${apiURI}/${AUTH}/login`,

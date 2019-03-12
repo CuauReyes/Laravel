@@ -19,8 +19,8 @@ class Devices extends Migration
 			$table->increments('id');
 			$table->string('name');
 			$table->string('type');
-			$table->integer('battery');
-			$table->integer('status');
+			$table->integer('battery')->nullable();
+			$table->integer('status')->nullable();
 			$table->timestamps();
 
 			$table->integer('plant_id')->unsigned();
