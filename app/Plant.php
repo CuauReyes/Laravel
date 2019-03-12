@@ -10,6 +10,8 @@ class Plant extends Model
 		'description',
 		'name',
 		'location',
+		'url',
+		'key',
 		'img',
 		'user_id',
 	];

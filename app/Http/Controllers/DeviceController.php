@@ -35,7 +35,12 @@ class DeviceController extends Controller
      */
 	public function store(Request $request)
 	{
-		//
+		$device = new Device([
+			'name'     => $request->name,
+			'type'    => $request->type,
+			'plant_id' => $request->plant_id
+		]);
+		$device->save();
 	}
 
 	/**

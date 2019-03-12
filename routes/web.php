@@ -25,3 +25,7 @@ Route::any('{all}', function () {
 // });
 
 Auth::routes();
+
+//usuarios
+
+

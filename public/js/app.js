@@ -19030,6 +19030,20 @@ function isSlowBuffer (obj) {
 
 /***/ }),
 
+/***/ "./node_modules/isarray/index.js":
+/*!***************************************!*\
+  !*** ./node_modules/isarray/index.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/jquery/dist/jquery.js":
 /*!********************************************!*\
   !*** ./node_modules/jquery/dist/jquery.js ***!
@@ -46626,7 +46640,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isarray = __webpack_require__(/*! isarray */ "./node_modules/path-to-regexp/node_modules/isarray/index.js")
+var isarray = __webpack_require__(/*! isarray */ "./node_modules/isarray/index.js")
 
 /**
  * Expose `pathToRegexp`.
@@ -47052,20 +47066,6 @@ function pathToRegexp (path, keys, options) {
 
   return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
 }
-
-
-/***/ }),
-
-/***/ "./node_modules/path-to-regexp/node_modules/isarray/index.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/path-to-regexp/node_modules/isarray/index.js ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
 
 
 /***/ }),
@@ -86203,7 +86203,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Admin_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Admin.scss */ "./resources/js/components/Admin/Admin.scss");
 /* harmony import */ var _Admin_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_Admin_scss__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Assets_Sidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Assets/Sidebar */ "./resources/js/components/Admin/Assets/Sidebar.js");
+/* harmony import */ var _const_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../const/api */ "./resources/js/const/api.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -86213,13 +86218,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 
 
@@ -86230,99 +86237,228 @@ var Admin =
 function (_Component) {
   _inherits(Admin, _Component);
 
-  function Admin() {
+  function Admin(props) {
+    var _this;
+
     _classCallCheck(this, Admin);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Admin).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Admin).call(this, props));
+    _this.state = {
+      name: "",
+      email: "",
+      password: ""
+    };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.handleSubmitDevice = _this.handleSubmitDevice.bind(_assertThisInitialized(_this));
+    _this.handleSubmitPlant = _this.handleSubmitPlant.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(Admin, [{
+    key: "handleChange",
+    value: function handleChange(event) {
+      var target = event.target;
+      var value = target.type === "checkbox" ? target.checked : target.value;
+      var name = target.name;
+      this.setState(_defineProperty({}, name, value));
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(event) {
+      var _this2 = this;
+
+      console.log(this.state.name);
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(_const_api__WEBPACK_IMPORTED_MODULE_3__["api"].auth.register, {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        password_confirmation: this.state.password
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      }).then(function (response) {
+        if (response.data) {
+          window.localStorage.setItem("token", response.data.access_token);
+
+          _this2.props.history.push("/plants");
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+      event.preventDefault();
+    }
+  }, {
+    key: "handleSubmitDevice",
+    value: function handleSubmitDevice(event) {
+      var _this3 = this;
+
+      //console.log(this.state.name)
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(_const_api__WEBPACK_IMPORTED_MODULE_3__["api"].devices.all, {
+        name: this.state.name,
+        type: this.state.type,
+        plant_id: this.state.plant_id
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      }).then(function (response) {
+        if (response.data) {
+          window.localStorage.setItem("token", response.data.access_token);
+
+          _this3.props.history.push("/plants");
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+      event.preventDefault();
+    }
+  }, {
+    key: "handleSubmitPlant",
+    value: function handleSubmitPlant(event) {
+      var _this4 = this;
+
+      //console.log(this.state.name)
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(_const_api__WEBPACK_IMPORTED_MODULE_3__["api"].plants.all, {
+        name: this.state.name,
+        description: this.state.description,
+        location: this.state.location,
+        url: this.state.url,
+        key: this.state.key,
+        img: this.state.img,
+        status: this.state.status,
+        user_id: this.state.user_id
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      }).then(function (response) {
+        if (response.data) {
+          window.localStorage.setItem("token", response.data.access_token);
+
+          _this4.props.history.push("/plants");
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+      event.preventDefault();
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-2"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "center"
-      }, "Menu")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-9"
+        className: "col-md-12"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Admin"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card "
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-header"
       }, "Agregar nuevo cliente:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "form-group"
+        className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        htmlFor: "name"
       }, "Nombre:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        class: "form-control",
-        id: "email"
+        type: "text",
+        className: "form-control",
+        id: "name",
+        name: "name",
+        value: this.state.name,
+        onChange: this.handleChange
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "form-group"
+        className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        htmlFor: "email"
       }, "Correo:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "email",
-        class: "form-control",
-        id: "email"
+        className: "form-control",
+        id: "email",
+        name: "email",
+        value: this.state.email,
+        onChange: this.handleChange
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "form-group"
+        className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        htmlFor: "password"
       }, "Contrase\xF1a:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        class: "form-control",
-        id: "email"
+        type: "text",
+        className: "form-control",
+        id: "password",
+        name: "password",
+        value: this.state.password,
+        onChange: this.handleChange
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        class: "btn btn-primary"
-      }, "Aceptar")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "btn btn-primary"
+      }, "Aceptar"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-header"
       }, "Buscar Cliente:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "input-group mb-3"
+        className: "input-group mb-3"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        class: "form-control",
+        className: "form-control",
         placeholder: "Buscar"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "input-group-append"
+        className: "input-group-append"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        class: "btn btn-success",
+        className: "btn btn-success",
         type: "submit"
       }, "Go"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Clientes"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "The .table-striped class adds zebra-stripes to a table:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-        class: "table table-striped"
+        className: "table table-striped"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Firstname"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Lastname"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Acciones"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "John"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Doe"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "john@example.com"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
-        class: "btn btn-primary"
+        className: "btn btn-primary"
       }, "Ver info"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
-        class: "btn btn-danger"
-      }, "Eliminar")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Mary"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Moe"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "mary@example.com"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-danger"
+      }, "Eliminar"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
-        class: "btn btn-primary"
+        className: "btn btn-warning"
+      }, "Deshabilitar"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-success"
+      }, "Habilitar")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Mary"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Moe"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "mary@example.com"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-primary"
       }, "Ver info"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
-        class: "btn btn-danger"
-      }, "Eliminar")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "July"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Dooley"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "july@example.com"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-danger"
+      }, "Eliminar"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
-        class: "btn btn-primary"
+        className: "btn btn-warning"
+      }, "Deshabilitar"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-success"
+      }, "Habilitar")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "July"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Dooley"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "july@example.com"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-primary"
       }, "Ver info"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
-        class: "btn btn-danger"
-      }, "Eliminar"))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-2"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-9"
+        className: "btn btn-danger"
+      }, "Eliminar"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-warning"
+      }, "Deshabilitar"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-success"
+      }, "Habilitar")))))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card "
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -86331,65 +86467,142 @@ function (_Component) {
         className: "col-md-6"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Agregar Planta"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmitPlant
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "form-group"
+        className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        htmlFor: "name"
       }, "Nombre:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        class: "form-control",
-        id: "email"
+        type: "text",
+        className: "form-control",
+        id: "name",
+        name: "name",
+        value: this.state.name,
+        onChange: this.handleChange
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "form-group"
+        className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        htmlFor: "description"
+      }, "Descripci\xF3n:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "description",
+        name: "description",
+        value: this.state.description,
+        onChange: this.handleChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "location"
       }, "Localizaci\xF3n:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        class: "form-control",
-        id: "email"
+        type: "text",
+        className: "form-control",
+        id: "location",
+        name: "location",
+        value: this.state.location,
+        onChange: this.handleChange
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "form-group"
+        className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        htmlFor: "url"
       }, "Url:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        class: "form-control",
-        id: "email"
+        type: "text",
+        className: "form-control",
+        id: "url",
+        name: "url",
+        value: this.state.url,
+        onChange: this.handleChange
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "form-group"
+        className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        htmlFor: "key"
       }, "Key:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        class: "form-control",
-        id: "email"
+        type: "text",
+        className: "form-control",
+        id: "key",
+        name: "key",
+        value: this.state.key,
+        onChange: this.handleChange
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "form-group"
+        className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
+        htmlFor: "img"
       }, "Imagen:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        class: "form-control",
-        id: "email"
+        type: "text",
+        className: "form-control",
+        id: "img",
+        name: "img",
+        value: this.state.img,
+        onChange: this.handleChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "status"
+      }, "Status:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "status",
+        name: "status",
+        value: this.state.status,
+        onChange: this.handleChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "user_id"
+      }, "user_id:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "user_id",
+        name: "user_id",
+        value: this.state.user_id,
+        onChange: this.handleChange
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        class: "btn btn-primary"
-      }, "Aceptar"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "btn btn-primary"
+      }, "Aceptar")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-6"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Agregar Device"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmitDevice
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        class: "form-group"
+        className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        for: "email"
-      }, "Sensor:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        class: "form-control",
-        id: "email"
+        htmlFor: "nameplant"
+      }, "Nombre:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "nameplant",
+        name: "name",
+        value: this.state.name,
+        onChange: this.handleChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "type"
+      }, "Tipo:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "type",
+        name: "type",
+        value: this.state.type,
+        onChange: this.handleChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "type"
+      }, "Planta:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "plant_id",
+        name: "plant_id",
+        value: this.state.plant_id,
+        onChange: this.handleChange
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        class: "btn btn-primary"
-      }, "Aceptar"))))));
+        className: "btn btn-primary"
+      }, "Aceptar")))))));
     }
   }]);
 
@@ -86935,7 +87148,8 @@ var api = {
     all: "".concat(apiURI, "/").concat(DEVICES),
     get: function get(id) {
       return "".concat(apiURI, "/").concat(DEVICES, "/").concat(id);
-    }
+    },
+    post: "".concat(apiURI, "/").concat(DEVICES)
   },
   auth: {
     login: "".concat(apiURI, "/").concat(AUTH, "/login"),
@@ -87027,8 +87241,8 @@ function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/Charly/www/NoTE/resources/js/app.jsx */"./resources/js/app.jsx");
-module.exports = __webpack_require__(/*! /Users/Charly/www/NoTE/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/cuaureyes/Documents/GitHub/Laravel/resources/js/app.jsx */"./resources/js/app.jsx");
+module.exports = __webpack_require__(/*! /Users/cuaureyes/Documents/GitHub/Laravel/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
