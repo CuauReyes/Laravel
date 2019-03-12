@@ -19,6 +19,7 @@ class Devices extends Migration
 			$table->increments('id');
 			$table->string('name');
 			$table->string('type');
+			$table->bigInteger('count')->default(0);
 			$table->integer('battery')->nullable();
 			$table->integer('status')->nullable();
 			$table->timestamps();
