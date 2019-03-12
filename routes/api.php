@@ -6,16 +6,13 @@ Route::group(['prefix' => 'v1'], function () {
 Route::post('clientes', ['as'=> 'clientes.store', 'uses'=>'AuthController@signup']);
 
 	Route::get('plants', 'PlantController@index');
-	Route::get('devices', 'DeviceController@mostrar');
+	Route::get('plants/{id}', 'PlantController@show');
 
-	Route::get('sensor', 'DeviceController@mostrarUno');
-
-
-	Route::get('plants/{plant}', 'PlantController@show');
+	Route::get('devices', 'DeviceController@index');
+	Route::get('devices/{id}', 'DeviceController@show');
 
 	//Route::get('devices', 'DeviceController@show');
 	//Route::get('devices/{device}', 'DeviceController@show');
-
 
 	Route::group(['prefix' => 'auth'], function () {
 		Route::post('login', 'AuthController@login');

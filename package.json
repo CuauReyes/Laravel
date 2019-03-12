@@ -8,7 +8,7 @@
 		"hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
 		"prod": "npm run production",
 		"production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-		"seed": "php artisan migrate:refresh --seed && php artisan db:seed"
+		"seed": "php artisan migrate:refresh --seed"
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.3.4",
@@ -32,9 +32,13 @@
 		"webpack-livereload-plugin": "^1.2.0"
 	},
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.15",
+		"@fortawesome/free-solid-svg-icons": "^5.7.2",
+		"@fortawesome/react-fontawesome": "^0.1.4",
 		"react-bootstrap": "^1.0.0-beta.5",
 		"react-charts": "^2.0.0-alpha.12",
 		"react-router": "^4.3.1",
+		"react-router-bootstrap": "^0.24.4",
 		"react-router-dom": "^4.3.1"
 	}
 }

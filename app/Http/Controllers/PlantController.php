@@ -16,7 +16,7 @@ class PlantController extends Controller
 	public function index()
 	{
 		//
-		return Plant::with('user')->get();
+		return Plant::with('user', 'devices')->get();
 	}
 
 	/**
@@ -49,7 +49,7 @@ class PlantController extends Controller
 	public function show($id)
 	{
 		//
-		$plant = Plant::with('plant')->find($id);
+		$plant = Plant::with('user', 'devices')->find($id);
 
 		return response()->json($plant, 200);
 	}

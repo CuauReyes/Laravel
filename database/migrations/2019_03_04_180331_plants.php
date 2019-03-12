@@ -13,10 +13,11 @@ class Plants extends Migration
      */
 	public function up()
 	{
+		Schema::dropIfExists('plants');
 		Schema::create('plants', function (Blueprint $table) {
-			$table->bigIncrements('id');
+			$table->increments('id');
 			$table->string('name');
-			$table->string('description')->nullable();
+			$table->text('description')->nullable();
 			$table->string('location');
 			$table->string('url');
 			$table->string('key');
