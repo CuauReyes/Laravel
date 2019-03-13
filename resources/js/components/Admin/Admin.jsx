@@ -3,6 +3,7 @@ import "./Admin.scss";
 import Sidebar from './Assets/Sidebar';
 import { api } from "../../const/api";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 export default class Admin extends Component {
     constructor(props) {
@@ -337,7 +338,11 @@ export default class Admin extends Component {
 												<td> {user.name}</td>
                                                 <td> {user.email}</td>
                                                 <td> {user.created_at}</td>
-                                                <button type="button" className="btn btn-primary">Ver info</button>
+                                                <button type="button" className="btn">
+                                                <Link to={"/user/"+user.id}>
+                                                        Ver más
+                                                        </Link>
+                                                </button>
                                                 <button type="button" className="btn btn-danger">Eliminar</button>
                                                 <button type="button" className="btn btn-warning">Deshabilitar</button>
                                                 <button type="button" className="btn btn-success">Habilitar</button>
