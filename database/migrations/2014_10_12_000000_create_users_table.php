@@ -15,11 +15,11 @@ class CreateUsersTable extends Migration
 	{
 
 		$oauth_tables = [
-			'oauth_access_tokens',
-			'oauth_auth_codes',
+			// 'oauth_access_tokens',
+			// 'oauth_auth_codes',
 			// 'oauth_clients',
-			'oauth_personal_access_clients',
-			'oauth_refresh_tokens'
+			// 'oauth_personal_access_clients',
+			// 'oauth_refresh_tokens'
 		];
 		foreach ($oauth_tables as $table) {
 			DB::statement('DROP TABLE IF EXISTS ' . $table);

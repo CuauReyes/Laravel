@@ -37,7 +37,9 @@ class Header extends React.Component {
 							title={user ? user.name : "Usuario"}
 							id="basic-nav-dropdown"
 						>
-							<NavDropdown.Item> Perfil </NavDropdown.Item>
+							<LinkContainer to="/profile">
+								<NavDropdown.Item> Perfil </NavDropdown.Item>
+							</LinkContainer>
 							<NavDropdown.Divider />
 							<NavDropdown.Item onClick={this.logout}>Salir</NavDropdown.Item>
 						</NavDropdown>

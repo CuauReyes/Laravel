@@ -2,13 +2,17 @@ require("./bootstrap");
 
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Redirect, Router, Route } from "react-router";
+import { Router, Route } from "react-router";
 import createBrowserHistory from "history/createBrowserHistory";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import Admin from "./components/Admin/Admin";
 import User from "./components/User/User";
-
+import Plants from "./Components/Plants/Plants";
+import Plant from "./Components/Plant/Plant";
+import Device from "./Components/Device/Device";
+import PrivateRoute from "./components/PrivateRoute";
+import Profile from "./components/Profile/Profile";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -26,11 +30,6 @@ import {
 	faClock,
 	faCheck
 } from "@fortawesome/free-solid-svg-icons";
-import Plants from "./Components/Plants/Plants";
-import Plant from "./Components/Plant/Plant";
-import Device from "./Components/Device/Device";
-import PrivateRoute from "./components/PrivateRoute";
-
 library.add(
 	faMicrochip,
 	faBatteryEmpty,
@@ -60,6 +59,7 @@ class App extends Component {
 					<PrivateRoute exact path="/device/:deviceId" component={Device} />
 					<PrivateRoute exact path="/admin" component={Admin} />
 					<PrivateRoute exact path="/user" component={User} />
+					<PrivateRoute exact path="/profile" component={Profile} />
 					<Route exact default path="/login" component={SignIn} />
 					<Route exact path="/register" component={SignUp} />
 				</div>

@@ -41,7 +41,6 @@ class AuthController extends Controller
 			], 401);
 		}
 
-		echo $request->user();
 		$user = $request->user();
 		$tokenResult = $user->createToken('Personal Access Token');
 		$token = $tokenResult->token;
@@ -76,6 +75,5 @@ class AuthController extends Controller
 	{
 		$Users = User::all();
 		return $Users;
-
 	}
 }

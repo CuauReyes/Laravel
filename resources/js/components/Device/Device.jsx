@@ -13,6 +13,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import HistoryDevice from "./History/History";
 import ChartDevice from "./Chart/Chart";
+import Button from "react-bootstrap/Button";
 
 export default class Device extends Component {
 	constructor() {
@@ -113,6 +114,9 @@ export default class Device extends Component {
 						</div>
 
 						<div className="col-sm-12 d-flex flex-wrap mb-5">
+							<div className="row col-sm-12 d-flex justify-content-end">
+								<Button variant="primary">Exportar</Button>
+							</div>
 							<div className="col-sm-12">
 								<ChartDevice values={device.values} />
 							</div>
