@@ -11,6 +11,7 @@ class Device extends Model
 		'type',
 		'battery',
 		'status',
+		'count',
 		'plant_id',
 	];
 

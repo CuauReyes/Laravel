@@ -17,7 +17,9 @@ export default class PlantCard extends Component {
 				<Link to={"/plants/" + plant.id}>
 					<Card.Header className="text-truncate">{plant.name}</Card.Header>
 				</Link>
-				<Card.Img variant="top" src={mitsubishi} />
+				<div className="d-flex flex-row justify-content-center align-items-center">
+					<Card.Img variant="top" src={mitsubishi} />
+				</div>
 				<Card.Body className="d-flex flex-column">
 					<Card.Text className="flex-fill"> {plant.description} </Card.Text>
 				</Card.Body>

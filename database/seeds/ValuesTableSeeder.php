@@ -2,6 +2,7 @@
 use Illuminate\Database\Seeder;
 use App\Value;
 use App\Device;
+use Carbon\Carbon;
 
 class ValuesTableSeeder extends Seeder
 {
@@ -34,47 +35,20 @@ class ValuesTableSeeder extends Seeder
 			$idDevice = Device::where('name', '=', $values[$i]->device_id)->firstOrFail()->id;
 			$device = Device::find($idDevice);
 			$device->count = $device->count + 1;
+			$values[$i]->Atype ? $device->type = $values[$i]->Atype : null;
+
+			$parsed = substr($values[$i]->time, 0, -2) . 'Z';
+			$parsedDate = new DateTime($parsed);
 
 			Value::create([
 				'value' => $values[$i]->Cvalue ? $values[$i]->Cvalue : 0,
 				'count' => $device->count,
-				'device_id' => $idDevice
+				'device_id' => $idDevice,
+				'created_at' => $parsedDate,
+				'updated_at' => $parsedDate
 			]);
 
 			$device->save();
-		}
-
-		for ($i = 0; $i < count($devices); $i++) {
-			$device = Device::find($devices->get($i)->id);
-
-			for ($j = 0; $j < 50; $j++) {
-				$device->count = $device->count + 1;
-
-				if ($device->type === 'ON-OFF') {
-					Value::create([
-						'value' => strval(rand(0, 1)),
-						'count' => $device->count,
-						'device_id' => $device->id
-					]);
-				}
-
-				if ($device->type === 'OPEN-CLOSE') {
-					Value::create([
-						'value' => strval(rand(0, 1)),
-						'count' => $device->count,
-						'device_id' => $device->id
-					]);
-				}
-
-				if ($device->type === 'COUNTER') {
-					Value::create([
-						'value' => strval($device->count),
-						'count' => $device->count,
-						'device_id' => $device->id
-					]);
-				}
-				$device->save();
-			}
 		}
 	}
 }

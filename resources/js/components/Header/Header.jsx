@@ -21,7 +21,6 @@ class Header extends React.Component {
 
 	render() {
 		const user = JSON.parse(window.localStorage.getItem("user"));
-		console.log(user);
 		return (
 			<header>
 				<Navbar bg="dark" variant="dark" expand="md">

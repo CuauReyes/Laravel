@@ -30,9 +30,18 @@ export default class Plant extends Component {
 		return (
 			<div>
 				<Header />
-				<div className="container-fluid mt-5">
+				<div className="container-fluid pt-3">
+					<div className="d-flex flex-wrap col-sm-12 mb-3">
+						<div className="col-sm-12">
+							<Link to={`/plants/${plant.id}`}> Plantas </Link>
+							<span>&nbsp; > &nbsp; </span>
+							<Link to={`/plants/${plant.id}`}> {plant.name} </Link>
+						</div>
+					</div>
 					<div className="col-sm-12">
-						<h2> {plant.name}</h2>
+						<div className="col-sm-12">
+							<h2> {plant.name}</h2>
+						</div>
 					</div>
 					<div className="col-sm-12 d-flex flex-wrap">
 						{devices.map((device, key) => (

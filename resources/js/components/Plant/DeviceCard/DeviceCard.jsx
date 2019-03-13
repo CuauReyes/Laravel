@@ -17,7 +17,9 @@ export default class DeviceCard extends Component {
 				<Link to={"/device/" + device.id}>
 					<Card.Header className="text-truncate">{device.name}</Card.Header>
 				</Link>
-				<Card.Img variant="top" src={audi} />
+				<div className="d-flex flex-row justify-content-center align-items-center">
+					<Card.Img variant="top" src={audi} />
+				</div>
 				<Card.Body className="d-flex flex-column">
 					<Card.Text className="flex-fill"> {device.type} </Card.Text>
 				</Card.Body>

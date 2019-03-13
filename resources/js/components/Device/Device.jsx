@@ -31,17 +31,13 @@ export default class Device extends Component {
 
 	render() {
 		const { device, plant } = this.state;
-		console.log(device);
 		let lineChart;
 		if (device) {
-			let data = [];
+			let data = [[new Date(), 0]];
 			device.values.forEach(val => {
-				console.log(val)
-				data.push([
-					new Date(val.created_at),
-					val.value,
-				])
-			})
+				data.push([new Date(val.created_at), val.value]);
+			});
+
 			lineChart = (
 				<div
 					style={{
@@ -57,22 +53,28 @@ export default class Device extends Component {
 							}
 						]}
 						axes={[
-							{ type: "linear", position: "left" },
 							{ primary: true, type: "time", position: "bottom" },
+							{ type: "linear", position: "left" }
 						]}
 					/>
 				</div>
 			);
-
 		}
 		return (
 			<div className="device">
 				<Header />
 				{device ? (
-					<div className="container-fluid">
+					<div className="container-fluid pt-3">
 						<div className="d-flex flex-wrap col-sm-12 mb-3">
-							<Link to={`/plants/${plant.id}`}> Planta {plant.name} </Link>
+							<div className="col-sm-12">
+								<Link to={`/plants/${plant.id}`}> Plantas </Link>
+								<span>&nbsp; > &nbsp; </span>
+								<Link to={`/plants/${plant.id}`}> {plant.name} </Link>
+								<span>&nbsp; > &nbsp; </span>
+								<Link to={`/device/${device.id}`}> {device.name} </Link>
+							</div>
 						</div>
+
 						<div className="d-flex flex-wrap col-sm-12 mb-5">
 							<div className="col-sm-2 col-lg-1">
 								<img className="device-img" src={deviceImg} />
@@ -155,8 +157,7 @@ export default class Device extends Component {
 						</div>
 
 						<div className="col-sm-12 d-flex flex-wrap mb-5">
-						<div className="col-sm-12">
-						{lineChart}</div>
+							<div className="col-sm-12">{lineChart}</div>
 						</div>
 						<div className="col-sm-12 d-flex flex-wrap">
 							<div className="col-sm-12">

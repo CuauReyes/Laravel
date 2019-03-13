@@ -122,13 +122,14 @@ export default class Admin extends Component {
     
     render() {
         return (
+        <div>
             <div className="container">
             <div className="row">
                  <div className="col-md-12">
                     <h1>Admin</h1>
+                    <div className="col-md-4">
                         <div className="card ">
                             <div className="card-header">Agregar nuevo cliente:</div>
-                            <div className="col-md-4">
                             <form onSubmit={this.handleSubmit}>
                             <div className="card-body">
                                 <div className="form-group">
@@ -149,8 +150,87 @@ export default class Admin extends Component {
                                 <button type="submit" className="btn btn-primary">Aceptar</button>
                             </div>
                             </form>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <h3>Agregar Planta</h3>
+                            <div className="card-body">
+                               <form onSubmit={this.handleSubmitPlant}>
+                                    <div className="form-group">
+                                        <label htmlFor="name">Nombre:</label>
+                                        <input type="text" className="form-control" id="name" name="name" value={this.state.name}
+						                    onChange={this.handleChange} />
+                                        </div>
+                                        <div className="form-group">
+                                        <label htmlFor="description">Descripción:</label>
+                                        <input type="text" className="form-control" id="description" name="description" value={this.state.description}
+						                    onChange={this.handleChange} />
+                                        </div>
+                                        <div className="form-group">
+                                        <label htmlFor="location">Localización:</label>
+                                        <input type="text" className="form-control" id="location" name="location" value={this.state.location}
+						                    onChange={this.handleChange} />
+                                        </div>
+                                        <div className="form-group">
+                                        <label htmlFor="url">Url:</label>
+                                        <input type="text" className="form-control" id="url" name="url" value={this.state.url}
+						                     onChange={this.handleChange} />
+                                        </div>
+                                        <div className="form-group">
+                                        <label htmlFor="key">Key:</label>
+                                        <input type="text" className="form-control" id="key" name="key" value={this.state.key}
+						                    onChange={this.handleChange} />
+                                        </div>
+                                        <div className="form-group">
+                                        <label htmlFor="img">Imagen:</label>
+                                        <input type="text" className="form-control" id="img" name="img" value={this.state.img}
+						                    onChange={this.handleChange} />
+                                        </div>
+                                        <div className="form-group">
+                                        <label htmlFor="status">Status:</label>
+                                        <input type="text" className="form-control" id="status" name="status" value={this.state.status}
+						                    onChange={this.handleChange} />
+                                        </div>
+                                        <div className="form-group">
+                                        <label htmlFor="user_id">user_id:</label>
+                                        <input type="text" className="form-control" id="user_id" name="user_id" value={this.state.user_id}
+						                    onChange={this.handleChange} />
+                                        </div>
+                                        <button type="submit" className="btn btn-primary">Aceptar</button>
+                               </form>
                             </div>
                         </div>
+                        <div className="col-md-4">
+                            <h3>Agregar Device</h3>
+                            <div className="card-body">
+                            <form onSubmit={this.handleSubmitDevice}>
+                                <div className="form-group">
+                                <label htmlFor="nameplant">Nombre:</label>
+                                <input type="text" className="form-control" id="nameplant" name="name" value={this.state.name}
+						        onChange={this.handleChange} />
+                                </div>
+                                <div className="form-group">
+                                <label htmlFor="type">Tipo:</label>
+                                <select class="form-control" id="sel1" id="type" name="type" value={this.state.type} onChange={this.handleChange}>
+                                    <option value="ON-OFF">ON-OFF</option>
+                                    <option value="TEMP">TEMP</option>
+                                    <option value="COUNTER">COUNTER</option>
+                                    <option value="LIGHT">LIGHT</option>
+                                </select>
+                                </div> 
+                                <div className="form-group">
+                                <label htmlFor="type">Planta:</label>
+                                <input type="text" className="form-control" id="plant_id" name="plant_id" value={this.state.plant_id}
+						        onChange={this.handleChange} />
+                                </div> 
+                                <button type="submit" className="btn btn-primary">Aceptar</button>
+                            </form>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
                         <div className="card">
                             <div className="card-header">Buscar Cliente:</div>
                             <div className="col-md-12">
@@ -205,90 +285,9 @@ export default class Admin extends Component {
                                     </table>    
                             </div>
                         </div>
-                    </div>
-            </div>
-            
-                    <div className="col-md-12">
-                    <div className="card ">
-                            <div className="card-header">John Doe</div>
-                            <div className="col-md-6">
-                            <h3>Agregar Planta</h3>
-                            <div className="card-body">
-                               <form onSubmit={this.handleSubmitPlant}>
-                                    <div className="form-group">
-                                        <label htmlFor="name">Nombre:</label>
-                                        <input type="text" className="form-control" id="name" name="name" value={this.state.name}
-						                    onChange={this.handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                        <label htmlFor="description">Descripción:</label>
-                                        <input type="text" className="form-control" id="description" name="description" value={this.state.description}
-						                    onChange={this.handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                        <label htmlFor="location">Localización:</label>
-                                        <input type="text" className="form-control" id="location" name="location" value={this.state.location}
-						                    onChange={this.handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                        <label htmlFor="url">Url:</label>
-                                        <input type="text" className="form-control" id="url" name="url" value={this.state.url}
-						                     onChange={this.handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                        <label htmlFor="key">Key:</label>
-                                        <input type="text" className="form-control" id="key" name="key" value={this.state.key}
-						                    onChange={this.handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                        <label htmlFor="img">Imagen:</label>
-                                        <input type="text" className="form-control" id="img" name="img" value={this.state.img}
-						                    onChange={this.handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                        <label htmlFor="status">Status:</label>
-                                        <input type="text" className="form-control" id="status" name="status" value={this.state.status}
-						                    onChange={this.handleChange} />
-                                        </div>
-                                        <div className="form-group">
-                                        <label htmlFor="user_id">user_id:</label>
-                                        <input type="text" className="form-control" id="user_id" name="user_id" value={this.state.user_id}
-						                    onChange={this.handleChange} />
-                                        </div>
-                                        <button type="submit" className="btn btn-primary">Aceptar</button>
-                               </form>
-                            </div>
-                            </div>
-                            <div className="col-md-6">
-                            <h3>Agregar Device</h3>
-                            <div className="card-body">
-                            <form onSubmit={this.handleSubmitDevice}>
-                                <div className="form-group">
-                                <label htmlFor="nameplant">Nombre:</label>
-                                <input type="text" className="form-control" id="nameplant" name="name" value={this.state.name}
-						        onChange={this.handleChange} />
-                                </div>
-                                <div className="form-group">
-                                <label htmlFor="type">Tipo:</label>
-                                <input type="text" className="form-control" id="type" name="type" value={this.state.type}
-						        onChange={this.handleChange} />
-                                </div> 
-                                <div className="form-group">
-                                <label htmlFor="type">Planta:</label>
-                                <input type="text" className="form-control" id="plant_id" name="plant_id" value={this.state.plant_id}
-						        onChange={this.handleChange} />
-                                </div> 
-                                <button type="submit" className="btn btn-primary">Aceptar</button>
-                            </form>
-                            
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-         
-                   
-            
+                 </div>
+                    
+                              
         );
     }
 }
