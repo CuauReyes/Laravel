@@ -3,6 +3,7 @@ const apiURI = 'http://localhost:8000/api/v1';
 const PLANTS = 'plants';
 const DEVICES = 'devices';
 const AUTH = 'auth';
+const USERS = 'users';
 
 const api = {
 	plants: {
@@ -17,7 +18,11 @@ const api = {
 	auth: {
 		login: `${apiURI}/${AUTH}/login`,
 		register: `${apiURI}/${AUTH}/register`
-	}
+	},
+	users: {
+		all: `${apiURI}/${USERS}`,
+		get: (id) => `${apiURI}/${USERS}/${id}`,
+	},
 };
 
 export {
