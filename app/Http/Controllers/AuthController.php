@@ -40,9 +40,12 @@ class AuthController extends Controller
 				'message' => 'Unauthorized'
 			], 401);
 		}
+
+		echo $request->user();
 		$user = $request->user();
 		$tokenResult = $user->createToken('Personal Access Token');
 		$token = $tokenResult->token;
+
 		if ($request->remember_me) {
 			$token->expires_at = Carbon::now()->addWeeks(1);
 		}

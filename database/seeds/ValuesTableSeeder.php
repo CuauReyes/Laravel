@@ -2,7 +2,7 @@
 use Illuminate\Database\Seeder;
 use App\Value;
 use App\Device;
-use Carbon\Carbon;
+use App\Plant;
 
 class ValuesTableSeeder extends Seeder
 {
@@ -15,40 +15,45 @@ class ValuesTableSeeder extends Seeder
 	{
 		//
 
-		$URL = "https://offices_9.data.thethingsnetwork.org/api/v2/query?last=20d";
-		$connection = curl_init();
 
-		curl_setopt($connection, CURLOPT_URL, $URL);
-		curl_setopt($connection, CURLOPT_HTTPGET, true);
-		curl_setopt($connection, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Authorization: key ttn-account-v2.uBNF9XTlQ43DfRURMKqLGN31qLS2p5F82d4gsCWUnfM'));
-		curl_setopt($connection, CURLOPT_SSLVERSION, 6);
-		curl_setopt($connection, CURLOPT_RETURNTRANSFER, 1);
+		$plants = Plant::all();
 
-		$response = curl_exec($connection);
-		curl_close($connection);
-		$values = json_decode($response);
+		for ($i = 0; $i < count($plants); $i++) {
+			$plant = $plants[$i];
+			$URL = $plant->url . '/query?last=20d';
+			$key = $plant->key;
 
-		$devices = Device::all();
+			$connection = curl_init();
+			curl_setopt($connection, CURLOPT_URL, $URL);
+			curl_setopt($connection, CURLOPT_HTTPGET, true);
+			curl_setopt($connection, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Authorization: ' . $key));
+			curl_setopt($connection, CURLOPT_SSLVERSION, 6);
+			curl_setopt($connection, CURLOPT_RETURNTRANSFER, 1);
+			$response = curl_exec($connection);
+			curl_close($connection);
+			$values = json_decode($response);
 
-		for ($i = 0; $i < count($values); $i++) {
+			for ($j = 0; $j < count($values); $j++) {
 
-			$idDevice = Device::where('name', '=', $values[$i]->device_id)->firstOrFail()->id;
-			$device = Device::find($idDevice);
-			$device->count = $device->count + 1;
-			$values[$i]->Atype ? $device->type = $values[$i]->Atype : null;
+				$idDevice = Device::where('name', '=', $values[$j]->device_id)->firstOrFail()->id;
 
-			$parsed = substr($values[$i]->time, 0, -2) . 'Z';
-			$parsedDate = new DateTime($parsed);
+				$device = Device::find($idDevice);
+				$device->count = $device->count + 1;
+				$values[$j]->Atype ? $device->type = $values[$j]->Atype : null;
 
-			Value::create([
-				'value' => $values[$i]->Cvalue ? $values[$i]->Cvalue : 0,
-				'count' => $device->count,
-				'device_id' => $idDevice,
-				'created_at' => $parsedDate,
-				'updated_at' => $parsedDate
-			]);
+				$parsed = substr($values[$j]->time, 0, -2) . 'Z';
+				$parsedDate = new DateTime($parsed);
 
-			$device->save();
+				Value::create([
+					'value' => $values[$j]->Cvalue ? $values[$j]->Cvalue : 0,
+					'count' => $device->count,
+					'device_id' => $idDevice,
+					'created_at' => $parsedDate,
+					'updated_at' => $parsedDate
+				]);
+
+				$device->save();
+			}
 		}
 	}
 }

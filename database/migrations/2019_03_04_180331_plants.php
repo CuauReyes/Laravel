@@ -15,17 +15,17 @@ class Plants extends Migration
 	{
 		Schema::dropIfExists('plants');
 		Schema::create('plants', function (Blueprint $table) {
-			$table->increments('id');
+			$table->bigIncrements('id');
 			$table->string('name');
 			$table->text('description')->nullable();
-			$table->string('location');
+			$table->string('location')->nullable();
 			$table->string('url');
 			$table->string('key');
-			$table->string('img');
+			$table->string('img')->nullable();
 			$table->integer('status')->nullable();
 			$table->timestamps();
 
-			$table->integer('user_id')->unsigned();
+			$table->bigInteger('user_id')->unsigned();
 			$table->foreign('user_id')
 				->references('id')->on('users')
 				->onDelete('cascade')

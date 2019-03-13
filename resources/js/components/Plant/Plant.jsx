@@ -45,7 +45,10 @@ export default class Plant extends Component {
 					</div>
 					<div className="col-sm-12 d-flex flex-wrap">
 						{devices.map((device, key) => (
-							<div key={key} className="col-xs-12 col-sm-6 col-md-4 p-2">
+							<div
+								key={key}
+								className="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-2"
+							>
 								<DeviceCard device={device} />
 							</div>
 						))}

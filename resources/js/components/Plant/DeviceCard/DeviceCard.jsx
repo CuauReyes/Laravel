@@ -14,24 +14,30 @@ export default class DeviceCard extends Component {
 		const { device } = this.props;
 		return (
 			<Card className="plant-card">
-				<Link to={"/device/" + device.id}>
-					<Card.Header className="text-truncate">{device.name}</Card.Header>
-				</Link>
+				<Card.Header className="text-truncate">
+					<Link to={"/device/" + device.id}>{device.name}</Link>
+					<Card.Text className="flex-fill"> {device.type} </Card.Text>
+				</Card.Header>
 				<div className="d-flex flex-row justify-content-center align-items-center">
 					<Card.Img variant="top" src={audi} />
 				</div>
 				<Card.Body className="d-flex flex-column">
-					<Card.Text className="flex-fill"> {device.type} </Card.Text>
+					<Card className="bg-primary text-white">
+						<Card.Body className="d-flex align-items-center">
+							<div className="col-sm-12 p-0 text-center">
+								<Card.Title className="text-truncate">Último dato</Card.Title>
+								<Card.Text className="text-truncate fa-2x">
+									{" "}
+									{device.last_value ? device.last_value.value : null}
+								</Card.Text>
+							</div>
+						</Card.Body>
+					</Card>
 				</Card.Body>
 				<Card.Footer>
 					<div className="flex-row align-items-center">
 						<FontAwesomeIcon icon="battery-full" className="mr-2" />
 						<FontAwesomeIcon icon="exclamation-triangle" className="mr-2" />
-						<div className="row">
-							<div className="col-sm-12">
-								Último valor: {device.values[0].value}
-							</div>
-						</div>
 					</div>
 				</Card.Footer>
 			</Card>

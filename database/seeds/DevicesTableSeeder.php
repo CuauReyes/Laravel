@@ -24,30 +24,35 @@ class DevicesTableSeeder extends Seeder
 
 		$faker = \Faker\Factory::create();
 
-		$URL = "https://offices_9.data.thethingsnetwork.org/api/v2/devices";
-		$connection = curl_init();
 
-		curl_setopt($connection, CURLOPT_URL, $URL);
-		curl_setopt($connection, CURLOPT_HTTPGET, true);
-		curl_setopt($connection, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Authorization: key ttn-account-v2.uBNF9XTlQ43DfRURMKqLGN31qLS2p5F82d4gsCWUnfM'));
-		curl_setopt($connection, CURLOPT_SSLVERSION, 6);
-		curl_setopt($connection, CURLOPT_RETURNTRANSFER, 1);
+		$plants = Plant::all();
 
-		$response = curl_exec($connection);
-		curl_close($connection);
-		$devices = json_decode($response);
+		for ($i = 0; $i < count($plants); $i++) {
+			$plant = $plants[$i];
+			$URL = $plant->url . '/devices';
+			$key = $plant->key;
 
-		for ($i = 0; $i < count($devices); $i++) {
-			$type  = $types[rand(0, 2)];
+			$connection = curl_init();
+			curl_setopt($connection, CURLOPT_URL, $URL);
+			curl_setopt($connection, CURLOPT_HTTPGET, true);
+			curl_setopt($connection, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Authorization: ' . $key));
+			curl_setopt($connection, CURLOPT_SSLVERSION, 6);
+			curl_setopt($connection, CURLOPT_RETURNTRANSFER, 1);
+			$response = curl_exec($connection);
+			curl_close($connection);
+			$devices = json_decode($response);
 
-			Device::create([
-				'name' => $devices[$i],
-				'type' => $type,
-				'battery' => rand(0, 100),
-				'status' => 1,
-				'plant_id' => 1,
-			]);
+			for ($j = 0; $j < count($devices); $j++) {
+				$type  = $types[rand(0, 2)];
+
+				Device::create([
+					'name' => $devices[$j],
+					'type' => $type,
+					'battery' => rand(0, 100),
+					'status' => 1,
+					'plant_id' => $plant->id,
+				]);
+			}
 		}
-
 	}
 }

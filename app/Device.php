@@ -24,4 +24,9 @@ class Device extends Model
 	{
 		return $this->hasMany('App\Value')->orderBy('id', 'desc');
 	}
+
+	public function lastValue()
+	{
+		return $this->hasOne('App\Value')->latest();
+	}
 }

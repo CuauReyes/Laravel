@@ -24,7 +24,7 @@ class Devices extends Migration
 			$table->integer('status')->nullable();
 			$table->timestamps();
 
-			$table->integer('plant_id')->unsigned();
+			$table->bigInteger('plant_id')->unsigned();
 			$table->foreign('plant_id')
 				->references('id')->on('plants')
 				->onDelete('cascade')

@@ -20,7 +20,9 @@ import {
 	faExclamationTriangle,
 	faPowerOff,
 	faBolt,
-	faWifi
+	faWifi,
+	faClock,
+	faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import Plants from "./Components/Plants/Plants";
 import Plant from "./Components/Plant/Plant";
@@ -38,7 +40,9 @@ library.add(
 	faExclamationTriangle,
 	faPowerOff,
 	faBolt,
-	faWifi
+	faWifi,
+	faClock,
+	faCheck
 );
 
 const history = createBrowserHistory();
