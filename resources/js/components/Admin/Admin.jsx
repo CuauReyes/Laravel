@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 export default class Admin extends Component {
     constructor(props) {
 		super(props);
-        this.state = { name: "", email: "", password: "", users:[], plants:[]};
+        this.state = { name: "", email: "", password: "", users:[], plants:[], devices:[]};
 
 		this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -131,6 +131,11 @@ export default class Admin extends Component {
 			this.setState({
 				plants: response.data
 			});
+        });
+        axios.get(api.devices.all).then(response => {
+			this.setState({
+				devices: response.data
+			});
 		});
     }
     
@@ -139,6 +144,7 @@ export default class Admin extends Component {
 
         const {users} = this.state;
         const {plants} = this.state;
+        const {devices} = this.state;
 
         return (
         <div>
@@ -312,16 +318,16 @@ export default class Admin extends Component {
                        </div>
                     </div>
                 </div> 
-                        <div className="card">
-                            <div className="card-header">Buscar Cliente:</div>
+                        <div className="card mt-5">
+                            <div className="card-header"><h2 className="mt-3">Todos Los Clientes</h2></div>
                             <div className="col-md-12">
-                            <div className="input-group mb-3">
+                            <div className="input-group mt-3 mb-3">
                                 <input type="text" className="form-control" placeholder="Buscar"/>
                                 <div className="input-group-append">
                                     <button className="btn btn-success" type="submit">Go</button>
                                 </div>
                                 </div>
-                                <h2>Clientes</h2>
+                                
                                     <p>La siguiente tabla muestra todos los clientes registrados hasta el momento</p>            
                                     <table className="table table-striped">
                                         <thead>
@@ -353,6 +359,67 @@ export default class Admin extends Component {
                                     </table>    
                             </div>
                         </div>
+                        <div className="card mt-5">
+                            <div className="card-header"><h2 className="mt-3">Todas Las Plantas</h2></div>
+                                <div className="card-body">
+                                
+                                <table className="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Localización</th>
+                                            <th>Url</th>
+                                            <th>Key</th>
+                                            <th>Status</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {plants.map((plant, key) => (
+							                <tr key={key}>
+												<td> {plant.name}</td>
+                                                <td> {plant.location}</td>
+                                                <td> {plant.url}</td>
+                                                <td> {plant.key}</td>
+                                                <td> {plant.status}</td>
+                                                <button type="button" className="btn btn-danger">Eliminar</button>
+											</tr>
+						                ))}
+                                        
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div className="card mt-5">
+                            <div className="card-header"><h2 className="mt-3">Todos Los Devices</h2></div>
+                                <div className="card-body">
+                                
+                                <table className="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Tipo</th>
+                                            <th>Status</th>
+                                            <th>Añadido</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {devices.map((device, key) => (
+							                <tr key={key}>
+												<td> {device.name}</td>
+                                                <td> {device.type}</td>
+                                                <td> {device.status}</td>
+                                                <td> {device.created_at}</td> 
+                                                <button type="button" className="btn btn-danger">Eliminar</button>
+											</tr>
+						                ))}
+                                        
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
                  </div>
                     
                               

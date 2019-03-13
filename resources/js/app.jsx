@@ -58,7 +58,7 @@ class App extends Component {
 					<PrivateRoute exact path="/plants/:plantId" component={Plant} />
 					<PrivateRoute exact path="/device/:deviceId" component={Device} />
 					<PrivateRoute exact path="/admin" component={Admin} />
-					<PrivateRoute exact path="/user" component={User} />
+					<PrivateRoute exact path="/user/:userId" component={User} />
 					<PrivateRoute exact path="/profile" component={Profile} />
 					<Route exact default path="/login" component={SignIn} />
 					<Route exact path="/register" component={SignUp} />
