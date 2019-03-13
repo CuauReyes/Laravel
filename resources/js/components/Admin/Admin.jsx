@@ -7,7 +7,7 @@ import axios from "axios";
 export default class Admin extends Component {
     constructor(props) {
 		super(props);
-		this.state = { name: "", email: "", password: "" };
+        this.state = { name: "", email: "", password: "", users:[], plants:[]};
 
 		this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -120,14 +120,32 @@ export default class Admin extends Component {
 		event.preventDefault();
     }
     
+    componentDidMount() {
+		axios.get(api.users.all).then(response => {
+			this.setState({
+				users: response.data
+			});
+        });
+        axios.get(api.plants.all).then(response => {
+			this.setState({
+				plants: response.data
+			});
+		});
+    }
+    
+
     render() {
+
+        const {users} = this.state;
+        const {plants} = this.state;
+
         return (
         <div>
-           <div class="container-fluid">
+           <div className="container-fluid">
            <h1>Admin</h1>
-                <div class="row">
+                <div className="row">
                 
-                    <div class="col-md-4" >
+                    <div className="col-md-4" >
                            <div className="card">
                            <div className="card-header">Agregar nuevo cliente:</div>
                            <form onSubmit={this.handleSubmit}>
@@ -147,15 +165,42 @@ export default class Admin extends Component {
                                <input type="text" className="form-control" id="password" name="password" value={this.state.password}
                                onChange={this.handleChange}/>
                                </div>
-                               <button type="submit" className="btn btn-primary">Aceptar</button>
+                               <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal3">Aceptar</button>
+                               <div className="modal fade" id="myModal3">
+                                <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                    <h4 className="modal-title">NoTE Admin</h4>
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    
+                                    <div className="modal-body">
+                                    Usuario registrado correctamente...
+                                    </div>
+                                    
+                                    <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                    
+                                </div>
+                                </div>
+                            </div>
                            </div>
                            </form>
                        </div></div>
-                    <div class="col-md-4">
+                    <div className="col-md-4">
                            <div className="card">
                            <div className="card-header">Agregar planta:</div>
                            <div className="card-body">
                               <form onSubmit={this.handleSubmitPlant}>
+                                    <div className="form-group">
+                                       <label htmlFor="user_id">Usuario:</label>
+                                       <select className="form-control" id="user_id" name="user_id" value={this.state.user_id} onChange={this.handleChange}>
+                                       {users.map((user, key) => (
+							                <option key={key} value={user.id}>{user.name}</option>
+						                ))}
+                                        </select>
+                                       </div>
                                    <div className="form-group">
                                        <label htmlFor="name">Nombre:</label>
                                        <input type="text" className="form-control" id="name" name="name" value={this.state.name}
@@ -191,17 +236,32 @@ export default class Admin extends Component {
                                        <input type="text" className="form-control" id="status" name="status" value={this.state.status}
                                            onChange={this.handleChange} />
                                        </div>
-                                       <div className="form-group">
-                                       <label htmlFor="user_id">user_id:</label>
-                                       <input type="text" className="form-control" id="user_id" name="user_id" value={this.state.user_id}
-                                           onChange={this.handleChange} />
-                                       </div>
-                                       <button type="submit" className="btn btn-primary">Aceptar</button>
+                                       <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal2">Aceptar</button>
+                                       <div className="modal fade" id="myModal2">
+                                        <div className="modal-dialog">
+                                        <div className="modal-content">
+                                    <div className="modal-header">
+                                    <h4 className="modal-title">NoTE Admin</h4>
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    
+                                    <div className="modal-body">
+                                    Planta registrada correctamente...
+                                    </div>
+                                    
+                                    <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                    
+                                    </div>
+                                    </div>
+                            </div>
+                                       
                               </form>
                            </div>
                         </div>   
                      </div>
-                        <div class="col-md-4">
+                        <div className="col-md-4">
                         <div className="card-header">Agregar Device:</div>
                            <div className="card-body">
                            <form onSubmit={this.handleSubmitDevice}>
@@ -212,19 +272,40 @@ export default class Admin extends Component {
                                </div>
                                <div className="form-group">
                                <label htmlFor="type">Tipo:</label>
-                               <select class="form-control" id="sel1" id="type" name="type" value={this.state.type} onChange={this.handleChange}>
+                               <select className="form-control" id="sel1" id="type" name="type" value={this.state.type} onChange={this.handleChange}>
                                    <option value="ON-OFF">ON-OFF</option>
                                    <option value="TEMP">TEMP</option>
                                    <option value="COUNTER">COUNTER</option>
-                                   <option value="LIGHT">LIGHT</option>
                                </select>
                                </div> 
                                <div className="form-group">
-                               <label htmlFor="type">Planta:</label>
-                               <input type="text" className="form-control" id="plant_id" name="plant_id" value={this.state.plant_id}
-                               onChange={this.handleChange} />
+                               <label htmlFor="plant_id">Planta:</label>
+                               <select className="form-control" id="plant_id" name="plant_id" value={this.state.plant_id} onChange={this.handleChange}>
+                                       {plants.map((plant, key) => (
+							                <option key={key} value={plant.id}>{plant.name}</option>
+						                ))}
+                                        </select>
                                </div> 
-                               <button type="submit" className="btn btn-primary">Aceptar</button>
+                               <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal">Aceptar</button>
+                               <div className="modal fade" id="myModal">
+                                <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                    <h4 className="modal-title">NoTE Admin</h4>
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    
+                                    <div className="modal-body">
+                                    Device agregado correctamente...
+                                    </div>
+                                    
+                                    <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                    
+                                </div>
+                                </div>
+                            </div>
                            </form>
                            </div>
                        </div>
@@ -240,45 +321,28 @@ export default class Admin extends Component {
                                 </div>
                                 </div>
                                 <h2>Clientes</h2>
-                                    <p>The .table-striped class adds zebra-stripes to a table:</p>            
+                                    <p>La siguiente tabla muestra todos los clientes registrados hasta el momento</p>            
                                     <table className="table table-striped">
                                         <thead>
                                         <tr>
-                                            <th>Firstname</th>
-                                            <th>Lastname</th>
+                                            <th>Nombre</th>
                                             <th>Email</th>
+                                            <th>Creado</th>
                                             <th>Acciones</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>John</td>
-                                            <td>Doe</td>
-                                            <td>john@example.com</td>
-                                            <button type="button" className="btn btn-primary">Ver info</button>
-                                            <button type="button" className="btn btn-danger">Eliminar</button>
-                                            <button type="button" className="btn btn-warning">Deshabilitar</button>
-                                            <button type="button" className="btn btn-success">Habilitar</button>
-                                        </tr>
-                                        <tr>
-                                            <td>Mary</td>
-                                            <td>Moe</td>
-                                            <td>mary@example.com</td>
-                                            <button type="button" className="btn btn-primary">Ver info</button>
-                                            <button type="button" className="btn btn-danger">Eliminar</button>
-                                            <button type="button" className="btn btn-warning">Deshabilitar</button>
-                                            <button type="button" className="btn btn-success">Habilitar</button>
-
-                                        </tr>
-                                        <tr>
-                                            <td>July</td>
-                                            <td>Dooley</td>
-                                            <td>july@example.com</td>
-                                            <button type="button" className="btn btn-primary">Ver info</button>
-                                            <button type="button" className="btn btn-danger">Eliminar</button>
-                                            <button type="button" className="btn btn-warning">Deshabilitar</button>
-                                            <button type="button" className="btn btn-success">Habilitar</button>
-                                        </tr>
+                                        {users.map((user, key) => (
+							                <tr key={key}>
+												<td> {user.name}</td>
+                                                <td> {user.email}</td>
+                                                <td> {user.created_at}</td>
+                                                <button type="button" className="btn btn-primary">Ver info</button>
+                                                <button type="button" className="btn btn-danger">Eliminar</button>
+                                                <button type="button" className="btn btn-warning">Deshabilitar</button>
+                                                <button type="button" className="btn btn-success">Habilitar</button>
+											</tr>
+						                ))}
                                         
                                         </tbody>
                                     </table>    

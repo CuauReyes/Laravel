@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1'], function () {
 
+	Route::get('users', 'AuthController@allUsers');
+	Route::post('users', 'AuthController@store');
+
 	Route::get('plants', 'PlantController@index');
 	Route::post('plants', 'PlantController@store');
 
