@@ -129,8 +129,36 @@ export default class User extends Component {
 			});
         });
     }
-    
-
+    deleteDevice(id) {
+        console.log(id);
+        axios.delete(api.devices.all+'/'+id).then(response => {
+        });
+      }
+    deletePlant(id) {
+        console.log(id);
+        axios.delete(api.plants.all+'/'+id).then(response => {
+        });
+      }
+    setOnPlant(id) {
+        console.log(id);
+        axios.put(api.plants.all+'/'+id+'/ON').then(response => {
+        });
+      }
+    setOffPlant(id) {
+        console.log(id);
+        axios.put(api.plants.all+'/'+id+'/OFF').then(response => {
+        });
+      }
+    setOnDevice(id) {
+        console.log(id);
+        axios.put(api.devices.all+'/'+id+'/ON').then(response => {
+        });
+      }
+    setOffDevice(id) {
+        console.log(id);
+        axios.put(api.devices.all+'/'+id+'/OFF').then(response => {
+        });
+      }    
     render() {
         const {plants} = this.state;
         const {users} = this.state;
@@ -148,11 +176,9 @@ export default class User extends Component {
                                         <thead>
                                         <tr>
                                             <th>Nombre</th>
-                                            <th>Localización</th>
                                             <th>Descripción</th>
                                             <th>Url</th>
                                             <th>Key</th>
-                                            <th>Imágen</th>
                                             <th>Status</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -161,13 +187,13 @@ export default class User extends Component {
                                         {plants.map((plant, key) => (
 							                <tr key={key}>
 												<td> {plant.name}</td>
-                                                <td> {plant.location}</td>
                                                 <td> {plant.description}</td>
                                                 <td> {plant.url}</td>
                                                 <td> {plant.key}</td>
-                                                <td> {plant.img}</td>
                                                 <td> {plant.status}</td>
-                                                <td><button type="button" className="btn btn-danger">Eliminar</button></td>
+                                                <button type="button" className="btn btn-success" onClick={() => this.setOnPlant(plant.id)}>Habilitar</button>
+                                                <button type="button" className="btn btn-warning" onClick={() => this.setOffPlant(plant.id)}>Deshabilitar</button>
+                                                <button type="button" className="btn btn-danger" onClick={() => this.deletePlant(plant.id)}>Eliminar</button>
 											</tr>
 						                ))}
                                         
@@ -272,7 +298,9 @@ export default class User extends Component {
                                                     <td> {device.type}</td>
                                                     <td> {device.status}</td>
                                                     <td> {device.created_at}</td>
-                                                    <td><button type="button" className="btn btn-danger">Eliminar</button></td>
+                                                    <button type="button" className="btn btn-success" onClick={() => this.setOnDevice(device.id)}>Habilitar</button>
+                                                    <button type="button" className="btn btn-warning" onClick={() => this.setOffDevice(device.id)}>Deshabilitar</button> 
+                                                    <button type="button" className="btn btn-danger" onClick={() => this.deleteDevice(device.id)}>Eliminar</button>
                                                     </tr>
 
                                                 )

@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 export default class Admin extends Component {
     constructor(props) {
 		super(props);
-        this.state = { name: "", email: "", password: "", users:[], plants:[], devices:[]};
+        this.state = { name: "", email: "", password: "", users:[], plants:[], devices:[], status: 0};
 
 		this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,12 +30,13 @@ export default class Admin extends Component {
         console.log(this.state.name)
 		axios
 			.post(
-				api.auth.register,
+				api.users.all,
 				{
                     name: this.state.name,
 					email: this.state.email,
                     password: this.state.password,
                     password_confirmation: this.state.password,
+                    status: this.state.status,
 				},
 				{
 					headers: {
@@ -136,8 +137,53 @@ export default class Admin extends Component {
 			this.setState({
 				devices: response.data
 			});
-		});
+        });
     }
+    deleteDevice(id) {
+        console.log(id);
+        axios.delete(api.devices.all+'/'+id).then(response => {
+        });
+      }
+    deletePlant(id) {
+        console.log(id);
+        axios.delete(api.plants.all+'/'+id).then(response => {
+        });
+      }
+    deleteUser(id) {
+        console.log(id);
+        axios.delete(api.users.all+'/'+id).then(response => {
+        });
+      }
+    setOnUser(id) {
+        console.log(id);
+        axios.put(api.users.all+'/'+id+'/ON').then(response => {
+        });
+      }
+    setOffUser(id) {
+        console.log(id);
+        axios.put(api.users.all+'/'+id+'/OFF').then(response => {
+        });
+      }
+    setOnPlant(id) {
+        console.log(id);
+        axios.put(api.plants.all+'/'+id+'/ON').then(response => {
+        });
+      }
+    setOffPlant(id) {
+        console.log(id);
+        axios.put(api.plants.all+'/'+id+'/OFF').then(response => {
+        });
+      }
+    setOnDevice(id) {
+        console.log(id);
+        axios.put(api.devices.all+'/'+id+'/ON').then(response => {
+        });
+      }
+    setOffDevice(id) {
+        console.log(id);
+        axios.put(api.devices.all+'/'+id+'/OFF').then(response => {
+        });
+      }           
     
 
     render() {
@@ -171,6 +217,14 @@ export default class Admin extends Component {
                                <label htmlFor="password">Contraseña:</label>
                                <input type="text" className="form-control" id="password" name="password" value={this.state.password}
                                onChange={this.handleChange}/>
+                               </div>
+                               <div className="form-group">
+                               <label htmlFor="status">Status:</label>
+                                <select className="form-control" id="status" name="status" value={this.state.status}
+                                onChange={this.handleChange}>
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
                                </div>
                                <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal3">Aceptar</button>
                                <div className="modal fade" id="myModal3">
@@ -239,10 +293,13 @@ export default class Admin extends Component {
                                            onChange={this.handleChange} />
                                        </div>
                                        <div className="form-group">
-                                       <label htmlFor="status">Status:</label>
-                                       <input type="text" className="form-control" id="status" name="status" value={this.state.status}
-                                           onChange={this.handleChange} />
-                                       </div>
+                                        <label htmlFor="status">Status:</label>
+                                            <select className="form-control" id="status" name="status" value={this.state.status}
+                                            onChange={this.handleChange}>
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
+                                            </select>
+                                        </div>
                                        <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal2">Aceptar</button>
                                        <div className="modal fade" id="myModal2">
                                         <div className="modal-dialog">
@@ -334,6 +391,7 @@ export default class Admin extends Component {
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Email</th>
+                                            <th>Status</th>
                                             <th>Creado</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -343,15 +401,16 @@ export default class Admin extends Component {
 							                <tr key={key}>
 												<td> {user.name}</td>
                                                 <td> {user.email}</td>
+                                                <td> {user.status}</td>
                                                 <td> {user.created_at}</td>
-                                                <button type="button" className="btn">
+                                                <button type="button" className="btn btn-secondary">
                                                 <Link to={"/user/"+user.id}>
                                                         Ver más
                                                         </Link>
                                                 </button>
-                                                <button type="button" className="btn btn-danger">Eliminar</button>
-                                                <button type="button" className="btn btn-warning">Deshabilitar</button>
-                                                <button type="button" className="btn btn-success">Habilitar</button>
+                                                <button type="button" className="btn btn-success" onClick={() => this.setOnUser(user.id)}>Habilitar</button>
+                                                <button type="button" className="btn btn-warning" onClick={() => this.setOffUser(user.id)}>Deshabilitar</button>
+                                                <button type="button" className="btn btn-danger" onClick={() => this.deleteUser(user.id)}>Eliminar</button>
 											</tr>
 						                ))}
                                         
@@ -382,7 +441,9 @@ export default class Admin extends Component {
                                                 <td> {plant.url}</td>
                                                 <td> {plant.key}</td>
                                                 <td> {plant.status}</td>
-                                                <button type="button" className="btn btn-danger">Eliminar</button>
+                                                <button type="button" className="btn btn-success" onClick={() => this.setOnPlant(plant.id)}>Habilitar</button>
+                                                <button type="button" className="btn btn-warning" onClick={() => this.setOffPlant(plant.id)}>Deshabilitar</button>
+                                                <button type="button" className="btn btn-danger" onClick={() => this.deletePlant(plant.id)}>Eliminar</button>
 											</tr>
 						                ))}
                                         
@@ -402,6 +463,8 @@ export default class Admin extends Component {
                                             <th>Tipo</th>
                                             <th>Status</th>
                                             <th>Añadido</th>
+                                            <th>Acciones</th>
+
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -410,8 +473,10 @@ export default class Admin extends Component {
 												<td> {device.name}</td>
                                                 <td> {device.type}</td>
                                                 <td> {device.status}</td>
-                                                <td> {device.created_at}</td> 
-                                                <button type="button" className="btn btn-danger">Eliminar</button>
+                                                <td> {device.created_at}</td>
+                                                <button type="button" className="btn btn-success" onClick={() => this.setOnDevice(device.id)}>Habilitar</button>
+                                                <button type="button" className="btn btn-warning" onClick={() => this.setOffDevice(device.id)}>Deshabilitar</button> 
+                                                <button type="button" className="btn btn-danger" onClick={() => this.deleteDevice(device.id)}>Eliminar</button>
 											</tr>
 						                ))}
                                         

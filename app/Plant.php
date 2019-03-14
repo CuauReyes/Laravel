@@ -13,6 +13,7 @@ class Plant extends Model
 		'url',
 		'key',
 		'img',
+		'status',
 		'user_id',
 	];
 

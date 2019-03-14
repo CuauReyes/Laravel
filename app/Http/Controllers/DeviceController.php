@@ -86,8 +86,27 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
-	public function destroy(Device $device)
+	public function destroy($id)
 	{
-		//
+		Device::find($id)->delete();
+		return response()->json([
+			'message' => 'Registro eliminado'
+		]);
+	}
+	public function ON($id)
+	{
+		$Device = Device::find($id);
+
+		$Device->status = '1';
+
+		$Device->save();
+	}
+	public function OFF($id)
+	{
+		$Device = Device::find($id);
+
+		$Device->status = '0';
+
+		$Device->save();
 	}
 }

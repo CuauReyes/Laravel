@@ -43,6 +43,27 @@ class UserController extends Controller
 		//
 	}
 
+	public function store(Request $request)
+	{
+		$request->validate([
+			'name'     => 'required|string',
+			'email'    => 'required|string|email|unique:users',
+			'status'   => 'required|integer',
+			'password' => 'required|string|confirmed',
+		]);
+		$user = new User([
+			'name'     => $request->name,
+			'email'    => $request->email,
+			'status'    => $request->status,
+			'password' => bcrypt($request->password),
+		]);
+		$user->save();
+		return response()->json([
+			'message' => 'Successfully created USUARIO!'
+		], 201);
+	}
+
+
 	/**
      * Update the specified resource in storage.
      *
@@ -61,8 +82,28 @@ class UserController extends Controller
      * @param  \App\User  $User
      * @return \Illuminate\Http\Response
      */
-	public function destroy(User $User)
+	public function destroy($id)
 	{
-		//
+		User::find($id)->delete();
+		return response()->json([
+			'message' => 'Registro eliminado'
+		]);
+	}
+
+	public function ON($id)
+	{
+		$User = User::find($id);
+
+		$User->status = '1';
+
+		$User->save();
+	}
+	public function OFF($id)
+	{
+		$User = User::find($id);
+
+		$User->status = '0';
+
+		$User->save();
 	}
 }
