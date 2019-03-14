@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import "./Profile.scss";
-import { api } from "../../const/api";
-import axios from "axios";
 import Header from "../Header/Header";
 
 export default class Profile extends Component {

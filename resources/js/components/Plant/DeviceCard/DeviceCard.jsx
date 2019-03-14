@@ -23,14 +23,15 @@ export default class DeviceCard extends Component {
 				</div>
 				<Card.Body className="d-flex flex-column">
 					<Card className="bg-primary text-white">
-						<Card.Body className="d-flex align-items-center">
-							<div className="col-sm-12 p-0 text-center">
-								<Card.Title className="text-truncate">Último dato</Card.Title>
-								<Card.Text className="text-truncate fa-2x">
-									{" "}
-									{device.last_value ? device.last_value.value : null}
-								</Card.Text>
-							</div>
+						<Card.Body className="d-flex flex-column align-items-center">
+							<Card.Text className="text-truncate m-0">
+								Último dato:{" "}
+								{device.last_value ? device.last_value.value : null}
+							</Card.Text>
+							<Card.Text className="text-truncate m-0">
+								Datos obtenidos:{" "}
+								{device.last_value ? device.last_value.count : null}
+							</Card.Text>
 						</Card.Body>
 					</Card>
 				</Card.Body>

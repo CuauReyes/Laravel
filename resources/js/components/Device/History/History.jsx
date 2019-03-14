@@ -5,8 +5,10 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 export default class HistoryDevice extends Component {
+	
 	render() {
 		const { values } = this.props;
+
 		return (
 			<ReactTable
 				data={values}

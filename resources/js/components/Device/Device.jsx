@@ -5,10 +5,9 @@ import Header from "../Header/Header";
 import { api } from "../../const/api";
 import deviceImg from "./assets/device1.jpg";
 import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
+import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { Chart } from "react-charts";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import HistoryDevice from "./History/History";
@@ -114,11 +113,20 @@ export default class Device extends Component {
 						</div>
 
 						<div className="col-sm-12 d-flex flex-wrap mb-5">
-							<div className="row col-sm-12 d-flex justify-content-end">
+							<div className="row col-sm-12 d-flex justify-content-end align-items-center">
+								<Form.Group controlId="exampleForm.ControlSelect1">
+									<Form.Control as="select">
+										<option defaultValue> Día</option>
+										<option>Semana</option>
+										<option>Mes</option>
+										<option>Año</option>
+									</Form.Control>
+								</Form.Group>
 								<Button variant="primary">Exportar</Button>
 							</div>
 							<div className="col-sm-12">
 								<ChartDevice values={device.values} />
+								{/* <ChartDevice data={[5, 10, 1, 3]} size={[500, 500]} /> */}
 							</div>
 						</div>
 						<div className="col-sm-12 d-flex flex-wrap">
