@@ -12,6 +12,20 @@ export default class DeviceCard extends Component {
 
 	render() {
 		const { device } = this.props;
+		let classes;
+		switch (device.type) {
+			case "ON-OFF":
+				classes = "bg-success text-white";
+				break;
+			case "COUNTER":
+				classes = "bg-info text-white";
+				break;
+			case "TEMPERATURE A":
+				classes = "bg-primary text-white";
+				break;
+			default:
+				classes = "bg-success text-white";
+		}
 		return (
 			<Card className="plant-card">
 				<Card.Header className="text-truncate">
@@ -22,7 +36,7 @@ export default class DeviceCard extends Component {
 					<Card.Img variant="top" src={audi} />
 				</div>
 				<Card.Body className="d-flex flex-column">
-					<Card className="bg-primary text-white">
+					<Card className={classes}>
 						<Card.Body className="d-flex flex-column align-items-center">
 							<Card.Text className="text-truncate m-0">
 								Último dato:{" "}

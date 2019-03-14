@@ -1,19 +1,19 @@
 const mix = require('laravel-mix');
 var LiveReloadPlugin = require('webpack-livereload-plugin');
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
-// mix.browserSync('my-domain.dev');
+
 mix.webpackConfig({
-	plugins: [new LiveReloadPlugin()]
+	plugins: [new LiveReloadPlugin()],
+	node: {
+		fs: 'empty'
+	},
+	externals: [{
+			'./cptable': 'var cptable'
+		},
+		{
+			'./jszip': 'jszip'
+		}
+	]
 });
 
 mix.react('resources/js/app.jsx', 'public/js')

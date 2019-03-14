@@ -1,0 +1,78 @@
+import React, { Component } from "react";
+import "./Chart.scss";
+import {
+	select,
+	scaleTime,
+	scaleLinear,
+	axisBottom,
+	axisLeft,
+	zoom,
+	brushX,
+	area,
+	curveMonotoneX,
+	extent,
+	max,
+	min,
+	event,
+	zoomIdentity
+} from "d3";
+
+import {
+	LineChart,
+	Line,
+	XAxis,
+	YAxis,
+	CartesianGrid,
+	Tooltip,
+	Legend,
+	Brush,
+	AreaChart,
+	Area
+} from "recharts";
+
+export default class ChartDevice extends Component {
+	constructor() {
+		super();
+		this.state = {
+			width: 800
+		};
+	}
+	componentDidMount() {
+		let width = document.getElementById("chart").clientWidth;
+		this.setState({
+			width
+		});
+	}
+
+	render() {
+		const { values } = this.props;
+		const { width } = this.state;
+		let data = [];
+		values.forEach((val, index) => {
+			data.push({ name: new Date(val.created_at), value: +val.value });
+		});
+
+		console.log(width);
+		return (
+			<LineChart
+				width={width}
+				height={400}
+				data={data}
+				syncId="anyId"
+				margin={{
+					top: 10,
+					right: 30,
+					left: 0,
+					bottom: 0
+				}}
+			>
+				<CartesianGrid strokeDasharray="3 3" />
+				<XAxis dataKey="name" />
+				<YAxis />
+				<Tooltip />
+				<Line type="monotone" dataKey="value" stroke="#82ca9d" fill="#82ca9d" />
+				<Brush data={data} />
+			</LineChart>
+		);
+	}
+}

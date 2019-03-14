@@ -14,6 +14,9 @@ import Device from "./components/Device/Device";
 import Profile from "./components/Profile/Profile";
 import PrivateRoute from "./components/PrivateRoute";
 
+import "xlsx";
+import "file-saver";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
 	faMicrochip,

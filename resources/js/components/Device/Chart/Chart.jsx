@@ -12,25 +12,51 @@ import {
 	curveMonotoneX,
 	extent,
 	max,
+	min,
 	event,
 	zoomIdentity
 } from "d3";
 
+import { Chart } from "react-charts";
+
+import {
+	LineChart,
+	Line,
+	XAxis,
+	YAxis,
+	CartesianGrid,
+	Tooltip,
+	Legend,
+	Brush,
+	AreaChart,
+	Area
+} from "recharts";
 export default class ChartDevice extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			width: 800,
+			max: null,
+			min: null
+		};
 		this.createChart = this.createChart.bind(this);
+		this.brush = this.brush.bind(this);
 	}
 
 	componentDidMount() {
+		let width = document.getElementById("chart").clientWidth;
+		this.setState({
+			width
+		});
+
 		const { values } = this.props;
 		let data = [];
+		data.push({ date: new Date(), value: 0 });
 		values.forEach(val => {
 			data.push({ date: new Date(val.created_at), value: +val.value });
 		});
-		setTimeout(() => {
-			this.createChart(data);
-		}, 500);
+		// data.push({ date: new Date(), value: 0 });
+		this.createChart(data);
 	}
 	componentDidUpdate() {
 		const { values } = this.props;
@@ -38,9 +64,8 @@ export default class ChartDevice extends Component {
 		values.forEach(val => {
 			data.push({ date: new Date(val.created_at), value: +val.value });
 		});
-		setTimeout(() => {
-			this.createChart(data);
-		}, 500);
+		// data.push({ date: new Date(), value: 0 });
+		// this.createChart(data);
 	}
 
 	createChart(data) {
@@ -109,7 +134,7 @@ export default class ChartDevice extends Component {
 
 		x.domain(extent(data, d => d.date));
 
-		y.domain([0, max(data, d => d.value)]);
+		y.domain([min(data, d => d.value), max(data, d => d.value)]);
 		x2.domain(x.domain());
 		y2.domain(y.domain());
 
@@ -180,7 +205,85 @@ export default class ChartDevice extends Component {
 		}
 	}
 
+	brush(brushData) {
+		this.setState({
+			min: Math.min(brushData.start, brushData.end),
+			max: Math.max(brushData.start, brushData.end)
+		});
+	}
+
 	render() {
-		return <svg className="chart" width="900" height="500" />;
+		const { width, max, min } = this.state;
+		const { values } = this.props;
+		let data2 = [];
+		let data = [];
+		values.forEach(val => {
+			data2.push({ name: new Date(val.created_at), value: +val.value });
+			data.push([new Date(val.created_at), +val.value]);
+		});
+		// data.push([new Date(), 0]);
+		// data2.push({ date: new Date(), value: 0 });
+
+		return (
+			<div className="row">
+				<div className="row col-sm-12 justify-content-center">
+					<div style={{ width, height: "350px" }}>
+						<Chart
+							data={[
+								{
+									label: "Series 1",
+									data: data
+								}
+							]}
+							axes={[
+								{
+									primary: true,
+									type: "time",
+									position: "bottom",
+									hardMin: min,
+									hardMax: max
+								},
+								{ type: "linear", position: "left" }
+							]}
+							primaryCursor
+							secondaryCursor
+							tooltip
+							brush={{
+								onSelect: this.brush
+							}}
+						/>
+					</div>
+				</div>
+				<div className="row col-sm-12 justify-content-center">
+					<svg className="chart" width={width} height="500" />
+				</div>
+				<div className="row col-sm-12 justify-content-center">
+					<LineChart
+						width={width}
+						height={400}
+						data={data2}
+						syncId="anyId"
+						margin={{
+							top: 10,
+							right: 30,
+							left: 0,
+							bottom: 0
+						}}
+					>
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis dataKey="name" />
+						<YAxis />
+						<Tooltip />
+						<Line
+							type="monotone"
+							dataKey="value"
+							stroke="#82ca9d"
+							fill="#82ca9d"
+						/>
+						<Brush data={data2} />
+					</LineChart>
+				</div>
+			</div>
+		);
 	}
 }

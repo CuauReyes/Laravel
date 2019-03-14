@@ -8,19 +8,29 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import ReactTable from "react-table";
 import "react-table/react-table.css";
 import HistoryDevice from "./History/History";
 import ChartDevice from "./Chart/Chart";
 import Button from "react-bootstrap/Button";
+import ButtonToolbar from "react-bootstrap/ButtonToolbar";
+import ReactExport from "react-data-export";
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 export default class Device extends Component {
 	constructor() {
 		super();
 		this.state = {
 			device: null,
-			plant: {}
+			plant: {},
+			data: [],
+			range: "week"
 		};
+
+		this.changeRangeDate = this.changeRangeDate.bind(this);
+		this.handleChangeRange = this.handleChangeRange.bind(this);
 	}
 
 	componentDidMount() {
@@ -30,11 +40,51 @@ export default class Device extends Component {
 				device: response.data,
 				plant: response.data.plant
 			});
+			this.changeRangeDate();
 		});
 	}
 
+	changeRangeDate(range = "day") {
+		let data = this.state.device.values;
+		const today = new Date();
+		switch (range) {
+			case "day":
+				let previousDate = today;
+				previousDate = new Date(
+					previousDate.setDate(previousDate.getDate() - 1)
+				);
+				console.log(previousDate);
+				data = data.filter(val => previousDate > new Date(val.created_at));
+				this.setState({
+					data
+				});
+				break;
+			case "week":
+				let previousWeek = today;
+				previousWeek = new Date(
+					previousWeek.setDate(previousWeek.getDate() - 7)
+				);
+				console.log(previousWeek);
+				data = data.filter(val => previousWeek < new Date(val.created_at));
+				this.setState({
+					data
+				});
+				break;
+			case "month":
+				break;
+			case "year":
+				break;
+		}
+		console.log(data);
+	}
+
+	handleChangeRange(event) {
+		this.setState({ range: event.target.value });
+		this.changeRangeDate(event.target.value);
+	}
+
 	render() {
-		const { device, plant } = this.state;
+		const { device, plant, data } = this.state;
 
 		let deviceCards = device
 			? [
@@ -55,12 +105,6 @@ export default class Device extends Component {
 						value: "OK",
 						classes: "bg-success text-white",
 						icon: "check"
-					},
-					{
-						title: "Consumo eléctrico",
-						value: "3kWh",
-						classes: "bg-info text-white",
-						icon: "bolt"
 					}
 			  ]
 			: [];
@@ -92,7 +136,7 @@ export default class Device extends Component {
 
 						<div className="d-flex flex-wrap col-sm-12">
 							{deviceCards.map((card, index) => (
-								<div key={index} className="col-12 col-sm-6 col-md-3 mb-5">
+								<div key={index} className="col-12 col-sm col-md mb-5">
 									<Card className={card.classes}>
 										<Card.Body className="d-flex align-items-center">
 											<div className="col-3 col-sm-4 fa-3x align-items-center justify-content-center d-flex">
@@ -114,19 +158,39 @@ export default class Device extends Component {
 
 						<div className="col-sm-12 d-flex flex-wrap mb-5">
 							<div className="row col-sm-12 d-flex justify-content-end align-items-center">
-								<Form.Group controlId="exampleForm.ControlSelect1">
-									<Form.Control as="select">
-										<option defaultValue> Día</option>
-										<option>Semana</option>
-										<option>Mes</option>
-										<option>Año</option>
+								<Form.Group
+									className="m-0 mr-3"
+									controlId="exampleForm.ControlSelect1"
+								>
+									<Form.Control
+										as="select"
+										value={this.state.range}
+										onChange={this.handleChangeRange}
+									>
+										<option value="day"> Día</option>
+										<option value="week" defaultValue>
+											Semana
+										</option>
+										<option value="month">Mes</option>
+										<option value="year">Año</option>
 									</Form.Control>
 								</Form.Group>
-								<Button variant="primary">Exportar</Button>
+								<ExcelFile
+									element={
+										<ButtonToolbar>
+											<Button variant="success">Exportar</Button>
+										</ButtonToolbar>
+									}
+								>
+									<ExcelSheet data={data} name="Employees">
+										<ExcelColumn label="Fecha" value="created_at" />
+										<ExcelColumn label="Count" value="count" />
+										<ExcelColumn label="Value" value="value" />
+									</ExcelSheet>
+								</ExcelFile>
 							</div>
-							<div className="col-sm-12">
+							<div id="chart" className="col-sm-12">
 								<ChartDevice values={device.values} />
-								{/* <ChartDevice data={[5, 10, 1, 3]} size={[500, 500]} /> */}
 							</div>
 						</div>
 						<div className="col-sm-12 d-flex flex-wrap">

@@ -33,7 +33,7 @@ export default class Plant extends Component {
 				<div className="container-fluid pt-3">
 					<div className="d-flex flex-wrap col-sm-12 mb-3">
 						<div className="col-sm-12">
-							<Link to={`/plants/${plant.id}`}> Plantas </Link>
+							<Link to={`/plants`}> Plantas </Link>
 							<span>&nbsp; > &nbsp; </span>
 							<Link to={`/plants/${plant.id}`}> {plant.name} </Link>
 						</div>

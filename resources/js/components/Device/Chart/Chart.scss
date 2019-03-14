@@ -1,5 +1,7 @@
 .area {
-	fill: steelblue;
+	fill: none;
+	stroke: steelblue;
+	stroke-width: 1.5;
 	// clip-path: url(#clip);
 }
 
@@ -26,7 +28,7 @@
 // }
 
 .area {
-	fill: lightsteelblue;
+	// fill: lightsteelblue;
 }
 
 text {
