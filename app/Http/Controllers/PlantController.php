@@ -93,8 +93,27 @@ class PlantController extends Controller
      * @param  \App\Plant  $plant
      * @return \Illuminate\Http\Response
      */
-	public function destroy(Plant $plant)
+	public function destroy($id)
 	{
-		//
+		Plant::find($id)->delete();
+		return response()->json([
+			'message' => 'Registro eliminado'
+		]);
+	}
+	public function ON($id)
+	{
+		$Plant = Plant::find($id);
+
+		$Plant->status = '1';
+
+		$Plant->save();
+	}
+	public function OFF($id)
+	{
+		$Plant = Plant::find($id);
+
+		$Plant->status = '0';
+
+		$Plant->save();
 	}
 }
