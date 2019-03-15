@@ -14,7 +14,9 @@
 
 		<!-- Styles -->
 		<!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+		<!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
+		
+		<link href="https://note-laravel-mysql.herokuapp.com/css/app.css" rel="stylesheet">
 	</head>
 	<body>
 		<div id="app">
