@@ -8,7 +8,9 @@
 		"hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
 		"prod": "npm run production",
 		"production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-		"seed": "php artisan migrate:refresh --seed"
+		"seed": "php artisan migrate:refresh --seed",
+		"passport": "php artisan passport:client --personal"
+
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.3.4",

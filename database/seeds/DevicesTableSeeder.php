@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Device;
 use App\Plant;
 
@@ -13,8 +14,6 @@ class DevicesTableSeeder extends Seeder
      */
 	public function run()
 	{
-		//
-
 
 		$types = [
 			'COUNTER',

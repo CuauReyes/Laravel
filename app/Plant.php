@@ -2,10 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
 
-class Plant extends Model
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+
+class Plant extends Eloquent
 {
+	protected $connection = 'mongodb';
+	protected $collection = 'plants';
 	protected $fillable = [
 		'description',
 		'name',

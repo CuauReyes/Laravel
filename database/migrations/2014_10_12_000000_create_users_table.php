@@ -13,23 +13,11 @@ class CreateUsersTable extends Migration
      */
 	public function up()
 	{
-
-		$oauth_tables = [
-			// 'oauth_access_tokens',
-			// 'oauth_auth_codes',
-			// 'oauth_clients',
-			// 'oauth_personal_access_clients',
-			// 'oauth_refresh_tokens'
-		];
-		foreach ($oauth_tables as $table) {
-			DB::statement('DROP TABLE IF EXISTS ' . $table);
-		}
-
-		Schema::dropIfExists('users');
-		Schema::create('users', function (Blueprint $table) {
-			$table->bigIncrements('id')->unique();
+		$this->down();
+		Schema::connection('mongodb')->create('users', function (Blueprint $table) {
+			$table->index('id');
 			$table->string('name');
-			$table->string('email', '120')->unique();
+			$table->unique('email', '120');
 			$table->timestamp('email_verified_at')->nullable();
 			$table->string('password');
 			$table->string('status')->nullable();
@@ -45,6 +33,6 @@ class CreateUsersTable extends Migration
      */
 	public function down()
 	{
-		Schema::dropIfExists('users');
+		Schema::connection('mongodb')->dropIfExists('users');
 	}
 }

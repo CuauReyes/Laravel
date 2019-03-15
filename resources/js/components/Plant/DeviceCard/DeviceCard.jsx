@@ -28,32 +28,32 @@ export default class DeviceCard extends Component {
 		}
 		return (
 			<Card className="plant-card">
-				<Card.Header className="text-truncate">
-					<Link to={"/device/" + device.id}>{device.name}</Link>
-					<Card.Text className="flex-fill"> {device.type} </Card.Text>
+				<Card.Header className="text-truncate d-flex flex-row">
+					<div className="col-sm">
+						<Link to={"/device/" + device.id}>{device.name}</Link>
+						<Card.Text className="flex-fill"> {device.type} </Card.Text>
+					</div>
+					<div className="col-sm d-flex justify-content-end p-0">
+						<FontAwesomeIcon icon="exclamation-triangle" className="mr-2" />
+						<FontAwesomeIcon icon="battery-full" className="mr-2" />
+					</div>
 				</Card.Header>
 				<div className="d-flex flex-row justify-content-center align-items-center">
 					<Card.Img variant="top" src={audi} />
 				</div>
-				<Card.Body className="d-flex flex-column">
+				<Card.Body className="d-flex flex-column" />
+				<Card.Footer className="d-flex flex-row">
 					<Card className={classes}>
-						<Card.Body className="d-flex flex-column align-items-center">
-							<Card.Text className="text-truncate m-0">
-								Último dato:{" "}
-								{device.last_value ? device.last_value.value : null}
-							</Card.Text>
-							<Card.Text className="text-truncate m-0">
-								Datos obtenidos:{" "}
-								{device.last_value ? device.last_value.count : null}
-							</Card.Text>
-						</Card.Body>
+						Último dato: {device.last_value ? device.last_value.value : null}
 					</Card>
-				</Card.Body>
-				<Card.Footer>
-					<div className="flex-row align-items-center">
-						<FontAwesomeIcon icon="battery-full" className="mr-2" />
-						<FontAwesomeIcon icon="exclamation-triangle" className="mr-2" />
-					</div>
+					<Card className={classes}>
+						Datos obtenidos:{" "}
+						{device.last_value ? device.last_value.count : null}
+					</Card>
+					<Card className={classes}>
+						Última conexión:{" "}
+						{device.last_value ? device.last_value.created_at : null}
+					</Card>
 				</Card.Footer>
 			</Card>
 		);

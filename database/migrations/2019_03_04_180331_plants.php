@@ -13,23 +13,16 @@ class Plants extends Migration
      */
 	public function up()
 	{
-		Schema::dropIfExists('plants');
-		Schema::create('plants', function (Blueprint $table) {
-			$table->bigIncrements('id');
-			$table->string('name');
-			$table->text('description')->nullable();
-			$table->string('location')->nullable();
-			$table->string('url');
-			$table->string('key');
-			$table->string('img')->nullable();
-			$table->integer('status')->nullable();
-			$table->timestamps();
-
-			$table->bigInteger('user_id')->unsigned();
-			$table->foreign('user_id')
-				->references('id')->on('users')
-				->onDelete('cascade')
-				->onUpdate('cascade');
+		$this->down();
+		Schema::connection('mongodb')->create('plants', function (Blueprint $collection) {
+			$collection->string('name');
+			$collection->text('description')->nullable();
+			$collection->string('location')->nullable();
+			$collection->string('url');
+			$collection->string('key');
+			$collection->string('img')->nullable();
+			$collection->integer('status')->nullable();
+			$collection->timestamps();
 		});
 	}
 
@@ -40,6 +33,6 @@ class Plants extends Migration
      */
 	public function down()
 	{
-		Schema::dropIfExists('plants');
+		Schema::connection('mongodb')->dropIfExists('plants');
 	}
 }

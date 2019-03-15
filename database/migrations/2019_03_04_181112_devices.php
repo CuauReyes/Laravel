@@ -13,22 +13,15 @@ class Devices extends Migration
      */
 	public function up()
 	{
-		Schema::dropIfExists('devices');
-		Schema::create('devices', function (Blueprint $table) {
+		$this->down();
+		Schema::connection('mongodb')->create('devices', function (Blueprint $collection) {
 
-			$table->increments('id');
-			$table->string('name');
-			$table->string('type');
-			$table->bigInteger('count')->default(0);
-			$table->integer('battery')->nullable();
-			$table->integer('status')->nullable();
-			$table->timestamps();
-
-			$table->bigInteger('plant_id')->unsigned();
-			$table->foreign('plant_id')
-				->references('id')->on('plants')
-				->onDelete('cascade')
-				->onUpdate('cascade');
+			$collection->string('name');
+			$collection->string('type');
+			$collection->bigInteger('count')->default(0);
+			$collection->integer('battery')->nullable();
+			$collection->integer('status')->nullable();
+			$collection->timestamps();
 		});
 	}
 
@@ -39,6 +32,6 @@ class Devices extends Migration
      */
 	public function down()
 	{
-		Schema::dropIfExists('devices');
+		Schema::connection('mongodb')->dropIfExists('devices');
 	}
 }

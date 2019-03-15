@@ -2,10 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
 
-class Value extends Model
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+
+class Value extends Eloquent
 {
+	protected $connection = 'mongodb';
+	protected $collection = 'values';
 	//
 	/**
 	 * The attributes that are mass assignable.

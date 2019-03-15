@@ -2,10 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
 
-class Device extends Model
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+
+class Device extends Eloquent
 {
+	protected $connection = 'mongodb';
+	protected $collection = 'devices';
 	protected $fillable = [
 		'name',
 		'type',
