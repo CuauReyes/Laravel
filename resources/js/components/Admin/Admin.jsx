@@ -66,6 +66,7 @@ export default class Admin extends Component {
 				{
                     name: this.state.name,
                     type: this.state.type,
+                    status: this.state.status,
                     plant_id: this.state.plant_id
 				},
 				{
@@ -139,10 +140,15 @@ export default class Admin extends Component {
 			});
         });
     }
+    reloadPage()
+    {
+        location.reload();
+    }
     deleteDevice(id) {
         console.log(id);
         axios.delete(api.devices.all+'/'+id).then(response => {
         });
+        
       }
     deletePlant(id) {
         console.log(id);
@@ -205,17 +211,17 @@ export default class Admin extends Component {
                            <div className="card-body">
                                <div className="form-group">
                                <label htmlFor="name">Nombre:</label>
-                               <input type="text" className="form-control" id="name" name="name" value={this.state.name}
+                               <input required type="text" className="form-control" id="name" name="name" value={this.state.name}
                                onChange={this.handleChange}/>
                                </div>
                                <div className="form-group">
                                <label htmlFor="email">Correo:</label>
-                               <input type="email" className="form-control" id="email" name="email" value={this.state.email}
+                               <input required type="email" className="form-control" id="email" name="email" value={this.state.email}
                                onChange={this.handleChange}/>
                                </div>
                                <div className="form-group">
                                <label htmlFor="password">Contraseña:</label>
-                               <input type="text" className="form-control" id="password" name="password" value={this.state.password}
+                               <input required type="text" className="form-control" id="password" name="password" value={this.state.password}
                                onChange={this.handleChange}/>
                                </div>
                                <div className="form-group">
@@ -240,9 +246,8 @@ export default class Admin extends Component {
                                     </div>
                                     
                                     <div className="modal-footer">
-                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={()=> this.reloadPage()}>Close</button>
                                     </div>
-                                    
                                 </div>
                                 </div>
                             </div>
@@ -257,6 +262,7 @@ export default class Admin extends Component {
                                     <div className="form-group">
                                        <label htmlFor="user_id">Usuario:</label>
                                        <select className="form-control" id="user_id" name="user_id" value={this.state.user_id} onChange={this.handleChange}>
+                                       <option value="0">Selecciona usuario</option>
                                        {users.map((user, key) => (
 							                <option key={key} value={user.id}>{user.name}</option>
 						                ))}
@@ -264,32 +270,32 @@ export default class Admin extends Component {
                                        </div>
                                    <div className="form-group">
                                        <label htmlFor="name">Nombre:</label>
-                                       <input type="text" className="form-control" id="name" name="name" value={this.state.name}
+                                       <input required type="text" className="form-control" id="name" name="name" value={this.state.name}
                                            onChange={this.handleChange} />
                                        </div>
                                        <div className="form-group">
                                        <label htmlFor="description">Descripción:</label>
-                                       <input type="text" className="form-control" id="description" name="description" value={this.state.description}
+                                       <input required type="text" className="form-control" id="description" name="description" value={this.state.description}
                                            onChange={this.handleChange} />
                                        </div>
                                        <div className="form-group">
                                        <label htmlFor="location">Localización:</label>
-                                       <input type="text" className="form-control" id="location" name="location" value={this.state.location}
+                                       <input required type="text" className="form-control" id="location" name="location" value={this.state.location}
                                            onChange={this.handleChange} />
                                        </div>
                                        <div className="form-group">
                                        <label htmlFor="url">Url:</label>
-                                       <input type="text" className="form-control" id="url" name="url" value={this.state.url}
+                                       <input required type="text" className="form-control" id="url" name="url" value={this.state.url}
                                             onChange={this.handleChange} />
                                        </div>
                                        <div className="form-group">
                                        <label htmlFor="key">Key:</label>
-                                       <input type="text" className="form-control" id="key" name="key" value={this.state.key}
+                                       <input required type="text" className="form-control" id="key" name="key" value={this.state.key}
                                            onChange={this.handleChange} />
                                        </div>
                                        <div className="form-group">
                                        <label htmlFor="img">Imagen:</label>
-                                       <input type="text" className="form-control" id="img" name="img" value={this.state.img}
+                                       <input required type="text" className="form-control" id="img" name="img" value={this.state.img}
                                            onChange={this.handleChange} />
                                        </div>
                                        <div className="form-group">
@@ -314,7 +320,7 @@ export default class Admin extends Component {
                                     </div>
                                     
                                     <div className="modal-footer">
-                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={()=> this.reloadPage()}>Close</button>
                                     </div>
                                     
                                     </div>
@@ -331,25 +337,35 @@ export default class Admin extends Component {
                            <form onSubmit={this.handleSubmitDevice}>
                                <div className="form-group">
                                <label htmlFor="nameplant">Nombre:</label>
-                               <input type="text" className="form-control" id="nameplant" name="name" value={this.state.name}
+                               <input required type="text" className="form-control" id="nameplant" name="name" value={this.state.name}
                                onChange={this.handleChange} />
                                </div>
                                <div className="form-group">
                                <label htmlFor="type">Tipo:</label>
                                <select className="form-control" id="sel1" id="type" name="type" value={this.state.type} onChange={this.handleChange}>
+                                <option value="0">Selecciona usuario</option>
                                    <option value="ON-OFF">ON-OFF</option>
-                                   <option value="TEMP">TEMP</option>
+                                   <option value="TEMP">TEMPERATURE A</option>
                                    <option value="COUNTER">COUNTER</option>
                                </select>
                                </div> 
                                <div className="form-group">
                                <label htmlFor="plant_id">Planta:</label>
                                <select className="form-control" id="plant_id" name="plant_id" value={this.state.plant_id} onChange={this.handleChange}>
+                               <option value="0">Selecciona planta</option>
                                        {plants.map((plant, key) => (
 							                <option key={key} value={plant.id}>{plant.name}</option>
 						                ))}
                                         </select>
-                               </div> 
+                               </div>
+                               <div className="form-group">
+                                        <label htmlFor="status">Status:</label>
+                                            <select className="form-control" id="status" name="status" value={this.state.status}
+                                            onChange={this.handleChange}>
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
+                                            </select>
+                                        </div> 
                                <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal">Aceptar</button>
                                <div className="modal fade" id="myModal">
                                 <div className="modal-dialog">
@@ -364,7 +380,7 @@ export default class Admin extends Component {
                                     </div>
                                     
                                     <div className="modal-footer">
-                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={()=> this.reloadPage()}>Close</button>
                                     </div>
                                     
                                 </div>
@@ -408,9 +424,9 @@ export default class Admin extends Component {
                                                         Ver más
                                                         </Link>
                                                 </button>
-                                                <button type="button" className="btn btn-success" onClick={() => this.setOnUser(user.id)}>Habilitar</button>
-                                                <button type="button" className="btn btn-warning" onClick={() => this.setOffUser(user.id)}>Deshabilitar</button>
-                                                <button type="button" className="btn btn-danger" onClick={() => this.deleteUser(user.id)}>Eliminar</button>
+                                                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#habilitar" onClick={() => this.setOnUser(user.id)}>Habilitar</button>
+                                                <button type="button" className="btn btn-warning" data-toggle="modal" data-target="#deshabilitar"onClick={() => this.setOffUser(user.id)}>Deshabilitar</button>
+                                                <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#eliminar" onClick={() => this.deleteUser(user.id)}>Eliminar</button>
 											</tr>
 						                ))}
                                         
@@ -418,6 +434,63 @@ export default class Admin extends Component {
                                     </table>    
                             </div>
                         </div>
+                        <div className="modal fade" id="habilitar">
+                                <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                    <h4 className="modal-title">NoTE Admin</h4>
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    
+                                    <div className="modal-body">
+                                    Habilitación correcta...
+                                    </div>
+                                    
+                                    <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={()=> this.reloadPage()}>Close</button>
+                                    </div>
+                                    
+                                </div>
+                                </div>
+                            </div>
+                            <div className="modal fade" id="deshabilitar">
+                                <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                    <h4 className="modal-title">NoTE Admin</h4>
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    
+                                    <div className="modal-body">
+                                    Deshabilitación correcta...
+                                    </div>
+                                    
+                                    <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={()=> this.reloadPage()}>Close</button>
+                                    </div>
+                                    
+                                </div>
+                                </div>
+                            </div>
+                            <div className="modal fade" id="eliminar">
+                                <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                    <h4 className="modal-title">NoTE Admin</h4>
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    
+                                    <div className="modal-body">
+                                    Registro eliminado correctamente...
+                                    </div>
+                                    
+                                    <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={()=> this.reloadPage()}>Close</button>
+                                    </div>
+                                    
+                                </div>
+                                </div>
+                            </div>    
                         <div className="card mt-5">
                             <div className="card-header"><h2 className="mt-3">Todas Las Plantas</h2></div>
                                 <div className="card-body">
@@ -441,9 +514,9 @@ export default class Admin extends Component {
                                                 <td> {plant.url}</td>
                                                 <td> {plant.key}</td>
                                                 <td> {plant.status}</td>
-                                                <button type="button" className="btn btn-success" onClick={() => this.setOnPlant(plant.id)}>Habilitar</button>
-                                                <button type="button" className="btn btn-warning" onClick={() => this.setOffPlant(plant.id)}>Deshabilitar</button>
-                                                <button type="button" className="btn btn-danger" onClick={() => this.deletePlant(plant.id)}>Eliminar</button>
+                                                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#habilitar" onClick={() => this.setOnPlant(plant.id)}>Habilitar</button>
+                                                <button type="button" className="btn btn-warning" data-toggle="modal" data-target="#deshabilitar" onClick={() => this.setOffPlant(plant.id)}>Deshabilitar</button>
+                                                <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#eliminar" onClick={() => this.deletePlant(plant.id)}>Eliminar</button>
 											</tr>
 						                ))}
                                         
@@ -474,9 +547,9 @@ export default class Admin extends Component {
                                                 <td> {device.type}</td>
                                                 <td> {device.status}</td>
                                                 <td> {device.created_at}</td>
-                                                <button type="button" className="btn btn-success" onClick={() => this.setOnDevice(device.id)}>Habilitar</button>
-                                                <button type="button" className="btn btn-warning" onClick={() => this.setOffDevice(device.id)}>Deshabilitar</button> 
-                                                <button type="button" className="btn btn-danger" onClick={() => this.deleteDevice(device.id)}>Eliminar</button>
+                                                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#habilitar" onClick={() => this.setOnDevice(device.id)}>Habilitar</button>
+                                                <button type="button" className="btn btn-warning" data-toggle="modal" data-target="#deshabilitar" onClick={() => this.setOffDevice(device.id)}>Deshabilitar</button> 
+                                                <button type="button" className="btn btn-danger" data-toggle="modal" data-target="#eliminar" onClick={() => this.deleteDevice(device.id)}>Eliminar</button>
 											</tr>
 						                ))}
                                         

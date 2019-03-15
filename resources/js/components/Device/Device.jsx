@@ -13,11 +13,11 @@ import HistoryDevice from "./History/History";
 import ChartDevice from "./Chart/Chart";
 import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
-import ReactExport from "react-data-export";
+// import ReactExport from "react-data-export";
 
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+// const ExcelFile = ReactExport.ExcelFile;
+// const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+// const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 export default class Device extends Component {
 	constructor() {
@@ -175,7 +175,7 @@ export default class Device extends Component {
 										<option value="year">Año</option>
 									</Form.Control>
 								</Form.Group>
-								<ExcelFile
+								{/* <ExcelFile
 									element={
 										<ButtonToolbar>
 											<Button variant="success">Exportar</Button>
@@ -187,7 +187,7 @@ export default class Device extends Component {
 										<ExcelColumn label="Count" value="count" />
 										<ExcelColumn label="Value" value="value" />
 									</ExcelSheet>
-								</ExcelFile>
+								</ExcelFile> */}
 							</div>
 							<div id="chart" className="col-sm-12">
 								<ChartDevice values={device.values} />
