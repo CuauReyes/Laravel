@@ -58,9 +58,6 @@ class UserController extends Controller
 			'password' => bcrypt($request->password),
 		]);
 		$user->save();
-		return response()->json([
-			'message' => 'Successfully created USUARIO!'
-		], 201);
 	}
 
 
