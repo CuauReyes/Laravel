@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Contracts\Routing\UrlGenerator;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
 	{
 		//
 		if (env('APP_ENV') === 'production') {
-			// URL::forceScheme('https');
-			$url->forceScheme('https');
+			URL::forceScheme('https');
+			// $url->forceScheme('https');
 		}
 	}
 }
