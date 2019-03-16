@@ -20,8 +20,8 @@
 </head>
 
 <body>
-    <div id="app">
-        <script src="https://nomada-note2.herokuapp.com/js/app.js"></script>
+    <div id="app"></div>
+    <script src="https://nomada-note2.herokuapp.com/js/app.js"></script>
 </body>
 
 </html>
