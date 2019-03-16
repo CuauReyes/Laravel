@@ -14,9 +14,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
     <!-- Styles -->
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://nomada-note2.herokuapp.com/css/app.css" rel="stylesheet">
+    <!-- Styles -->
+    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 </head>
 
 <body>
@@ -25,3 +25,4 @@
 </body>
 
 </html>
+<!-- https://nomada-note2.herokuapp.com/js/app.js -->
