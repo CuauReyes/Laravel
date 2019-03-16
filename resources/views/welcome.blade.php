@@ -16,12 +16,12 @@
     <!-- Styles -->
     <!-- Styles -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://nomada-note2.herokuapp.com/css/app.css" rel="stylesheet">
 </head>
 
 <body>
     <div id="app">
-        <script src="https://nomada-note2.herokuapp.com/css/app.css"></script>
+        <script src="https://nomada-note2.herokuapp.com/js/app.js"></script>
 </body>
 
 </html>
