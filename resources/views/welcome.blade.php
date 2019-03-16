@@ -14,14 +14,15 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="https://nomada-note2.herokuapp.com/css/app.css" rel="stylesheet">
+    <!-- <link href="https://nomada-note2.herokuapp.com/css/app.css" rel="stylesheet"> -->
     <!-- Styles -->
-    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body>
     <div id="app"></div>
-    <script src="https://nomada-note2.herokuapp.com/js/app.js"></script>
+    <!-- <script src="https://nomada-note2.herokuapp.com/js/app.js"></script> -->
+    <script src="{{ secure_asset('js/app.js') }}" defer></script>
 </body>
 
 </html>
