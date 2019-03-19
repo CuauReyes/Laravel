@@ -22,7 +22,7 @@ class DevicesTableSeeder extends Seeder
 			'OPEN-CLOSE'
 		];
 
-		//$faker = \Faker\Factory::create();
+		//$faker = \Faker\Factory::create();;
 
 
 		$plants = Plant::all();
