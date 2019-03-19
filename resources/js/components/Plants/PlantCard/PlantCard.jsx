@@ -14,7 +14,7 @@ export default class PlantCard extends Component {
 		const { plant } = this.props;
 		return (
 			<Card className="plant-card">
-				<Link to={"/plants/" + plant.id}>
+				<Link to={"/plants/" + plant._id}>
 					<Card.Header className="text-truncate">{plant.name}</Card.Header>
 				</Link>
 				<div className="d-flex flex-row justify-content-center align-items-center">
