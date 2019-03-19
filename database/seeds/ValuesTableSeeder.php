@@ -22,7 +22,7 @@ class ValuesTableSeeder extends Seeder
 
 		for ($i = 0; $i < count($plants); $i++) {
 			$plant = $plants[$i];
-			$URL = $plant->url . '/query?last=20d';
+			$URL = $plant->url . '/query?last=30d';
 			$key = $plant->key;
 
 			$connection = curl_init();

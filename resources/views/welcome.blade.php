@@ -17,8 +17,7 @@
     <!-- Styles -->
     @if (config('app.env') === 'production')
     <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
-    @endif
-    @if (config('app.env') !== 'production')
+    @else
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @endif
 
@@ -29,8 +28,7 @@
 
     @if (config('app.env') === 'production')
     <script src="{{ secure_asset('js/app.js') }}" defer></script>
-    @endif
-    @if (config('app.env') !== 'production')
+    @else
     <script src="{{ asset('js/app.js') }}" defer></script>
     @endif
 </body>
