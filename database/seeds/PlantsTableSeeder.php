@@ -13,21 +13,21 @@ class PlantsTableSeeder extends Seeder
      */
 	public function run()
 	{
-		$faker = \Faker\Factory::create();
+		//$faker = \Faker\Factory::create();
 
 		Plant::create([
-			'description' => $faker->paragraph,
+			'description' => "lorem",
 			'name' => 'Offices 9',
-			'location' => $faker->sentence,
+			'location' =>  "lorem",
 			'url' => "https://offices_9.data.thethingsnetwork.org/api/v2",
 			'key' => "key ttn-account-v2.uBNF9XTlQ43DfRURMKqLGN31qLS2p5F82d4gsCWUnfM",
 			'user_id' => 1,
 		]);
 
 		Plant::create([
-			'description' => $faker->paragraph,
+			'description' => "lorem",
 			'name' => 'Planta Hidalgo',
-			'location' => $faker->sentence,
+			'location' =>  "lorem",
 			'url' => "https://impersealco_hgo_quma.data.thethingsnetwork.org/api/v2",
 			'key' => "key ttn-account-v2.vprvACF0HslNAe0FLy-zRGTsM35XPwAFS2hsC6RRM-Q",
 			'user_id' => 1,
