@@ -61,7 +61,7 @@ export default class DeviceCard extends Component {
 							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
 						}
 					>
-						<span>Último dato:</span>
+						{/* <span>Último dato:</span> */}
 						<span>
 							{device.last_value
 								? this.formatValue(device.type, device.last_value.value)
@@ -74,7 +74,7 @@ export default class DeviceCard extends Component {
 							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
 						}
 					>
-						<span>Datos obtenidos:</span>
+						{/* <span>Datos obtenidos:</span> */}
 						<span>{device.last_value ? device.last_value.count : null}</span>
 					</Card>
 					<Card
@@ -83,7 +83,7 @@ export default class DeviceCard extends Component {
 							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
 						}
 					>
-						<span>Última conexión:</span>
+						{/* <span>Última conexión:</span> */}
 						<span>
 							{device.last_value ? device.last_value.created_at : null}
 						</span>
