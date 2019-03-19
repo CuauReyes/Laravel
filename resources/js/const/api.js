@@ -1,5 +1,6 @@
 // const apiURI = 'http://localhost:8000/api/v1';
-const host = window.location.hostname;
+const host = '';
+// const host = window.location.hostname;
 const apiURI = host + '/api/v1';
 
 const PLANTS = 'plants';
