@@ -35,7 +35,7 @@ export default class Plant extends Component {
 						<div className="col-sm-12">
 							<Link to={`/plants`}> Plantas </Link>
 							<span>&nbsp; > &nbsp; </span>
-							<Link to={`/plants/${plant.id}`}> {plant.name} </Link>
+							<Link to={`/plants/${plant._id}`}> {plant.name} </Link>
 						</div>
 					</div>
 					<div className="col-sm-12">

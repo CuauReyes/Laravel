@@ -10,6 +10,19 @@ export default class DeviceCard extends Component {
 		super();
 	}
 
+	formatValue(type, value) {
+		switch (type) {
+			case "ON-OFF":
+				return +value ? "ENCENDIDO" : "APAGADO";
+			case "OPEN-CLOSED":
+				return +value ? "ABIERTO" : "CERRADO";
+			case "TEMPERATURE A":
+				return +value + "º";
+			case "COUNTER":
+				return +value + " activado";
+		}
+	}
+
 	render() {
 		const { device } = this.props;
 		let classes;
@@ -30,7 +43,7 @@ export default class DeviceCard extends Component {
 			<Card className="plant-card">
 				<Card.Header className="text-truncate d-flex flex-row">
 					<div className="col-sm">
-						<Link to={"/device/" + device.id}>{device.name}</Link>
+						<Link to={"/device/" + device._id}>{device.name}</Link>
 						<Card.Text className="flex-fill"> {device.type} </Card.Text>
 					</div>
 					<div className="col-sm d-flex justify-content-end p-0">
@@ -41,20 +54,42 @@ export default class DeviceCard extends Component {
 				<div className="d-flex flex-row justify-content-center align-items-center">
 					<Card.Img variant="top" src={audi} />
 				</div>
-				<Card.Body className="d-flex flex-column" />
-				<Card.Footer className="d-flex flex-row">
-					<Card className={classes}>
-						Último dato: {device.last_value ? device.last_value.value : null}
+				<Card.Body className="d-flex flex-column">
+					<Card
+						className={
+							classes +
+							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
+						}
+					>
+						{/* <span>Último dato:</span> */}
+						<span>
+							{device.last_value
+								? this.formatValue(device.type, device.last_value.value)
+								: null}
+						</span>
 					</Card>
-					<Card className={classes}>
-						Datos obtenidos:{" "}
-						{device.last_value ? device.last_value.count : null}
+					<Card
+						className={
+							classes +
+							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
+						}
+					>
+						{/* <span>Datos obtenidos:</span> */}
+						<span>{device.last_value ? device.last_value.count : null}</span>
 					</Card>
-					<Card className={classes}>
-						Última conexión:{" "}
-						{device.last_value ? device.last_value.created_at : null}
+					<Card
+						className={
+							classes +
+							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
+						}
+					>
+						{/* <span>Última conexión:</span> */}
+						<span>
+							{device.last_value ? device.last_value.created_at : null}
+						</span>
 					</Card>
-				</Card.Footer>
+				</Card.Body>
+				<Card.Footer className="d-flex flex-row" />
 			</Card>
 		);
 	}

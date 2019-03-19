@@ -21,9 +21,6 @@ class DevicesTableSeeder extends Seeder
 			'OPEN-CLOSE'
 		];
 
-		$faker = \Faker\Factory::create();
-
-
 		$plants = Plant::all();
 
 		for ($i = 0; $i < count($plants); $i++) {

@@ -311,7 +311,7 @@ export default class Admin extends Component {
 											>
 												<option value="0">Selecciona usuario</option>
 												{users.map((user, key) => (
-													<option key={key} value={user.id}>
+													<option key={key} value={user._id}>
 														{user.name}
 													</option>
 												))}
@@ -488,7 +488,7 @@ export default class Admin extends Component {
 										>
 											<option value="0">Selecciona planta</option>
 											{plants.map((plant, key) => (
-												<option key={key} value={plant.id}>
+												<option key={key} value={plant._id}>
 													{plant.name}
 												</option>
 											))}
@@ -591,14 +591,14 @@ export default class Admin extends Component {
 										<td> {user.status}</td>
 										<td> {user.created_at}</td>
 										<button type="button" className="btn btn-secondary">
-											<Link to={"/user/" + user.id}>Ver más</Link>
+											<Link to={"/user/" + user._id}>Ver más</Link>
 										</button>
 										<button
 											type="button"
 											className="btn btn-success"
 											data-toggle="modal"
 											data-target="#habilitar"
-											onClick={() => this.setOnUser(user.id)}
+											onClick={() => this.setOnUser(user._id)}
 										>
 											Habilitar
 										</button>
@@ -607,7 +607,7 @@ export default class Admin extends Component {
 											className="btn btn-warning"
 											data-toggle="modal"
 											data-target="#deshabilitar"
-											onClick={() => this.setOffUser(user.id)}
+											onClick={() => this.setOffUser(user._id)}
 										>
 											Deshabilitar
 										</button>
@@ -616,7 +616,7 @@ export default class Admin extends Component {
 											className="btn btn-danger"
 											data-toggle="modal"
 											data-target="#eliminar"
-											onClick={() => this.deleteUser(user.id)}
+											onClick={() => this.deleteUser(user._id)}
 										>
 											Eliminar
 										</button>
@@ -732,7 +732,7 @@ export default class Admin extends Component {
 											className="btn btn-success"
 											data-toggle="modal"
 											data-target="#habilitar"
-											onClick={() => this.setOnPlant(plant.id)}
+											onClick={() => this.setOnPlant(plant._id)}
 										>
 											Habilitar
 										</button>
@@ -741,7 +741,7 @@ export default class Admin extends Component {
 											className="btn btn-warning"
 											data-toggle="modal"
 											data-target="#deshabilitar"
-											onClick={() => this.setOffPlant(plant.id)}
+											onClick={() => this.setOffPlant(plant._id)}
 										>
 											Deshabilitar
 										</button>
@@ -750,7 +750,7 @@ export default class Admin extends Component {
 											className="btn btn-danger"
 											data-toggle="modal"
 											data-target="#eliminar"
-											onClick={() => this.deletePlant(plant.id)}
+											onClick={() => this.deletePlant(plant._id)}
 										>
 											Eliminar
 										</button>
@@ -787,7 +787,7 @@ export default class Admin extends Component {
 											className="btn btn-success"
 											data-toggle="modal"
 											data-target="#habilitar"
-											onClick={() => this.setOnDevice(device.id)}
+											onClick={() => this.setOnDevice(device._id)}
 										>
 											Habilitar
 										</button>
@@ -796,7 +796,7 @@ export default class Admin extends Component {
 											className="btn btn-warning"
 											data-toggle="modal"
 											data-target="#deshabilitar"
-											onClick={() => this.setOffDevice(device.id)}
+											onClick={() => this.setOffDevice(device._id)}
 										>
 											Deshabilitar
 										</button>
@@ -805,7 +805,7 @@ export default class Admin extends Component {
 											className="btn btn-danger"
 											data-toggle="modal"
 											data-target="#eliminar"
-											onClick={() => this.deleteDevice(device.id)}
+											onClick={() => this.deleteDevice(device._id)}
 										>
 											Eliminar
 										</button>

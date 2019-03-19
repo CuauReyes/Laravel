@@ -292,7 +292,7 @@ export default class User extends Component {
 													className="btn btn-success"
 													data-toggle="modal"
 													data-target="#habilitar"
-													onClick={() => this.setOnPlant(plant.id)}
+													onClick={() => this.setOnPlant(plant._id)}
 												>
 													Habilitar
 												</button>
@@ -301,7 +301,7 @@ export default class User extends Component {
 													className="btn btn-warning"
 													data-toggle="modal"
 													data-target="#deshabilitar"
-													onClick={() => this.setOffPlant(plant.id)}
+													onClick={() => this.setOffPlant(plant._id)}
 												>
 													Deshabilitar
 												</button>
@@ -310,7 +310,7 @@ export default class User extends Component {
 													className="btn btn-danger"
 													data-toggle="modal"
 													data-target="#eliminar"
-													onClick={() => this.deletePlant(plant.id)}
+													onClick={() => this.deletePlant(plant._id)}
 												>
 													Eliminar
 												</button>
@@ -335,7 +335,7 @@ export default class User extends Component {
 												onChange={this.handleChange}
 											>
 												<option value="0">Selecciona usuario</option>
-												<option value={users.id}>{users.name}</option>
+												<option value={users._id}>{users.name}</option>
 											</select>
 										</div>
 										<div className="form-group">
@@ -494,7 +494,7 @@ export default class User extends Component {
 															className="btn btn-success"
 															data-toggle="modal"
 															data-target="#habilitar"
-															onClick={() => this.setOnDevice(device.id)}
+															onClick={() => this.setOnDevice(device._id)}
 														>
 															Habilitar
 														</button>
@@ -503,7 +503,7 @@ export default class User extends Component {
 															className="btn btn-warning"
 															data-toggle="modal"
 															data-target="#deshabilitar"
-															onClick={() => this.setOffDevice(device.id)}
+															onClick={() => this.setOffDevice(device._id)}
 														>
 															Deshabilitar
 														</button>
@@ -512,7 +512,7 @@ export default class User extends Component {
 															className="btn btn-danger"
 															data-toggle="modal"
 															data-target="#eliminar"
-															onClick={() => this.deleteDevice(device.id)}
+															onClick={() => this.deleteDevice(device._id)}
 														>
 															Eliminar
 														</button>
@@ -567,7 +567,7 @@ export default class User extends Component {
 										>
 											<option value="0">Selecciona planta</option>
 											{plants.map((plant, key) => (
-												<option key={key} value={plant.id}>
+												<option key={key} value={plant._id}>
 													{plant.name}
 												</option>
 											))}

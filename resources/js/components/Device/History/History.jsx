@@ -5,7 +5,6 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 export default class HistoryDevice extends Component {
-	
 	render() {
 		const { values } = this.props;
 
@@ -15,7 +14,7 @@ export default class HistoryDevice extends Component {
 				columns={[
 					{
 						Header: "ID",
-						accessor: "id"
+						accessor: "count"
 					},
 					{
 						Header: "Valor",

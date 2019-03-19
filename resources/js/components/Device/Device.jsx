@@ -25,7 +25,12 @@ export default class Device extends Component {
 		this.state = {
 			device: null,
 			plant: {},
-			data: [],
+			data: [
+				{
+					created_at: new Date().toISOString(),
+					value: 0
+				}
+			],
 			range: "week"
 		};
 
@@ -40,47 +45,60 @@ export default class Device extends Component {
 				device: response.data,
 				plant: response.data.plant
 			});
-			this.changeRangeDate();
+			this.changeRangeDate(this.state.range);
 		});
 	}
 
 	changeRangeDate(range = "day") {
 		let data = this.state.device.values;
 		const today = new Date();
+		let previousDate = today;
+
 		switch (range) {
 			case "day":
-				let previousDate = today;
 				previousDate = new Date(
 					previousDate.setDate(previousDate.getDate() - 1)
 				);
-				console.log(previousDate);
-				data = data.filter(val => previousDate > new Date(val.created_at));
-				this.setState({
-					data
-				});
 				break;
 			case "week":
-				let previousWeek = today;
-				previousWeek = new Date(
-					previousWeek.setDate(previousWeek.getDate() - 7)
+				previousDate = new Date(
+					previousDate.setDate(previousDate.getDate() - 7)
 				);
-				console.log(previousWeek);
-				data = data.filter(val => previousWeek < new Date(val.created_at));
-				this.setState({
-					data
-				});
 				break;
 			case "month":
+				previousDate = new Date(
+					previousDate.setMonth(previousDate.getMonth() - 1)
+				);
 				break;
 			case "year":
+				previousDate = new Date(
+					previousDate.setFullYear(previousDate.getFullYear() - 1)
+				);
 				break;
 		}
-		console.log(data);
+
+		data = data.filter(val => previousDate < new Date(val.created_at));
+		this.setState({
+			data
+		});
 	}
 
 	handleChangeRange(event) {
 		this.setState({ range: event.target.value });
 		this.changeRangeDate(event.target.value);
+	}
+
+	formatValue(type, value) {
+		switch (type) {
+			case "ON-OFF":
+				return +value ? "ENCENDIDO" : "APAGADO";
+			case "OPEN-CLOSED":
+				return +value ? "ABIERTO" : "CERRADO";
+			case "TEMPERATURE A":
+				return +value + "º";
+			case "COUNTER":
+				return +value + "activado";
+		}
 	}
 
 	render() {
@@ -90,7 +108,9 @@ export default class Device extends Component {
 			? [
 					{
 						title: "Último dato",
-						value: device.values ? device.values[0].value : null,
+						value: device.values
+							? this.formatValue(device.type, device.values[0].value)
+							: null,
 						classes: "bg-primary text-white",
 						icon: "clock"
 					},
@@ -116,11 +136,11 @@ export default class Device extends Component {
 					<div className="container-fluid pt-3">
 						<div className="d-flex flex-wrap col-sm-12 mb-3">
 							<div className="col-sm-12">
-								<Link to={`/plants/${plant.id}`}> Plantas </Link>
+								<Link to={`/plants/${plant._id}`}> Plantas </Link>
 								<span>&nbsp; > &nbsp; </span>
-								<Link to={`/plants/${plant.id}`}> {plant.name} </Link>
+								<Link to={`/plants/${plant._id}`}> {plant.name} </Link>
 								<span>&nbsp; > &nbsp; </span>
-								<Link to={`/device/${device.id}`}> {device.name} </Link>
+								<Link to={`/device/${device._id}`}> {device.name} </Link>
 							</div>
 						</div>
 
@@ -190,12 +210,13 @@ export default class Device extends Component {
 								</ExcelFile>
 							</div>
 							<div id="chart" className="col-sm-12">
-								<ChartDevice values={device.values} />
+								<ChartDevice values={data} />
 							</div>
 						</div>
+
 						<div className="col-sm-12 d-flex flex-wrap">
 							<div className="col-sm-12">
-								<HistoryDevice values={device.values} />
+								<HistoryDevice values={data} />
 							</div>
 						</div>
 					</div>

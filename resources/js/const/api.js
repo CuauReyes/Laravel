@@ -1,4 +1,7 @@
-const apiURI = 'http://localhost:8000/api/v1';
+// const apiURI = 'http://localhost:8000/api/v1';
+const host = '';
+// const host = window.location.hostname;
+const apiURI = host + '/api/v1';
 
 const PLANTS = 'plants';
 const DEVICES = 'devices';
