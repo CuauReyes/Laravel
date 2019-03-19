@@ -13,7 +13,7 @@ class PlantsTableSeeder extends Seeder
      */
 	public function run()
 	{
-		//$faker = \Faker\Factory::create();
+		$faker = \Faker\Factory::create();
 
 		Plant::create([
 			'description' => "lorem",
