@@ -18,6 +18,7 @@ class ValueController extends Controller
      */
 	public function store(Request $request)
 	{
+		print_r($request->getContent());
 		$data = json_decode($request->getContent(), true);
 
 		print_r($data);
