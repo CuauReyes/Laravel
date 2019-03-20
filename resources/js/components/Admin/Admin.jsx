@@ -4,6 +4,9 @@ import Sidebar from "./Assets/Sidebar";
 import { api } from "../../const/api";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+import matchSorter from 'match-sorter'
 
 export default class Admin extends Component {
 	constructor(props) {
@@ -188,6 +191,61 @@ export default class Admin extends Component {
 		axios.put(api.devices.all + "/" + id + "/OFF").then(response => {});
 	}
 
+	doSearch()
+	{
+
+		var tableReg = document.getElementById('datos');
+
+		var searchText = document.getElementById('searchTerm').value.toLowerCase();
+
+		var cellsOfRow="";
+
+		var found=false;
+
+		var compareWith="";
+
+		for (var i = 1; i < tableReg.rows.length; i++)
+
+		{
+
+			cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
+
+			found = false;
+
+			for (var j = 0; j < cellsOfRow.length && !found; j++)
+
+			{
+
+				compareWith = cellsOfRow[j].innerHTML.toLowerCase();
+
+				// Buscamos el texto en el contenido de la celda
+
+				if (searchText.length == 0 || (compareWith.indexOf(searchText) > -1))
+
+				{
+
+					found = true;
+
+				}
+
+			}
+
+			if(found)
+
+			{
+
+				tableReg.rows[i].style.display = '';
+
+			} else {
+
+				tableReg.rows[i].style.display = 'none';
+
+			}
+
+		}
+
+	}
+
 	render() {
 		const { users } = this.state;
 		const { plants } = this.state;
@@ -294,9 +352,37 @@ export default class Admin extends Component {
 									</div>
 								</form>
 							</div>
+						
 						</div>
 						<div className="col-md-4">
-							<div className="card">
+						<div className="card">
+							<div className="card-header">O selecciona alguna existente</div>
+								<div className="card-body">
+								<select
+												className="form-control"
+												id="user_id"
+												name="user_id"
+												value={this.state.user_id}
+												onChange={this.handleChange}
+											>
+												<option value="0">Selecciona planta</option>
+												{plants.map((plant, key) => (
+													<option key={key} value={plant._id}>
+														{plant.name}
+													</option>
+												))}
+											</select>
+										<button
+											type="submit"
+											className="btn btn-primary mt-3"
+											data-toggle="modal"
+											data-target="#myModal2"
+										>
+											Aceptar
+										</button>	
+								</div>
+							</div>
+							<div className="card mt-4">
 								<div className="card-header">Agregar planta:</div>
 								<div className="card-body">
 									<form onSubmit={this.handleSubmitPlant}>
@@ -381,8 +467,8 @@ export default class Admin extends Component {
 											<label htmlFor="img">Imagen:</label>
 											<input
 												required
-												type="text"
-												className="form-control"
+												type="file"
+												className="form-control-file border"
 												id="img"
 												name="img"
 												value={this.state.img}
@@ -446,7 +532,8 @@ export default class Admin extends Component {
 							</div>
 						</div>
 						<div className="col-md-4">
-							<div className="card-header">Agregar Device:</div>
+						<div className="card">
+						<div className="card-header">Agregar Device:</div>
 							<div className="card-body">
 								<form onSubmit={this.handleSubmitDevice}>
 									<div className="form-group">
@@ -548,57 +635,74 @@ export default class Admin extends Component {
 									</div>
 								</form>
 							</div>
-						</div>
+						</div>			
 					</div>
 				</div>
+			</div>
 				<div className="card mt-5">
 					<div className="card-header">
 						<h2 className="mt-3">Todos Los Clientes</h2>
 					</div>
 					<div className="col-md-12">
-						<div className="input-group mt-3 mb-3">
-							<input
-								type="text"
-								className="form-control"
-								placeholder="Buscar"
-							/>
-							<div className="input-group-append">
-								<button className="btn btn-success" type="submit">
-									Go
-								</button>
-							</div>
-						</div>
-
 						<p>
 							La siguiente tabla muestra todos los clientes registrados hasta el
 							momento
 						</p>
-						<table className="table table-striped">
-							<thead>
-								<tr>
-									<th>Nombre</th>
-									<th>Email</th>
-									<th>Status</th>
-									<th>Creado</th>
-									<th>Acciones</th>
-								</tr>
-							</thead>
-							<tbody>
-								{users.map((user, key) => (
-									<tr key={key}>
-										<td> {user.name}</td>
-										<td> {user.email}</td>
-										<td> {user.status}</td>
-										<td> {user.created_at}</td>
-										<button type="button" className="btn btn-secondary">
-											<Link to={"/user/" + user._id}>Ver más</Link>
+						<ReactTable
+							data={users}
+							filterable
+          		defaultFilterMethod={(filter, row) =>
+            	String(row[filter.id]) === filter.value}
+							columns={[
+								{
+									Header: "Nombre",
+									id: "name",
+									accessor: d => d.name,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["name"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Email",
+									id: "email",
+									accessor: d => d.email,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["email"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Estado",
+									id: "status",
+									accessor: d => d.status,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["status"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Creado",
+									id: "created_at",
+									accessor: d => d.created_at,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["created_at"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Mas",
+									accessor: "_id",
+									Cell: row => (
+										<div>
+											<button type="button" className="btn btn-secondary">
+											<Link to={"/user/" + row.value}>Ver más</Link>
+										</button>
+										<button type="button" className="btn btn-light">
+											<Link to={"/user/" + row.value}>Modificar</Link>
 										</button>
 										<button
 											type="button"
 											className="btn btn-success"
 											data-toggle="modal"
 											data-target="#habilitar"
-											onClick={() => this.setOnUser(user._id)}
+											onClick={() => this.setOnUser(row.value)}
 										>
 											Habilitar
 										</button>
@@ -607,7 +711,7 @@ export default class Admin extends Component {
 											className="btn btn-warning"
 											data-toggle="modal"
 											data-target="#deshabilitar"
-											onClick={() => this.setOffUser(user._id)}
+											onClick={() => this.setOffUser(row.value)}
 										>
 											Deshabilitar
 										</button>
@@ -616,14 +720,28 @@ export default class Admin extends Component {
 											className="btn btn-danger"
 											data-toggle="modal"
 											data-target="#eliminar"
-											onClick={() => this.deleteUser(user._id)}
+											onClick={() => this.deleteUser(row.value)}
 										>
 											Eliminar
 										</button>
-									</tr>
-								))}
-							</tbody>
-						</table>
+										</div>
+										
+										
+									)
+								}
+
+							]}
+							defaultPageSize={10}
+							className="-striped -highlight"
+							previousText="Anterior"
+							nextText="Siguiente"
+							loadingText="Cargando..."
+							noDataText="Datos no encontrados"
+							pageText="Página"
+							ofText="de"
+							rowsText="filas"
+							pageSizeOptions={[25, 50, 100]}
+						/>
 					</div>
 				</div>
 				<div className="modal fade" id="habilitar">
@@ -708,31 +826,66 @@ export default class Admin extends Component {
 						<h2 className="mt-3">Todas Las Plantas</h2>
 					</div>
 					<div className="card-body">
-						<table className="table table-striped">
-							<thead>
-								<tr>
-									<th>Nombre</th>
-									<th>Localización</th>
-									<th>Url</th>
-									<th>Key</th>
-									<th>Status</th>
-									<th>Acciones</th>
-								</tr>
-							</thead>
-							<tbody>
-								{plants.map((plant, key) => (
-									<tr key={key}>
-										<td> {plant.name}</td>
-										<td> {plant.location}</td>
-										<td> {plant.url}</td>
-										<td> {plant.key}</td>
-										<td> {plant.status}</td>
+					<ReactTable
+							data={plants}
+							filterable
+          		defaultFilterMethod={(filter, row) =>
+            	String(row[filter.id]) === filter.value}
+							columns={[
+								{
+									Header: "Nombre",
+									id: "name",
+									accessor: d => d.name,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["name"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Localizacion",
+									id: "location",
+									accessor: d => d.location,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["location"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Url",
+									id: "url",
+									accessor: d => d.url,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["url"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Key",
+									id: "key",
+									accessor: d => d.key,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["key"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Estado",
+									id: "status",
+									accessor: d => d.status,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["status"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Acciones",
+									accessor: "_id",
+									Cell: row => (
+										<div>
+										<button type="button" className="btn btn-light">
+											<Link to={"/user/" + row.value}>Modificar</Link>
+										</button>
 										<button
 											type="button"
 											className="btn btn-success"
 											data-toggle="modal"
 											data-target="#habilitar"
-											onClick={() => this.setOnPlant(plant._id)}
+											onClick={() => this.setOnPlant(row.value)}
 										>
 											Habilitar
 										</button>
@@ -741,7 +894,7 @@ export default class Admin extends Component {
 											className="btn btn-warning"
 											data-toggle="modal"
 											data-target="#deshabilitar"
-											onClick={() => this.setOffPlant(plant._id)}
+											onClick={() => this.setOffPlant(row.value)}
 										>
 											Deshabilitar
 										</button>
@@ -750,14 +903,28 @@ export default class Admin extends Component {
 											className="btn btn-danger"
 											data-toggle="modal"
 											data-target="#eliminar"
-											onClick={() => this.deletePlant(plant._id)}
+											onClick={() => this.deletePlant(row.value)}
 										>
 											Eliminar
 										</button>
-									</tr>
-								))}
-							</tbody>
-						</table>
+										</div>
+										
+										
+									)
+								}
+
+							]}
+							defaultPageSize={10}
+							className="-striped -highlight"
+							previousText="Anterior"
+							nextText="Siguiente"
+							loadingText="Cargando..."
+							noDataText="Datos no encontrados"
+							pageText="Página"
+							ofText="de"
+							rowsText="filas"
+							pageSizeOptions={[25, 50, 100]}
+						/>
 					</div>
 				</div>
 				<div className="card mt-5">
@@ -765,29 +932,74 @@ export default class Admin extends Component {
 						<h2 className="mt-3">Todos Los Devices</h2>
 					</div>
 					<div className="card-body">
-						<table className="table table-striped">
-							<thead>
-								<tr>
-									<th>Nombre</th>
-									<th>Tipo</th>
-									<th>Status</th>
-									<th>Añadido</th>
-									<th>Acciones</th>
-								</tr>
-							</thead>
-							<tbody>
-								{devices.map((device, key) => (
-									<tr key={key}>
-										<td> {device.name}</td>
-										<td> {device.type}</td>
-										<td> {device.status}</td>
-										<td> {device.created_at}</td>
+					<ReactTable
+							data={devices}
+							filterable
+          		defaultFilterMethod={(filter, row) =>
+            	String(row[filter.id]) === filter.value}
+							columns={[
+								{
+									Header: "Nombre",
+									id: "name",
+									accessor: d => d.name,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["name"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Tipo",
+									id: "type",
+									accessor: d => d.type,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["type"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Descripcion",
+									id: "description",
+									accessor: d => d.description,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["description"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Imagen",
+									id: "img",
+									accessor: d => d.img,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["img"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Estado",
+									id: "status",
+									accessor: d => d.status,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["status"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Añadido",
+									id: "created_at",
+									accessor: d => d.created_at,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, { keys: ["created_at"] }),
+                  filterAll: true
+								},
+								{
+									Header: "Acciones",
+									accessor: "_id",
+									Cell: row => (
+										<div>
+										<button type="button" className="btn btn-light">
+											<Link to={"/user/" + row.value}>Modificar</Link>
+										</button>
 										<button
 											type="button"
 											className="btn btn-success"
 											data-toggle="modal"
 											data-target="#habilitar"
-											onClick={() => this.setOnDevice(device._id)}
+											onClick={() => this.setOnDevice(row.value)}
 										>
 											Habilitar
 										</button>
@@ -796,7 +1008,7 @@ export default class Admin extends Component {
 											className="btn btn-warning"
 											data-toggle="modal"
 											data-target="#deshabilitar"
-											onClick={() => this.setOffDevice(device._id)}
+											onClick={() => this.setOffDevice(row.value)}
 										>
 											Deshabilitar
 										</button>
@@ -805,14 +1017,28 @@ export default class Admin extends Component {
 											className="btn btn-danger"
 											data-toggle="modal"
 											data-target="#eliminar"
-											onClick={() => this.deleteDevice(device._id)}
+											onClick={() => this.deleteDevice(row.value)}
 										>
 											Eliminar
 										</button>
-									</tr>
-								))}
-							</tbody>
-						</table>
+										</div>
+										
+										
+									)
+								}
+
+							]}
+							defaultPageSize={10}
+							className="-striped -highlight"
+							previousText="Anterior"
+							nextText="Siguiente"
+							loadingText="Cargando..."
+							noDataText="Datos no encontrados"
+							pageText="Página"
+							ofText="de"
+							rowsText="filas"
+							pageSizeOptions={[25, 50, 100]}
+						/>
 					</div>
 				</div>
 			</div>
