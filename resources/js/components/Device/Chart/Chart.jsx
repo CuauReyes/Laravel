@@ -46,7 +46,7 @@ export default class ChartDevice extends Component {
 		let data = [];
 		values.forEach(val => {
 			data.push({
-				name: new Date(val.created_at).toISOString(),
+				name: new Date(val.created_at).toString(),
 				value: +val.value
 			});
 		});

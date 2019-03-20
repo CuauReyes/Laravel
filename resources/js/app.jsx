@@ -33,6 +33,7 @@ import {
 	faClock,
 	faTemperatureHigh,
 	faTemperatureLow,
+	faThermometerHalf,
 	faCheck
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
@@ -50,6 +51,7 @@ library.add(
 	faClock,
 	faTemperatureHigh,
 	faTemperatureLow,
+	faThermometerHalf,
 	faCheck
 );
 
