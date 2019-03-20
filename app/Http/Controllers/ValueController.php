@@ -26,9 +26,8 @@ class ValueController extends Controller
 		$device = Device::where('name', '=', $name)->firstOrFail();
 		$device->count = $device->count + 1;
 
-
 		$value = new Value([
-			'value' => $data['payload_fields']['CValue'],
+			'value' => $data['payload_fields']['Cvalue'],
 			'count' => $device->count,
 			'device_id' => $device->id
 		]);
