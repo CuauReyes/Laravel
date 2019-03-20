@@ -20,9 +20,11 @@ class ValueController extends Controller
 	{
 		$data = json_decode($request->getContent(), true);
 
+		print_r($data);
 		$name = $data['dev_id'];
 		$device = Device::where('name', '=', $name)->firstOrFail();
 		$device->count = $device->count + 1;
+
 
 		$value = new Value([
 			'value' => $data['payload_fields']['CValue'],
