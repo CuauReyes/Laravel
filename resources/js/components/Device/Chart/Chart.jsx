@@ -27,9 +27,22 @@ export default class ChartDevice extends Component {
 		});
 	}
 
+	typeChart(type) {
+		switch (type) {
+			case "ON-OFF":
+				return "step";
+			case "OPEN-CLOSED":
+				return "step";
+			case "TEMPERATURE A":
+				return "natural";
+			case "COUNTER":
+				return "linear";
+		}
+	}
+
 	render() {
 		const { width } = this.state;
-		const { values } = this.props;
+		const { values, type } = this.props;
 		let data = [];
 		values.forEach(val => {
 			data.push({
@@ -46,11 +59,12 @@ export default class ChartDevice extends Component {
 						height={400}
 						data={data}
 						syncId="anyId"
+						baseValue={"dataMin"}
 						margin={{
-							top: 10,
-							right: 30,
-							left: 0,
-							bottom: 0
+							top: 20,
+							right: 20,
+							left: 20,
+							bottom: 20
 						}}
 					>
 						<defs>
@@ -64,11 +78,13 @@ export default class ChartDevice extends Component {
 						<YAxis />
 						<Tooltip />
 						<Area
-							type="monotone"
+							type={this.typeChart(type)}
 							dataKey="value"
 							stroke="#8884d8"
 							dot={true}
 							isAnimationActive={true}
+							animationEasing={"linear"}
+							baseLine={8}
 							fillOpacity={1}
 							fill="url(#colorValue)"
 						/>

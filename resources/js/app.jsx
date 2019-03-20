@@ -31,6 +31,8 @@ import {
 	faBolt,
 	faWifi,
 	faClock,
+	faTemperatureHigh,
+	faTemperatureLow,
 	faCheck
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
@@ -46,6 +48,8 @@ library.add(
 	faBolt,
 	faWifi,
 	faClock,
+	faTemperatureHigh,
+	faTemperatureLow,
 	faCheck
 );
 

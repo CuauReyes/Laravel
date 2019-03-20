@@ -23,6 +23,46 @@ export default class DeviceCard extends Component {
 		}
 	}
 
+	transformDigit(digit) {
+		return digit < 10 ? "0" + digit : digit;
+	}
+
+	lastConnection(date) {
+		let today = new Date();
+		let last = new Date(date);
+
+		let hour =
+			this.transformDigit(last.getHours()) +
+			":" +
+			this.transformDigit(last.getMinutes()) +
+			":" +
+			this.transformDigit(last.getSeconds());
+
+		if (today.getFullYear() === last.getFullYear()) {
+			if (today.getMonth() === last.getMonth()) {
+				if (today.getDate() === last.getDate()) {
+					return hour;
+				}
+				return (
+					this.transformDigit(last.getMonth() + 1) +
+					"-" +
+					this.transformDigit(last.getDate()) +
+					" " +
+					hour
+				);
+			}
+			return (
+				last.getFullYear() +
+				"-" +
+				this.transformDigit(last.getMonth() + 1) +
+				"-" +
+				this.transformDigit(last.getDate()) +
+				" " +
+				hour
+			);
+		}
+	}
+
 	render() {
 		const { device } = this.props;
 		let classes;
@@ -61,7 +101,6 @@ export default class DeviceCard extends Component {
 							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
 						}
 					>
-						{/* <span>Último dato:</span> */}
 						<span>
 							{device.last_value
 								? this.formatValue(device.type, device.last_value.value)
@@ -74,8 +113,9 @@ export default class DeviceCard extends Component {
 							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
 						}
 					>
-						{/* <span>Datos obtenidos:</span> */}
-						<span>{device.last_value ? device.last_value.count : null}</span>
+						<span>
+							Datos: {device.last_value ? device.last_value.count : null}
+						</span>
 					</Card>
 					<Card
 						className={
@@ -83,9 +123,10 @@ export default class DeviceCard extends Component {
 							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
 						}
 					>
-						{/* <span>Última conexión:</span> */}
 						<span>
-							{device.last_value ? device.last_value.created_at : null}
+							{device.last_value
+								? this.lastConnection(device.last_value.created_at)
+								: null}
 						</span>
 					</Card>
 				</Card.Body>

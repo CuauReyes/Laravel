@@ -97,7 +97,47 @@ export default class Device extends Component {
 			case "TEMPERATURE A":
 				return +value + "º";
 			case "COUNTER":
-				return +value + "activado";
+				return +value + " activado";
+		}
+	}
+
+	transformDigit(digit) {
+		return digit < 10 ? "0" + digit : digit;
+	}
+
+	lastConnection(date) {
+		let today = new Date();
+		let last = new Date(date);
+
+		let hour =
+			this.transformDigit(last.getHours()) +
+			":" +
+			this.transformDigit(last.getMinutes()) +
+			":" +
+			this.transformDigit(last.getSeconds());
+
+		if (today.getFullYear() === last.getFullYear()) {
+			if (today.getMonth() === last.getMonth()) {
+				if (today.getDate() === last.getDate()) {
+					return hour;
+				}
+				return (
+					this.transformDigit(last.getMonth() + 1) +
+					"-" +
+					this.transformDigit(last.getDate()) +
+					" " +
+					hour
+				);
+			}
+			return (
+				last.getFullYear() +
+				"-" +
+				this.transformDigit(last.getMonth() + 1) +
+				"-" +
+				this.transformDigit(last.getDate()) +
+				" " +
+				hour
+			);
 		}
 	}
 
@@ -116,7 +156,9 @@ export default class Device extends Component {
 					},
 					{
 						title: "Última conexión",
-						value: device.values ? device.values[0].created_at : null,
+						value: device.values
+							? this.lastConnection(device.values[0].created_at)
+							: null,
 						classes: "bg-dark text-white",
 						icon: "wifi"
 					},
@@ -128,6 +170,26 @@ export default class Device extends Component {
 					}
 			  ]
 			: [];
+
+		if (device && device.type === "TEMPERATURE A") {
+			deviceCards.splice(0, 1);
+			deviceCards.unshift(
+				{
+					title: "Temperatura máxima",
+					value:
+						Math.max.apply(Math, device.values.map(val => val.value)) + "º",
+					classes: "bg-danger text-white",
+					icon: "temperature-high"
+				},
+				{
+					title: "Temperatura mínima",
+					value:
+						Math.min.apply(Math, device.values.map(val => val.value)) + "º",
+					classes: "bg-info text-white",
+					icon: "temperature-low"
+				}
+			);
+		}
 
 		return (
 			<div className="device">
@@ -156,10 +218,10 @@ export default class Device extends Component {
 
 						<div className="d-flex flex-wrap col-sm-12">
 							{deviceCards.map((card, index) => (
-								<div key={index} className="col-12 col-sm col-md mb-5">
+								<div key={index} className="col-12 col-sm mb-5">
 									<Card className={card.classes}>
 										<Card.Body className="d-flex align-items-center">
-											<div className="col-3 col-sm-4 fa-3x align-items-center justify-content-center d-flex">
+											<div className="col-sm-4 fa-3x align-items-center justify-content-center d-flex">
 												<FontAwesomeIcon icon={card.icon} />
 											</div>
 											<div className="col-sm-8">
@@ -210,7 +272,7 @@ export default class Device extends Component {
 								</ExcelFile>
 							</div>
 							<div id="chart" className="col-sm-12">
-								<ChartDevice values={data} />
+								<ChartDevice values={data} type={device.type} />
 							</div>
 						</div>
 
