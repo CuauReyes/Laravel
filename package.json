@@ -10,7 +10,6 @@
 		"production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
 		"seed": "php artisan migrate:refresh --seed",
 		"passport": "php artisan passport:client --personal"
-
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.3.4",
@@ -38,6 +37,7 @@
 		"d3": "^5.9.1",
 		"d3-brush": "^1.0.6",
 		"file-saver": "^2.0.1",
+		"match-sorter": "^2.3.0",
 		"react-bootstrap": "^1.0.0-beta.5",
 		"react-charts": "^2.0.0-alpha.12",
 		"react-data-export": "^0.5.0",

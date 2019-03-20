@@ -18,6 +18,8 @@ class Devices extends Migration
 
 			$collection->string('name');
 			$collection->string('type');
+			$collection->string('description')->nullable();
+			$collection->string('img');
 			$collection->bigInteger('count')->default(0);
 			$collection->integer('battery')->nullable();
 			$collection->integer('status')->nullable();
