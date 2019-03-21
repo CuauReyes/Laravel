@@ -93,6 +93,7 @@ class DeviceController extends Controller
 			'message' => 'Registro eliminado'
 		]);
 	}
+
 	public function ON($id)
 	{
 		$Device = Device::find($id);
@@ -112,16 +113,22 @@ class DeviceController extends Controller
 
 	public function fileUpload(Request $request)
 	{
+		$deviceId = $request->route('id');
+
+		$device = Device::find($deviceId);
+
 		$this->validate($request, [
 			'input_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 		]);
 
+		print_r($request->hasFile('input_img'));
 		if ($request->hasFile('input_img')) {
 			$image = $request->file('input_img');
 			$name = time() . '.' . $image->getClientOriginalExtension();
 			$destinationPath = public_path('/images');
 			$image->move($destinationPath, $name);
-			$this->save();
+
+			$device->img = $destinationPath;
 
 			return back()->with('success', 'Image Upload successfully');
 		}

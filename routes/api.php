@@ -25,10 +25,9 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::delete('devices/{id}', 'DeviceController@destroy');
 	Route::put('devices/{id}/ON', 'DeviceController@ON');
 	Route::put('devices/{id}/OFF', 'DeviceController@OFF');
-	Route::put('devices/{id}/image', 'DeviceController@OFF');
+	Route::post('devices/{id}/image', 'DeviceController@fileUpload');
 
 	Route::post('values', 'ValueController@store');
-
 
 	Route::group(['prefix' => 'auth'], function () {
 		Route::post('login', 'AuthController@login');
