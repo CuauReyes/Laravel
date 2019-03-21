@@ -217,7 +217,7 @@ export default class Device extends Component {
 
 						<div className="d-flex flex-wrap col-sm-12 mb-5">
 							<div className="col-sm-2 col-lg-1">
-								<img className="device-img" src={deviceImg} />
+								<img className="device-img" src={device.img} />
 							</div>
 							<div className="col-sm-10">
 								<h2> {device.name} </h2>

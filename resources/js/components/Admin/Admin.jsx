@@ -47,7 +47,9 @@ export default class Admin extends Component {
 					email: this.state.email,
 					password: this.state.password,
 					password_confirmation: this.state.password,
-					status: this.state.status
+					status: this.state.status,
+					plants: this.state.plantas,
+					
 				},
 				{
 					headers: {
@@ -133,6 +135,40 @@ export default class Admin extends Component {
 			});
 		event.preventDefault();
 	}
+	
+	handleSubmitAddPlant(event) {
+		console.log(this.state.user_id)
+		axios
+			.put(
+				api.users.get(this.state.user_id)+"addPlant",
+				{
+					user: this.state.user_id,
+					plants: this.state.addplantas	
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"X-Requested-With": "XMLHttpRequest"
+					}
+				}
+			)
+			.then(response => {
+			
+			})
+			.catch(err => {
+				console.log(err);
+			});
+		event.preventDefault();
+	}
+
+	handleSubmitAddDeviceImg(event) {
+		var bodyFormData = new FormData();
+		bodyFormData.set('input_img');
+		bodyFormData.append('image', imageFile);
+
+		
+	}
+
 
 	componentDidMount() {
 		axios.get(api.users.all).then(response => {
@@ -190,6 +226,7 @@ export default class Admin extends Component {
 		console.log(id);
 		axios.put(api.devices.all + "/" + id + "/OFF").then(response => {});
 	}
+	
 
 	doSearch()
 	{
@@ -310,6 +347,23 @@ export default class Admin extends Component {
 												<option value="0">Inactivo</option>
 											</select>
 										</div>
+										<div className="card-header">Selecciona una planta existente (Opcional)</div>
+										<div className="form-group">
+										<select
+												className="form-control"
+												id="plantas"
+												name="plantas"
+												value={this.state.plantas}
+												onChange={this.handleChange}
+											>
+												<option value="0">Selecciona planta</option>
+												{plants.map((plant, key) => (
+													<option key={key} value={plant._id}>
+														{plant._id}
+													</option>
+												))}
+											</select>
+										</div>
 										<button
 											type="submit"
 											className="btn btn-primary"
@@ -352,17 +406,37 @@ export default class Admin extends Component {
 									</div>
 								</form>
 							</div>
-						
-						</div>
-						<div className="col-md-4">
-						<div className="card">
-							<div className="card-header">O selecciona alguna existente</div>
+
+
+
+							<div className="card mt-4">
+							  <div className="card-header">Agregar plantas existentes a un usuario</div>
 								<div className="card-body">
-								<select
+									<form onSubmit={(e) => this.handleSubmitAddPlant(e)}>
+									<div className="form-group">
+											<label htmlFor="user_id">Usuario:</label>
+											<select
 												className="form-control"
 												id="user_id"
 												name="user_id"
 												value={this.state.user_id}
+												onChange={this.handleChange}
+											>
+												<option value="0">Selecciona usuario</option>
+												{users.map((user, key) => (
+													<option key={key} value={user._id}>
+														{user.name}
+													</option>
+												))}
+											</select>
+										</div>
+											<div className="form-group">
+								<label htmlFor="plantas">Seleccionar planta</label>
+										<select
+												className="form-control"
+												id="addplantas"
+												name="addplantas"
+												value={this.state.addplantas}
 												onChange={this.handleChange}
 											>
 												<option value="0">Selecciona planta</option>
@@ -372,18 +446,27 @@ export default class Admin extends Component {
 													</option>
 												))}
 											</select>
+										</div>
 										<button
 											type="submit"
-											className="btn btn-primary mt-3"
-											data-toggle="modal"
-											data-target="#myModal2"
+											className="btn btn-primary"
 										>
 											Aceptar
-										</button>	
-								</div>
+										</button>
+									</form>
+										</div>
 							</div>
-							<div className="card mt-4">
-								<div className="card-header">Agregar planta:</div>
+						
+
+
+
+
+
+						</div>
+						<div className="col-md-4">
+					
+							<div className="card">
+								<div className="card-header">O Agrega una planta nueva:</div>
 								<div className="card-body">
 									<form onSubmit={this.handleSubmitPlant}>
 										<div className="form-group">
@@ -464,18 +547,6 @@ export default class Admin extends Component {
 											/>
 										</div>
 										<div className="form-group">
-											<label htmlFor="img">Imagen:</label>
-											<input
-												required
-												type="file"
-												className="form-control-file border"
-												id="img"
-												name="img"
-												value={this.state.img}
-												onChange={this.handleChange}
-											/>
-										</div>
-										<div className="form-group">
 											<label htmlFor="status">Status:</label>
 											<select
 												className="form-control"
@@ -530,6 +601,7 @@ export default class Admin extends Component {
 									</form>
 								</div>
 							</div>
+						
 						</div>
 						<div className="col-md-4">
 						<div className="card">
@@ -564,6 +636,28 @@ export default class Admin extends Component {
 											<option value="COUNTER">COUNTER</option>
 										</select>
 									</div>
+									<div className="form-group">
+											<label htmlFor="img">Imagen:</label>
+											<input
+											
+												type="file"
+												className="form-control-file border"
+												id="img"
+												name="img"
+												
+											/>
+										</div>
+										<div className="form-group">
+											<label htmlFor="description">Descripción:</label>
+											<input
+												
+												type="text"
+												className="form-control"
+												id="description"
+												name="description"
+												
+											/>
+										</div>	
 									<div className="form-group">
 										<label htmlFor="plant_id">Planta:</label>
 										<select
@@ -635,7 +729,48 @@ export default class Admin extends Component {
 									</div>
 								</form>
 							</div>
-						</div>			
+						</div>
+						<div className="card mt-4">
+							<div className="card-header">Añadir imagen al device</div>
+							<div className="card-body">
+									<form onSubmit={(e) => this.handleSubmitAddDeviceImg(e)}>
+									<div className="form-group">
+										<select
+												className="form-control"
+												id="device_id"
+												name="device_id"
+												value={this.state.device_id}
+												onChange={this.handleChange}
+											>
+												<option value="0">Selecciona device</option>
+												{devices.map((device, key) => (
+													<option key={key} value={device._id}>
+														{device.name}
+													</option>
+												))}
+											</select>
+										</div>
+										<div className="form-group">
+											<label htmlFor="img">Imagen:</label>
+											<input
+												required
+												type="file"
+												className="form-control-file border"
+												id="img"
+												name="img"
+												value={this.state.img}
+												onChange={this.handleChange}
+											/>
+										</div>
+										<button
+											type="submit"
+											className="btn btn-primary"
+										>
+											Aceptar
+										</button>
+									</form>
+							</div>
+							</div>			
 					</div>
 				</div>
 			</div>

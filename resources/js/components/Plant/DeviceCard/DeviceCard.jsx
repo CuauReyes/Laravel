@@ -101,7 +101,7 @@ export default class DeviceCard extends Component {
 					</div>
 				</Card.Header>
 				<div className="d-flex flex-row justify-content-center align-items-center">
-					<Card.Img variant="top" src={audi} />
+					<Card.Img variant="top" src={device.img} />
 				</div>
 				<Card.Body className="d-flex flex-column">
 					<Card
