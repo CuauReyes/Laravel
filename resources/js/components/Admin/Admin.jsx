@@ -140,7 +140,7 @@ export default class Admin extends Component {
 		console.log(this.state.user_id)
 		axios
 			.put(
-				api.users.get(this.state.user_id),
+				api.users.get(this.state.user_id)+"addPlant",
 				{
 					user: this.state.user_id,
 					plants: this.state.addplantas	
@@ -160,6 +160,15 @@ export default class Admin extends Component {
 			});
 		event.preventDefault();
 	}
+
+	handleSubmitAddDeviceImg(event) {
+		var bodyFormData = new FormData();
+		bodyFormData.set('input_img');
+		bodyFormData.append('image', imageFile);
+
+		
+	}
+
 
 	componentDidMount() {
 		axios.get(api.users.all).then(response => {
@@ -538,18 +547,6 @@ export default class Admin extends Component {
 											/>
 										</div>
 										<div className="form-group">
-											<label htmlFor="img">Imagen:</label>
-											<input
-												required
-												type="file"
-												className="form-control-file border"
-												id="img"
-												name="img"
-												value={this.state.img}
-												onChange={this.handleChange}
-											/>
-										</div>
-										<div className="form-group">
 											<label htmlFor="status">Status:</label>
 											<select
 												className="form-control"
@@ -604,6 +601,7 @@ export default class Admin extends Component {
 									</form>
 								</div>
 							</div>
+						
 						</div>
 						<div className="col-md-4">
 						<div className="card">
@@ -731,7 +729,48 @@ export default class Admin extends Component {
 									</div>
 								</form>
 							</div>
-						</div>			
+						</div>
+						<div className="card mt-4">
+							<div className="card-header">Añadir imagen al device</div>
+							<div className="card-body">
+									<form onSubmit={(e) => this.handleSubmitAddDeviceImg(e)}>
+									<div className="form-group">
+										<select
+												className="form-control"
+												id="device_id"
+												name="device_id"
+												value={this.state.device_id}
+												onChange={this.handleChange}
+											>
+												<option value="0">Selecciona device</option>
+												{devices.map((device, key) => (
+													<option key={key} value={device._id}>
+														{device.name}
+													</option>
+												))}
+											</select>
+										</div>
+										<div className="form-group">
+											<label htmlFor="img">Imagen:</label>
+											<input
+												required
+												type="file"
+												className="form-control-file border"
+												id="img"
+												name="img"
+												value={this.state.img}
+												onChange={this.handleChange}
+											/>
+										</div>
+										<button
+											type="submit"
+											className="btn btn-primary"
+										>
+											Aceptar
+										</button>
+									</form>
+							</div>
+							</div>			
 					</div>
 				</div>
 			</div>

@@ -272,7 +272,6 @@ export default class User extends Component {
 									<thead>
 										<tr>
 											<th>Nombre</th>
-
 											<th>Url</th>
 											<th>Key</th>
 											<th>Status</th>
@@ -283,7 +282,6 @@ export default class User extends Component {
 										{plants.map((plant, key) => (
 											<tr key={key}>
 												<td> {plant.name}</td>
-
 												<td> {plant.url}</td>
 												<td> {plant.key}</td>
 												<td> {plant.status}</td>
