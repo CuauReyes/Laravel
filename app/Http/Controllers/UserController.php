@@ -54,6 +54,7 @@ class UserController extends Controller
 		$user = new User([
 			'name'     => $request->name,
 			'email'    => $request->email,
+			'plants'    => $request->plants,
 			'status'    => $request->status,
 			'password' => bcrypt($request->password),
 		]);
@@ -100,6 +101,24 @@ class UserController extends Controller
 		$User = User::find($id);
 
 		$User->status = '0';
+
+		$User->save();
+	}
+
+
+	public function addPlant(Request $request)
+	{
+		$userid = $request->route('id');
+
+		//print_r($request->getContent());
+		$data = json_decode($request->getContent(), TRUE);
+
+		//print_r($data);
+		$Plant = $data['plants'];		
+
+		$User = User::find($userid);
+
+		$User->plants = ($Plant);
 
 		$User->save();
 	}

@@ -10,6 +10,7 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::delete('users/{id}', 'UserController@destroy');
 	Route::put('users/{id}/ON', 'UserController@ON');
 	Route::put('users/{id}/OFF', 'UserController@OFF');
+	Route::put('users/{id}', 'UserController@addPlant');
 
 
 	Route::get('plants', 'PlantController@index');
