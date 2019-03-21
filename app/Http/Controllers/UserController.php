@@ -27,9 +27,9 @@ class UserController extends Controller
 	public function show($id)
 	{
 		//
-		$User = User::with('plants', 'plants.devices')->find($id);
+		$user = User::with('plants', 'plants.devices')->find($id);
 
-		return response()->json($User, 200);
+		return response()->json($user, 200);
 	}
 
 	/**
@@ -45,12 +45,14 @@ class UserController extends Controller
 
 	public function store(Request $request)
 	{
+
 		$request->validate([
 			'name'     => 'required|string',
 			'email'    => 'required|string|email|unique:users',
 			'status'   => 'required|integer',
 			'password' => 'required|string|confirmed',
 		]);
+
 		$user = new User([
 			'name'     => $request->name,
 			'email'    => $request->email,
@@ -58,6 +60,10 @@ class UserController extends Controller
 			'password' => bcrypt($request->password),
 		]);
 		$user->save();
+
+		if ($request->plant_id) {
+			$user->plants()->attach($request->plant_id);
+		}
 	}
 
 
@@ -102,5 +108,19 @@ class UserController extends Controller
 		$User->status = '0';
 
 		$User->save();
+	}
+
+	public function addPlant(Request $request)
+	{
+
+		if (!$request->plant_id) {
+			return;
+		}
+		$userId = $request->route('id');
+
+		$user = User::find($userId);
+
+		$user->plants()->attach($request->plant_id);
+		$user->save();
 	}
 }

@@ -10,7 +10,7 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::delete('users/{id}', 'UserController@destroy');
 	Route::put('users/{id}/ON', 'UserController@ON');
 	Route::put('users/{id}/OFF', 'UserController@OFF');
-
+	Route::put('users/{id}/addPlant', 'UserController@addPlant');
 
 	Route::get('plants', 'PlantController@index');
 	Route::get('plants/{id}', 'PlantController@show');
@@ -18,6 +18,7 @@ Route::group(['prefix' => 'v1'], function () {
 	Route::delete('plants/{id}', 'PlantController@destroy');
 	Route::put('plants/{id}/ON', 'PlantController@ON');
 	Route::put('plants/{id}/OFF', 'PlantController@OFF');
+	Route::put('plants/{id}/addUser', 'PlantController@addUser');
 
 	Route::get('devices', 'DeviceController@index');
 	Route::get('devices/{id}', 'DeviceController@show');

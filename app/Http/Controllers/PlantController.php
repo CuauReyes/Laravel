@@ -16,7 +16,7 @@ class PlantController extends Controller
 	public function index()
 	{
 		//
-		return Plant::with('user', 'devices')->get();
+		return Plant::with('users', 'devices')->get();
 	}
 
 	/**
@@ -37,6 +37,7 @@ class PlantController extends Controller
      */
 	public function store(Request $request)
 	{
+
 		$plant = new Plant([
 			'name'     => $request->name,
 			'description'     => $request->description,
@@ -45,9 +46,12 @@ class PlantController extends Controller
 			'key'     => $request->key,
 			'img' => $request->img,
 			'status'     => $request->status,
-			'user_id'     => $request->user_id,
 		]);
 		$plant->save();
+
+		if ($request->user_id) {
+			$plant->users()->attach($request->user_id);
+		}
 	}
 
 	/**
@@ -59,7 +63,7 @@ class PlantController extends Controller
 	public function show($id)
 	{
 		//
-		$plant = Plant::with('user', 'devices', 'devices.lastValue')->find($id);
+		$plant = Plant::with('users', 'devices', 'devices.lastValue')->find($id);
 
 		return response()->json($plant, 200);
 	}
@@ -115,5 +119,18 @@ class PlantController extends Controller
 		$Plant->status = '0';
 
 		$Plant->save();
+	}
+
+	public function addUser(Request $request)
+	{
+		if (!$request->user_id) {
+			return;
+		}
+		$plantId = $request->route('id');
+
+		$plant = Plant::find($plantId);
+
+		$plant->users()->attach($request->user_id);
+		$plant->save();
 	}
 }
