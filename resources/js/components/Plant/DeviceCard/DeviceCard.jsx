@@ -17,7 +17,7 @@ export default class DeviceCard extends Component {
 			case "OPEN-CLOSED":
 				return +value ? "ABIERTO" : "CERRADO";
 			case "TEMPERATURE A":
-				return +value + "º";
+				return +value + "º C";
 			case "COUNTER":
 				return +value + " activado";
 		}
@@ -82,12 +82,21 @@ export default class DeviceCard extends Component {
 		return (
 			<Card className="plant-card">
 				<Card.Header className="text-truncate d-flex flex-row">
-					<div className="col-sm">
+					<div className="col-sm-9 text-truncate">
 						<Link to={"/device/" + device._id}>{device.name}</Link>
 						<Card.Text className="flex-fill"> {device.type} </Card.Text>
 					</div>
 					<div className="col-sm d-flex justify-content-end p-0">
-						<FontAwesomeIcon icon="exclamation-triangle" className="mr-2" />
+						<div
+							className={
+								"status " +
+								(device.status === 0
+									? "bg-success"
+									: device.status === 1
+									? "bg-warning"
+									: "bg-danger")
+							}
+						/>
 						<FontAwesomeIcon icon="battery-full" className="mr-2" />
 					</div>
 				</Card.Header>
@@ -98,35 +107,43 @@ export default class DeviceCard extends Component {
 					<Card
 						className={
 							classes +
-							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
+							" d-flex flex-column align-items-center text-white p-2 m-2"
 						}
 					>
 						<span>
-							{device.last_value
-								? this.formatValue(device.type, device.last_value.value)
-								: null}
+							Ultimo valor:{" "}
+							<b>
+								{device.last_value
+									? this.formatValue(device.type, device.last_value.value)
+									: null}
+							</b>
+						</span>
+					</Card>
+
+					<Card
+						className={
+							classes +
+							" d-flex flex-column align-items-center text-white p-2 m-2"
+						}
+					>
+						<span>
+							Conexión:{" "}
+							<b>
+								{device.last_value
+									? this.lastConnection(device.last_value.created_at)
+									: null}
+							</b>
 						</span>
 					</Card>
 					<Card
 						className={
 							classes +
-							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
+							" d-flex flex-column align-items-center text-white p-2 m-2"
 						}
 					>
 						<span>
-							Datos: {device.last_value ? device.last_value.count : null}
-						</span>
-					</Card>
-					<Card
-						className={
-							classes +
-							"col-sm-4 d-flex flex-column align-items-center text-white p-2 m-2"
-						}
-					>
-						<span>
-							{device.last_value
-								? this.lastConnection(device.last_value.created_at)
-								: null}
+							Total de datos:{" "}
+							<b>{device.last_value ? device.last_value.count : null}</b>
 						</span>
 					</Card>
 				</Card.Body>

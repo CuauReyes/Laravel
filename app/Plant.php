@@ -18,7 +18,7 @@ class Plant extends Eloquent
 		'key',
 		'img',
 		'status',
-		'user_id',
+		// 'user_id',
 	];
 
 	public function user()

@@ -95,7 +95,7 @@ export default class Device extends Component {
 			case "OPEN-CLOSED":
 				return +value ? "ABIERTO" : "CERRADO";
 			case "TEMPERATURE A":
-				return +value + "º";
+				return +value + "º C";
 			case "COUNTER":
 				return +value + " activado";
 		}
@@ -149,7 +149,10 @@ export default class Device extends Component {
 					{
 						title: "Último dato",
 						value: device.values
-							? this.formatValue(device.type, device.values[0].value)
+							? this.formatValue(
+									device.type,
+									device.values[device.values.length - 1].value
+							  )
 							: null,
 						classes: "bg-primary text-white",
 						icon: "clock"
@@ -174,6 +177,12 @@ export default class Device extends Component {
 		if (device && device.type === "TEMPERATURE A") {
 			deviceCards.splice(0, 1);
 			deviceCards.unshift(
+				{
+					title: "Temperatura actual",
+					value: device.values[device.values.length - 1].value + "º",
+					classes: "bg-primary text-white",
+					icon: "thermometer-half"
+				},
 				{
 					title: "Temperatura máxima",
 					value:
@@ -218,7 +227,7 @@ export default class Device extends Component {
 
 						<div className="d-flex flex-wrap col-sm-12">
 							{deviceCards.map((card, index) => (
-								<div key={index} className="col-12 col-sm mb-5">
+								<div key={index} className="col-12 col-sm-3 mb-5">
 									<Card className={card.classes}>
 										<Card.Body className="d-flex align-items-center">
 											<div className="col-sm-4 fa-3x align-items-center justify-content-center d-flex">
