@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
-import audi from "../assets/audi.png";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./DeviceCard.scss";
@@ -86,7 +86,7 @@ export default class DeviceCard extends Component {
 						<Link to={"/device/" + device._id}>{device.name}</Link>
 						<Card.Text className="flex-fill"> {device.type} </Card.Text>
 					</div>
-					<div className="col-sm d-flex justify-content-end p-0">
+					<div className="col-sm d-flex flex-column justify-content-center align-items-center p-0">
 						<div
 							className={
 								"status " +
@@ -97,7 +97,7 @@ export default class DeviceCard extends Component {
 									: "bg-danger")
 							}
 						/>
-						<FontAwesomeIcon icon="battery-full" className="mr-2" />
+						<FontAwesomeIcon icon="battery-full" className="fa-2x" />
 					</div>
 				</Card.Header>
 				<div className="d-flex flex-row justify-content-center align-items-center">
@@ -123,7 +123,7 @@ export default class DeviceCard extends Component {
 					<Card
 						className={
 							classes +
-							" d-flex flex-column align-items-center text-white p-2 m-2"
+							" d-flex flex-column align-items-center text-white p-2 m-2 text-truncate"
 						}
 					>
 						<span>
@@ -152,3 +152,7 @@ export default class DeviceCard extends Component {
 		);
 	}
 }
+
+DeviceCard.propTypes = {
+	device: PropTypes.object
+};

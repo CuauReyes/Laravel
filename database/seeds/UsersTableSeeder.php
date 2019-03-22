@@ -20,7 +20,6 @@ class UsersTableSeeder extends Seeder
 			'name' => 'Carlos Barranco',
 			'email' => 'caba9313@gmail.com',
 			'password' => $password,
-			'plants' => ['5c91606c837fe1375f13b6ce', '5c91606c837fe1375f13b6cf']
 		]);
 
 		$password = ('123');
@@ -28,7 +27,6 @@ class UsersTableSeeder extends Seeder
 			'name' => 'Cuau',
 			'email' => 'cuau.reyes@outlook.com',
 			'password' => $password,
-			'plants' => ['5c91606c837fe1375f13b6ce', '5c91606c837fe1375f13b6cf']
 		]);
 	}
 }

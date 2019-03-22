@@ -115,7 +115,7 @@ class UserController extends Controller
 	{
 
 		if (!$request->plant_id) {
-			return;
+			return back()->with('failed', 'Not a plant id');
 		}
 		$userId = $request->route('id');
 
@@ -123,5 +123,23 @@ class UserController extends Controller
 
 		$user->plants()->attach($request->plant_id);
 		$user->save();
+
+		return back()->with('success', 'Plant added');
+	}
+
+	public function removePlant(Request $request)
+	{
+
+		if (!$request->plant_id) {
+			return back()->with('failed', 'Not a plant id');
+		}
+		$userId = $request->route('id');
+
+		$user = User::find($userId);
+
+		$user->plants()->dettach($request->plant_id);
+		$user->save();
+
+		return back()->with('success', 'Plant removed');
 	}
 }

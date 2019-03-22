@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import "./Admin.scss";
 import Sidebar from "./Assets/Sidebar";
+import ClientsTable from "./Clients/Table";
+import DevicesTable from "./Devices/Table";
+import PlantsTable from "./Plants/Table";
+import DevicesAdd from "./Devices/Add";
+import ClientsAdd from "./Clients/Add";
+import PlantsAdd from "./Plants/Add";
 import { api } from "../../const/api";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-import matchSorter from 'match-sorter'
 
 export default class Admin extends Component {
 	constructor(props) {
@@ -22,9 +24,7 @@ export default class Admin extends Component {
 		};
 
 		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleSubmitDevice = this.handleSubmitDevice.bind(this);
-		this.handleSubmitPlant = this.handleSubmitPlant.bind(this);
+		this.loadData = this.loadData.bind(this);
 	}
 
 	handleChange(event) {
@@ -37,6 +37,7 @@ export default class Admin extends Component {
 		});
 	}
 
+<<<<<<< HEAD
 	handleSubmit(event) {
 		console.log(this.state.name);
 		axios
@@ -161,128 +162,30 @@ export default class Admin extends Component {
 		bodyFormData.append('image', imageFile);
 
 		
-	}
-
-
+=======
 	componentDidMount() {
-		axios.get(api.users.all).then(response => {
+		this.loadData();
+>>>>>>> 2b124d70f6c3d3e65b72eedec5687c06c6682199
+	}
+
+	async loadData() {
+		let users = axios.get(api.users.all);
+		let plants = axios.get(api.plants.all);
+		let devices = axios.get(api.devices.all);
+		Promise.all([users, plants, devices]).then(response => {
 			this.setState({
-				users: response.data
+				users: response[0].data,
+				plants: response[1].data,
+				devices: response[2].data
 			});
 		});
-		axios.get(api.plants.all).then(response => {
-			this.setState({
-				plants: response.data
-			});
-		});
-		axios.get(api.devices.all).then(response => {
-			this.setState({
-				devices: response.data
-			});
-		});
-	}
-	reloadPage() {
-		location.reload();
-	}
-	deleteDevice(id) {
-		console.log(id);
-		axios.delete(api.devices.all + "/" + id).then(response => {});
-	}
-	deletePlant(id) {
-		console.log(id);
-		axios.delete(api.plants.all + "/" + id).then(response => {});
-	}
-	deleteUser(id) {
-		console.log(id);
-		axios.delete(api.users.all + "/" + id).then(response => {});
-	}
-	setOnUser(id) {
-		console.log(id);
-		axios.put(api.users.all + "/" + id + "/ON").then(response => {});
-	}
-	setOffUser(id) {
-		console.log(id);
-		axios.put(api.users.all + "/" + id + "/OFF").then(response => {});
-	}
-	setOnPlant(id) {
-		console.log(id);
-		axios.put(api.plants.all + "/" + id + "/ON").then(response => {});
-	}
-	setOffPlant(id) {
-		console.log(id);
-		axios.put(api.plants.all + "/" + id + "/OFF").then(response => {});
-	}
-	setOnDevice(id) {
-		console.log(id);
-		axios.put(api.devices.all + "/" + id + "/ON").then(response => {});
-	}
-	setOffDevice(id) {
-		console.log(id);
-		axios.put(api.devices.all + "/" + id + "/OFF").then(response => {});
-	}
-	
-
-	doSearch()
-	{
-
-		var tableReg = document.getElementById('datos');
-
-		var searchText = document.getElementById('searchTerm').value.toLowerCase();
-
-		var cellsOfRow="";
-
-		var found=false;
-
-		var compareWith="";
-
-		for (var i = 1; i < tableReg.rows.length; i++)
-
-		{
-
-			cellsOfRow = tableReg.rows[i].getElementsByTagName('td');
-
-			found = false;
-
-			for (var j = 0; j < cellsOfRow.length && !found; j++)
-
-			{
-
-				compareWith = cellsOfRow[j].innerHTML.toLowerCase();
-
-				// Buscamos el texto en el contenido de la celda
-
-				if (searchText.length == 0 || (compareWith.indexOf(searchText) > -1))
-
-				{
-
-					found = true;
-
-				}
-
-			}
-
-			if(found)
-
-			{
-
-				tableReg.rows[i].style.display = '';
-
-			} else {
-
-				tableReg.rows[i].style.display = 'none';
-
-			}
-
-		}
-
 	}
 
 	render() {
-		const { users } = this.state;
-		const { plants } = this.state;
-		const { devices } = this.state;
+		const { users, plants, devices } = this.state;
 
 		return (
+<<<<<<< HEAD
 			<div>
 				<div className="container-fluid">
 					<h1>Admin</h1>
@@ -739,297 +642,34 @@ export default class Admin extends Component {
 									</form>
 							</div>
 							</div>			
+=======
+			<div className="container-fluid p-5">
+				<div className="row">
+					<div className="col-sm-12">
+						<h1>Admin</h1>
+>>>>>>> 2b124d70f6c3d3e65b72eedec5687c06c6682199
 					</div>
 				</div>
-			</div>
-				<div className="card mt-5">
-					<div className="card-header">
-						<h2 className="mt-3">Todos Los Clientes</h2>
+				<div className="row">
+					<div className="col-md-4">
+						<ClientsAdd
+							users={users}
+							plants={plants}
+							loadData={this.loadData}
+						/>
 					</div>
-					<div className="col-md-12">
-						<p>
-							La siguiente tabla muestra todos los clientes registrados hasta el
-							momento
-						</p>
-						<ReactTable
-							data={users}
-							filterable
-          		defaultFilterMethod={(filter, row) =>
-            	String(row[filter.id]) === filter.value}
-							columns={[
-								{
-									Header: "Nombre",
-									id: "name",
-									accessor: d => d.name,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["name"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Email",
-									id: "email",
-									accessor: d => d.email,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["email"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Estado",
-									id: "status",
-									accessor: d => d.status,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["status"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Creado",
-									id: "created_at",
-									accessor: d => d.created_at,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["created_at"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Mas",
-									accessor: "_id",
-									Cell: row => (
-										<div>
-											<button type="button" className="btn btn-secondary">
-											<Link to={"/user/" + row.value}>Ver más</Link>
-										</button>
-										<button type="button" className="btn btn-light">
-											<Link to={"/user/" + row.value}>Modificar</Link>
-										</button>
-										<button
-											type="button"
-											className="btn btn-success"
-											data-toggle="modal"
-											data-target="#habilitar"
-											onClick={() => this.setOnUser(row.value)}
-										>
-											Habilitar
-										</button>
-										<button
-											type="button"
-											className="btn btn-warning"
-											data-toggle="modal"
-											data-target="#deshabilitar"
-											onClick={() => this.setOffUser(row.value)}
-										>
-											Deshabilitar
-										</button>
-										<button
-											type="button"
-											className="btn btn-danger"
-											data-toggle="modal"
-											data-target="#eliminar"
-											onClick={() => this.deleteUser(row.value)}
-										>
-											Eliminar
-										</button>
-										</div>
-										
-										
-									)
-								}
-
-							]}
-							defaultPageSize={10}
-							className="-striped -highlight"
-							previousText="Anterior"
-							nextText="Siguiente"
-							loadingText="Cargando..."
-							noDataText="Datos no encontrados"
-							pageText="Página"
-							ofText="de"
-							rowsText="filas"
-							pageSizeOptions={[25, 50, 100]}
+					<div className="col-md-4">
+						<PlantsAdd users={users} loadData={this.loadData} />
+					</div>
+					<div className="col-md-4">
+						<DevicesAdd
+							plants={plants}
+							devices={devices}
+							loadData={this.loadData}
 						/>
 					</div>
 				</div>
-				<div className="modal fade" id="habilitar">
-					<div className="modal-dialog">
-						<div className="modal-content">
-							<div className="modal-header">
-								<h4 className="modal-title">NoTE Admin</h4>
-								<button type="button" className="close" data-dismiss="modal">
-									&times;
-								</button>
-							</div>
-
-							<div className="modal-body">Habilitación correcta...</div>
-
-							<div className="modal-footer">
-								<button
-									type="button"
-									className="btn btn-danger"
-									data-dismiss="modal"
-									onClick={() => this.reloadPage()}
-								>
-									Close
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="modal fade" id="deshabilitar">
-					<div className="modal-dialog">
-						<div className="modal-content">
-							<div className="modal-header">
-								<h4 className="modal-title">NoTE Admin</h4>
-								<button type="button" className="close" data-dismiss="modal">
-									&times;
-								</button>
-							</div>
-
-							<div className="modal-body">Deshabilitación correcta...</div>
-
-							<div className="modal-footer">
-								<button
-									type="button"
-									className="btn btn-danger"
-									data-dismiss="modal"
-									onClick={() => this.reloadPage()}
-								>
-									Close
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="modal fade" id="eliminar">
-					<div className="modal-dialog">
-						<div className="modal-content">
-							<div className="modal-header">
-								<h4 className="modal-title">NoTE Admin</h4>
-								<button type="button" className="close" data-dismiss="modal">
-									&times;
-								</button>
-							</div>
-
-							<div className="modal-body">
-								Registro eliminado correctamente...
-							</div>
-
-							<div className="modal-footer">
-								<button
-									type="button"
-									className="btn btn-danger"
-									data-dismiss="modal"
-									onClick={() => this.reloadPage()}
-								>
-									Close
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="card mt-5">
-					<div className="card-header">
-						<h2 className="mt-3">Todas Las Plantas</h2>
-					</div>
-					<div className="card-body">
-					<ReactTable
-							data={plants}
-							filterable
-          		defaultFilterMethod={(filter, row) =>
-            	String(row[filter.id]) === filter.value}
-							columns={[
-								{
-									Header: "Nombre",
-									id: "name",
-									accessor: d => d.name,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["name"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Localizacion",
-									id: "location",
-									accessor: d => d.location,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["location"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Url",
-									id: "url",
-									accessor: d => d.url,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["url"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Key",
-									id: "key",
-									accessor: d => d.key,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["key"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Estado",
-									id: "status",
-									accessor: d => d.status,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["status"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Acciones",
-									accessor: "_id",
-									Cell: row => (
-										<div>
-										<button type="button" className="btn btn-light">
-											<Link to={"/user/" + row.value}>Modificar</Link>
-										</button>
-										<button
-											type="button"
-											className="btn btn-success"
-											data-toggle="modal"
-											data-target="#habilitar"
-											onClick={() => this.setOnPlant(row.value)}
-										>
-											Habilitar
-										</button>
-										<button
-											type="button"
-											className="btn btn-warning"
-											data-toggle="modal"
-											data-target="#deshabilitar"
-											onClick={() => this.setOffPlant(row.value)}
-										>
-											Deshabilitar
-										</button>
-										<button
-											type="button"
-											className="btn btn-danger"
-											data-toggle="modal"
-											data-target="#eliminar"
-											onClick={() => this.deletePlant(row.value)}
-										>
-											Eliminar
-										</button>
-										</div>
-										
-										
-									)
-								}
-
-							]}
-							defaultPageSize={10}
-							className="-striped -highlight"
-							previousText="Anterior"
-							nextText="Siguiente"
-							loadingText="Cargando..."
-							noDataText="Datos no encontrados"
-							pageText="Página"
-							ofText="de"
-							rowsText="filas"
-							pageSizeOptions={[25, 50, 100]}
-						/>
-					</div>
-				</div>
+<<<<<<< HEAD
 				<div className="card mt-5">
 					<div className="card-header">
 						<h2 className="mt-3">Todos Los Devices</h2>
@@ -1127,7 +767,13 @@ export default class Admin extends Component {
 							pageSizeOptions={[25, 50, 100]}
 						/>
 					</div>
+=======
+				<div className="row">
+					<ClientsTable users={users} loadData={this.loadData} />
+>>>>>>> 2b124d70f6c3d3e65b72eedec5687c06c6682199
 				</div>
+				<PlantsTable plants={plants} loadData={this.loadData} />
+				<DevicesTable devices={devices} />
 			</div>
 		);
 	}
