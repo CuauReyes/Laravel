@@ -142,7 +142,7 @@ class DeviceController extends Controller
 			$name = time() . '.' . $image->getClientOriginalExtension();
 			$destinationPath = public_path('/images/devices/');
 
-			if (File::exists($destinationPath . $device->img)) {
+			if ($device->img && File::exists($destinationPath . $device->img)) {
 				File::delete($destinationPath . $device->img);
 			}
 			$image->move($destinationPath, $name);

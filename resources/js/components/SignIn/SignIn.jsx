@@ -3,12 +3,13 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Carousel from "react-bootstrap/Carousel";
 import Form from "react-bootstrap/Form";
-import "./SignIn.scss";
 import { withRouter } from "react-router-dom";
-import microchip from "./assets/microchip.svg";
+import image1 from "./assets/NoTe-iiot.jpg";
+import image2 from "./assets/NoTe-iiot2.jpg";
+import image3 from "./assets/NoTe-iiot3.jpg";
+import logo from "./assets/logo.png";
 import AuthService from "../../services/auth";
-import { api } from "../../const/api";
-import Axios from "axios";
+import "./SignIn.scss";
 
 class SignIn extends Component {
 	constructor(props) {
@@ -48,29 +49,13 @@ class SignIn extends Component {
 		const carousel = (
 			<Carousel interval={10000}>
 				<Carousel.Item>
-					<img className="d-block w-100" src={microchip} alt="First slide" />
-					<Carousel.Caption>
-						<h3>First slide label</h3>
-						<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-					</Carousel.Caption>
+					<img className="d-block w-100" src={image1} alt="First slide" />
 				</Carousel.Item>
 				<Carousel.Item>
-					<img className="d-block w-100" src={microchip} alt="Third slide" />
-
-					<Carousel.Caption>
-						<h3>Second slide label</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-					</Carousel.Caption>
+					<img className="d-block w-100" src={image2} alt="Third slide" />
 				</Carousel.Item>
 				<Carousel.Item>
-					<img className="d-block w-100" src={microchip} alt="Third slide" />
-
-					<Carousel.Caption>
-						<h3>Third slide label</h3>
-						<p>
-							Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-						</p>
-					</Carousel.Caption>
+					<img className="d-block w-100" src={image3} alt="Third slide" />
 				</Carousel.Item>
 			</Carousel>
 		);
@@ -120,18 +105,20 @@ class SignIn extends Component {
 		return (
 			<div
 				id="SignIn"
-				className="row justify-content-center align-items-center"
+				className="row d-flex flex-column justify-content-center align-items-center"
 			>
-				<div className="col-sm-12 text-center">
-					<h1>NoTE</h1>
+				<div className="col-sm-12 text-center mb-5">
+					<img src={logo} alt="NoTE" className="logo" />
 				</div>
-				<div className="col-md-8 text-white">
+				<div className="col-md-8 col-10 text-white">
 					<div className="row">
 						<Card className="col-sm-12">
 							<div className="row">
-								<div className="col-sm-6 bg-primary p-5">{carousel}</div>
+								<div className="col-sm-6 bg-primary order-2 order-sm-1 p-0">
+									{carousel}
+								</div>
 
-								<div className="col-sm-6 bg-dark p-5">
+								<div className="col-sm-6 bg-dark p-5 order-1 order-sm-2">
 									<h2 className="row">Iniciar sesión</h2>
 									{form}
 								</div>

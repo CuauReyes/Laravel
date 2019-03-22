@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./DeviceCard.scss";
 
+const imagesHost = window.location.origin + "/images/devices/";
 export default class DeviceCard extends Component {
 	static propTypes = {
 		device: PropTypes.object
@@ -101,7 +102,7 @@ export default class DeviceCard extends Component {
 					</div>
 				</Card.Header>
 				<div className="d-flex flex-row justify-content-center align-items-center">
-					<Card.Img variant="top" src={"images/devices/" + device.img} />
+					<Card.Img variant="top" src={imagesHost + device.img} />
 				</div>
 				<Card.Body className="d-flex flex-column">
 					<Card
