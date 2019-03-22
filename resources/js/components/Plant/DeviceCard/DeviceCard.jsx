@@ -6,12 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./DeviceCard.scss";
 
 const imagesHost = window.location.origin + "/images/devices/";
+
 export default class DeviceCard extends Component {
 	static propTypes = {
 		device: PropTypes.object
 	};
 
-	formatValue(type, value) {
+	formatValue(type, value, values = null) {
 		switch (type) {
 			case "ON-OFF":
 				return +value ? "ENCENDIDO" : "APAGADO";

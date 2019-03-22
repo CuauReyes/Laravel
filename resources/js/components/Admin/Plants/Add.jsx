@@ -21,14 +21,13 @@ export default class PlantsAdd extends Component {
 			show: false
 		};
 
-		console.log(this.props.user_id);
-
-		this.handleChange = this.handleChange.bind(this);
+		this.onChangeInput = this.onChangeInput.bind(this);
+		this.onChangeImage = this.onChangeImage.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 	}
 
-	handleChange(event) {
+	onChangeInput(event) {
 		const target = event.target;
 		const value = target.type === "checkbox" ? target.checked : target.value;
 		const name = target.name;
@@ -36,6 +35,13 @@ export default class PlantsAdd extends Component {
 		this.setState({
 			[name]: value
 		});
+	}
+
+	onChangeImage(e) {
+		const target = event.target;
+		const name = target.name;
+
+		this.setState({ [name]: e.target.files[0] });
 	}
 
 	handleSubmit(event) {
@@ -92,7 +98,7 @@ export default class PlantsAdd extends Component {
 									type="text"
 									name="name"
 									value={this.state.name}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 									required
 								/>
 							</Form.Group>
@@ -103,7 +109,7 @@ export default class PlantsAdd extends Component {
 									type="text"
 									name="description"
 									value={this.state.description}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 								/>
 							</Form.Group>
 
@@ -112,8 +118,7 @@ export default class PlantsAdd extends Component {
 								<Form.Control
 									type="file"
 									name="img"
-									value={this.state.img}
-									onChange={this.handleChange}
+									onChange={this.onChangeImage}
 								/>
 							</Form.Group>
 
@@ -123,7 +128,7 @@ export default class PlantsAdd extends Component {
 									type="text"
 									name="location"
 									value={this.state.location}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 								/>
 							</Form.Group>
 
@@ -133,7 +138,7 @@ export default class PlantsAdd extends Component {
 									type="text"
 									name="url"
 									value={this.state.url}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 								/>
 							</Form.Group>
 
@@ -143,7 +148,7 @@ export default class PlantsAdd extends Component {
 									type="text"
 									name="key"
 									value={this.state.key}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 								/>
 							</Form.Group>
 
@@ -154,7 +159,7 @@ export default class PlantsAdd extends Component {
 										as="select"
 										name="user_id"
 										value={this.state.user_id}
-										onChange={this.handleChange}
+										onChange={this.onChangeInput}
 										required
 									>
 										<option value="" defaultValue>
@@ -175,7 +180,7 @@ export default class PlantsAdd extends Component {
 									as="select"
 									name="status"
 									value={this.state.status}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 								>
 									<option value="" defaultValue>
 										Selecciona

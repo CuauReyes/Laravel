@@ -133,9 +133,11 @@ class DeviceController extends Controller
 	{
 		$deviceId = $request->route('id');
 		$device = Device::find($deviceId);
+
 		$this->validate($request, [
 			'input_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 		]);
+
 
 		if ($request->hasFile('input_img')) {
 			$image = $request->file('input_img');

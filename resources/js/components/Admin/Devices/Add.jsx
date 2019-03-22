@@ -20,19 +20,27 @@ export default class DevicesAdd extends Component {
 			show: false
 		};
 
-		this.handleChange = this.handleChange.bind(this);
+		this.onChangeInput = this.onChangeInput.bind(this);
+		this.onChangeImage = this.onChangeImage.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleSubmitImg = this.handleSubmitImg.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 	}
 
-	handleChange(event) {
+	onChangeInput(event) {
 		const target = event.target;
 		const value = target.type === "checkbox" ? target.checked : target.value;
 		const name = target.name;
 		this.setState({
 			[name]: value
 		});
+	}
+
+	onChangeImage(e) {
+		const target = event.target;
+		const name = target.name;
+
+		this.setState({ [name]: e.target.files[0] });
 	}
 
 	handleSubmit(event) {
@@ -71,8 +79,10 @@ export default class DevicesAdd extends Component {
 		let bodyFormData = new FormData();
 		bodyFormData.append("input_img", this.state.input_img);
 
+		console.log(this.state.input_img);
+
 		Axios.post(api.devices.get(this.state.device_id) + "/image", bodyFormData, {
-			headers: { "Content-Type": "multipart/form-data" }
+			headers: { "content-type": "multipart/form-data" }
 		})
 			.then(function(response) {
 				this.setState({ input_img: "", modalShow: true });
@@ -102,7 +112,7 @@ export default class DevicesAdd extends Component {
 									type="text"
 									name="name"
 									value={this.state.name}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 									required
 								/>
 							</Form.Group>
@@ -113,7 +123,7 @@ export default class DevicesAdd extends Component {
 									as="select"
 									name="type"
 									value={this.state.type}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 								>
 									<option value="" defaultValue>
 										Selecciona
@@ -129,8 +139,7 @@ export default class DevicesAdd extends Component {
 								<Form.Control
 									type="file"
 									name="img"
-									value={this.state.img}
-									onChange={this.handleChange}
+									onChange={this.onChangeImage}
 								/>
 							</Form.Group>
 
@@ -140,7 +149,7 @@ export default class DevicesAdd extends Component {
 									type="text"
 									name="description"
 									value={this.state.description}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 								/>
 							</Form.Group>
 
@@ -150,7 +159,7 @@ export default class DevicesAdd extends Component {
 									as="select"
 									name="plant_id"
 									value={this.state.plant_id}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 								>
 									<option value="" defaultValue>
 										Selecciona
@@ -169,7 +178,7 @@ export default class DevicesAdd extends Component {
 									as="select"
 									name="status"
 									value={this.state.status}
-									onChange={this.handleChange}
+									onChange={this.onChangeInput}
 								>
 									<option value="" defaultValue>
 										Selecciona
@@ -197,7 +206,7 @@ export default class DevicesAdd extends Component {
 										as="select"
 										name="device_id"
 										value={this.state.device_id}
-										onChange={this.handleChange}
+										onChange={this.onChangeInput}
 										required
 									>
 										<option value="" defaultValue>
@@ -216,8 +225,7 @@ export default class DevicesAdd extends Component {
 									<Form.Control
 										type="file"
 										name="input_img"
-										value={this.state.input_img}
-										onChange={this.handleChange}
+										onChange={this.onChangeImage}
 										required
 									/>
 								</Form.Group>

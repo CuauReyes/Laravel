@@ -17,6 +17,7 @@ import ReactExport from "react-data-export";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+const imagesHost = window.location.origin + "/images/devices/";
 
 export default class Device extends Component {
 	constructor() {
@@ -199,6 +200,14 @@ export default class Device extends Component {
 			);
 		}
 
+		if (device && device.type === "COUNTER") {
+			deviceCards[0].title = "Activaciones";
+			deviceCards[0].value = device.values.reduce(
+				(prev, val) => (prev += val.value),
+				0
+			);
+		}
+
 		return (
 			<div className="device">
 				<Header />
@@ -216,7 +225,9 @@ export default class Device extends Component {
 
 						<div className="d-flex flex-wrap col-sm-12 mb-5">
 							<div className="col-sm-2 col-lg-1">
-								<img className="device-img" src={device.img} />
+								{device.img ? (
+									<img className="device-img" src={imagesHost + device.img} />
+								) : null}
 							</div>
 							<div className="col-sm-10">
 								<h2> {device.name} </h2>

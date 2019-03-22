@@ -22,7 +22,11 @@ class ValueController extends Controller
 
 		$name = $data['dev_id'];
 		$device = Device::where('name', '=', $name)->firstOrFail();
-		$device->count = $device->count + 1;
+		$device->count++;
+
+		if ($device->type == 'COUNTER') {
+			$device->counter += $data['payload_fields']['Cvalue'];
+		}
 
 		$value = new Value([
 			'value' => $data['payload_fields']['Cvalue'],

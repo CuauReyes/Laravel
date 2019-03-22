@@ -74,13 +74,12 @@ class PlantController extends Controller
 	/**
      * Display the specified resource.
      *
-     * @param  \App\Plant  $plant
+     * @param  \App\Plant $plant
      * @return \Illuminate\Http\Response
      */
 	public function show($id)
 	{
 		$plant = Plant::with('users', 'devices', 'devices.lastValue')->find($id);
-
 		return response()->json($plant, 200);
 	}
 
