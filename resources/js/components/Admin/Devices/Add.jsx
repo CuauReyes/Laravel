@@ -13,6 +13,7 @@ export default class DevicesAdd extends Component {
 			name: "",
 			description: "",
 			img: "",
+			input_img: "",
 			type: -1,
 			status: -1,
 			plant_id: -1,
@@ -29,7 +30,6 @@ export default class DevicesAdd extends Component {
 		const target = event.target;
 		const value = target.type === "checkbox" ? target.checked : target.value;
 		const name = target.name;
-
 		this.setState({
 			[name]: value
 		});
@@ -51,19 +51,17 @@ export default class DevicesAdd extends Component {
 			headers: { "Content-Type": "multipart/form-data" }
 		})
 			.then(function(response) {
-				//handle success
-				console.log(response);
 				this.setState({
 					name: "",
 					description: "",
 					img: "",
 					type: -1,
 					status: -1,
-					plant_id: -1
+					plant_id: -1,
+					modalShow: true
 				});
 			})
 			.catch(function(response) {
-				//handle error
 				console.log(response);
 			});
 	}
@@ -71,18 +69,15 @@ export default class DevicesAdd extends Component {
 	handleSubmitImg(event) {
 		event.preventDefault();
 		let bodyFormData = new FormData();
-		bodyFormData.append("img", this.state.img);
+		bodyFormData.append("input_img", this.state.input_img);
 
 		Axios.post(api.devices.get(this.state.device_id) + "/image", bodyFormData, {
 			headers: { "Content-Type": "multipart/form-data" }
 		})
 			.then(function(response) {
-				//handle success
-				console.log(response);
-				this.setState({ modalShow: true });
+				this.setState({ input_img: "", modalShow: true });
 			})
 			.catch(function(response) {
-				//handle error
 				console.log(response);
 			});
 	}
@@ -220,8 +215,8 @@ export default class DevicesAdd extends Component {
 									<Form.Label> Imagen </Form.Label>
 									<Form.Control
 										type="file"
-										name="img"
-										value={this.state.img}
+										name="input_img"
+										value={this.state.input_img}
 										onChange={this.handleChange}
 										required
 									/>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Plant;
 use App\Device;
 use Illuminate\Http\Request;
+use File;
 
 class PlantController extends Controller
 {
@@ -15,7 +16,6 @@ class PlantController extends Controller
      */
 	public function index()
 	{
-		//
 		return Plant::with('users', 'devices')->get();
 	}
 
@@ -37,21 +37,38 @@ class PlantController extends Controller
      */
 	public function store(Request $request)
 	{
-
 		$plant = new Plant([
 			'name'     => $request->name,
 			'description'     => $request->description,
 			'location'     => $request->location,
 			'url'     => $request->url,
 			'key'     => $request->key,
-			'img' => $request->img,
 			'status'     => $request->status,
 		]);
-		$plant->save();
 
 		if ($request->user_id) {
 			$plant->users()->attach($request->user_id);
 		}
+
+		if ($request->hasFile('img')) {
+			$this->validate($request, [
+				'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+			]);
+
+			$image = $request->file('img');
+			$name = time() . '.' . $image->getClientOriginalExtension();
+			$destinationPath = public_path('/images/plants');
+
+			if (File::exists($destinationPath . $plant->img)) {
+				File::delete($destinationPath . $plant->img);
+			}
+
+			$image->move($destinationPath, $name);
+
+			$plant->img = $name;
+		}
+
+		$plant->save();
 	}
 
 	/**
@@ -62,7 +79,6 @@ class PlantController extends Controller
      */
 	public function show($id)
 	{
-		//
 		$plant = Plant::with('users', 'devices', 'devices.lastValue')->find($id);
 
 		return response()->json($plant, 200);
@@ -112,6 +128,7 @@ class PlantController extends Controller
 
 		$Plant->save();
 	}
+
 	public function OFF($id)
 	{
 		$Plant = Plant::find($id);
@@ -123,6 +140,7 @@ class PlantController extends Controller
 
 	public function fileUpload(Request $request)
 	{
+
 		$plantId = $request->route('id');
 
 		$plant = Plant::find($plantId);
@@ -131,15 +149,24 @@ class PlantController extends Controller
 			'input_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 		]);
 
+
 		if ($request->hasFile('input_img')) {
 			$image = $request->file('input_img');
 			$name = time() . '.' . $image->getClientOriginalExtension();
-			$destinationPath = public_path('/images');
+			$destinationPath = public_path('/images/plants/');
+
+			if (File::exists($destinationPath . $plant->img)) {
+				File::delete($destinationPath . $plant->img);
+			}
+
 			$image->move($destinationPath, $name);
 
-			$plant->img = $destinationPath;
+			$plant->img = $name;
+			$plant->save();
 
-			return back()->with('success', 'Image Upload successfully');
+			return response()->json([
+				'message' => 'Image Upload successfully',
+			]);
 		}
 	}
 
