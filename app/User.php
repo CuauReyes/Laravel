@@ -42,6 +42,6 @@ class User extends Authenticatable
 
 	public function plants()
 	{
-		return $this->hasMany('App\Plant');
+		return $this->belongsToMany('App\Plant', null, 'user_ids', 'plant_ids');
 	}
 }

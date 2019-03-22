@@ -44,8 +44,8 @@ class DevicesTableSeeder extends Seeder
 				Device::create([
 					'name' => $devices[$j],
 					'type' => $type,
-					'battery' => rand(0, 100),
-					'status' => 1,
+					'battery' => 100,
+					'status' => 0,
 					'plant_id' => $plant->id,
 				]);
 			}

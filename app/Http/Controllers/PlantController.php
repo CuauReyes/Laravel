@@ -16,7 +16,7 @@ class PlantController extends Controller
 	public function index()
 	{
 		//
-		return Plant::with('user', 'devices')->get();
+		return Plant::with('users', 'devices')->get();
 	}
 
 	/**
@@ -37,6 +37,7 @@ class PlantController extends Controller
      */
 	public function store(Request $request)
 	{
+
 		$plant = new Plant([
 			'name'     => $request->name,
 			'description'     => $request->description,
@@ -45,9 +46,12 @@ class PlantController extends Controller
 			'key'     => $request->key,
 			'img' => $request->img,
 			'status'     => $request->status,
-			'user_id'     => $request->user_id,
 		]);
 		$plant->save();
+
+		if ($request->user_id) {
+			$plant->users()->attach($request->user_id);
+		}
 	}
 
 	/**
@@ -59,7 +63,7 @@ class PlantController extends Controller
 	public function show($id)
 	{
 		//
-		$plant = Plant::with('user', 'devices', 'devices.lastValue')->find($id);
+		$plant = Plant::with('users', 'devices', 'devices.lastValue')->find($id);
 
 		return response()->json($plant, 200);
 	}
@@ -115,5 +119,56 @@ class PlantController extends Controller
 		$Plant->status = '0';
 
 		$Plant->save();
+	}
+
+	public function fileUpload(Request $request)
+	{
+		$plantId = $request->route('id');
+
+		$plant = Plant::find($plantId);
+
+		$this->validate($request, [
+			'input_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+		]);
+
+		if ($request->hasFile('input_img')) {
+			$image = $request->file('input_img');
+			$name = time() . '.' . $image->getClientOriginalExtension();
+			$destinationPath = public_path('/images');
+			$image->move($destinationPath, $name);
+
+			$plant->img = $destinationPath;
+
+			return back()->with('success', 'Image Upload successfully');
+		}
+	}
+
+	public function addUser(Request $request)
+	{
+		if (!$request->user_id) {
+			return;
+		}
+		$plantId = $request->route('id');
+
+		$plant = Plant::find($plantId);
+
+		$plant->users()->attach($request->user_id);
+		$plant->save();
+	}
+
+	public function removeUser(Request $request)
+	{
+
+		if (!$request->user_id) {
+			return back()->with('failed', 'Not a user id');
+		}
+		$plantId = $request->route('id');
+
+		$plant = Plant::find($plantId);
+
+		$plant->plants()->dettach($request->user_id);
+		$plant->save();
+
+		return back()->with('success', 'User removed');
 	}
 }

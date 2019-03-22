@@ -31,7 +31,11 @@ import {
 	faBolt,
 	faWifi,
 	faClock,
-	faCheck
+	faTemperatureHigh,
+	faTemperatureLow,
+	faThermometerHalf,
+	faCheck,
+	faTimes
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
 	faMicrochip,
@@ -46,7 +50,11 @@ library.add(
 	faBolt,
 	faWifi,
 	faClock,
-	faCheck
+	faTemperatureHigh,
+	faTemperatureLow,
+	faThermometerHalf,
+	faCheck,
+	faTimes
 );
 
 const history = createBrowserHistory();

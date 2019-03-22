@@ -18,12 +18,11 @@ class Plant extends Eloquent
 		'key',
 		'img',
 		'status',
-		'user_id',
 	];
 
-	public function user()
+	public function users()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsToMany('App\User', null, 'plant_ids', 'user_ids');
 	}
 
 	public function devices()

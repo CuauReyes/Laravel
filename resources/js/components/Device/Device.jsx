@@ -3,7 +3,6 @@ import "./Device.scss";
 import axios from "axios";
 import Header from "../Header/Header";
 import { api } from "../../const/api";
-import deviceImg from "./assets/device1.jpg";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -95,9 +94,49 @@ export default class Device extends Component {
 			case "OPEN-CLOSED":
 				return +value ? "ABIERTO" : "CERRADO";
 			case "TEMPERATURE A":
-				return +value + "º";
+				return +value + "º C";
 			case "COUNTER":
-				return +value + "activado";
+				return +value + " activado";
+		}
+	}
+
+	transformDigit(digit) {
+		return digit < 10 ? "0" + digit : digit;
+	}
+
+	lastConnection(date) {
+		let today = new Date();
+		let last = new Date(date);
+
+		let hour =
+			this.transformDigit(last.getHours()) +
+			":" +
+			this.transformDigit(last.getMinutes()) +
+			":" +
+			this.transformDigit(last.getSeconds());
+
+		if (today.getFullYear() === last.getFullYear()) {
+			if (today.getMonth() === last.getMonth()) {
+				if (today.getDate() === last.getDate()) {
+					return hour;
+				}
+				return (
+					this.transformDigit(last.getMonth() + 1) +
+					"-" +
+					this.transformDigit(last.getDate()) +
+					" " +
+					hour
+				);
+			}
+			return (
+				last.getFullYear() +
+				"-" +
+				this.transformDigit(last.getMonth() + 1) +
+				"-" +
+				this.transformDigit(last.getDate()) +
+				" " +
+				hour
+			);
 		}
 	}
 
@@ -109,14 +148,19 @@ export default class Device extends Component {
 					{
 						title: "Último dato",
 						value: device.values
-							? this.formatValue(device.type, device.values[0].value)
+							? this.formatValue(
+									device.type,
+									device.values[device.values.length - 1].value
+							  )
 							: null,
 						classes: "bg-primary text-white",
 						icon: "clock"
 					},
 					{
 						title: "Última conexión",
-						value: device.values ? device.values[0].created_at : null,
+						value: device.values
+							? this.lastConnection(device.values[0].created_at)
+							: null,
 						classes: "bg-dark text-white",
 						icon: "wifi"
 					},
@@ -128,6 +172,32 @@ export default class Device extends Component {
 					}
 			  ]
 			: [];
+
+		if (device && device.type === "TEMPERATURE A") {
+			deviceCards.splice(0, 1);
+			deviceCards.unshift(
+				{
+					title: "Temperatura actual",
+					value: device.values[device.values.length - 1].value + "º",
+					classes: "bg-primary text-white",
+					icon: "thermometer-half"
+				},
+				{
+					title: "Temperatura máxima",
+					value:
+						Math.max.apply(Math, device.values.map(val => val.value)) + "º",
+					classes: "bg-danger text-white",
+					icon: "temperature-high"
+				},
+				{
+					title: "Temperatura mínima",
+					value:
+						Math.min.apply(Math, device.values.map(val => val.value)) + "º",
+					classes: "bg-info text-white",
+					icon: "temperature-low"
+				}
+			);
+		}
 
 		return (
 			<div className="device">
@@ -146,7 +216,7 @@ export default class Device extends Component {
 
 						<div className="d-flex flex-wrap col-sm-12 mb-5">
 							<div className="col-sm-2 col-lg-1">
-								<img className="device-img" src={deviceImg} />
+								<img className="device-img" src={device.img} />
 							</div>
 							<div className="col-sm-10">
 								<h2> {device.name} </h2>
@@ -156,10 +226,10 @@ export default class Device extends Component {
 
 						<div className="d-flex flex-wrap col-sm-12">
 							{deviceCards.map((card, index) => (
-								<div key={index} className="col-12 col-sm col-md mb-5">
+								<div key={index} className="col-12 col-sm-3 mb-5">
 									<Card className={card.classes}>
 										<Card.Body className="d-flex align-items-center">
-											<div className="col-3 col-sm-4 fa-3x align-items-center justify-content-center d-flex">
+											<div className="col-sm-4 fa-3x align-items-center justify-content-center d-flex">
 												<FontAwesomeIcon icon={card.icon} />
 											</div>
 											<div className="col-sm-8">
@@ -210,7 +280,7 @@ export default class Device extends Component {
 								</ExcelFile>
 							</div>
 							<div id="chart" className="col-sm-12">
-								<ChartDevice values={data} />
+								<ChartDevice values={data} type={device.type} />
 							</div>
 						</div>
 

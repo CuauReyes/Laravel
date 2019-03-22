@@ -19,14 +19,14 @@ class UsersTableSeeder extends Seeder
 		User::create([
 			'name' => 'Carlos Barranco',
 			'email' => 'caba9313@gmail.com',
-			'password' => $password
+			'password' => $password,
 		]);
 
 		$password = ('123');
 		User::create([
 			'name' => 'Cuau',
 			'email' => 'cuau.reyes@outlook.com',
-			'password' => $password
+			'password' => $password,
 		]);
 	}
 }

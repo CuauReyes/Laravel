@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./Chart.scss";
 
 import {
@@ -6,18 +7,18 @@ import {
 	YAxis,
 	CartesianGrid,
 	Tooltip,
-	Legend,
 	Brush,
 	AreaChart,
 	Area
 } from "recharts";
 
-export default class ChartDevice extends Component {
+class ChartDevice extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			width: 800
 		};
+		this.onResize = this.onResize.bind(this);
 	}
 
 	componentDidMount() {
@@ -25,18 +26,59 @@ export default class ChartDevice extends Component {
 		this.setState({
 			width
 		});
+		window.addEventListener("resize", this.onResize, false);
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.onResize, false);
+	}
+
+	onResize() {
+		let width = document.getElementById("chart").clientWidth;
+		this.setState({
+			width
+		});
+	}
+
+	typeChart(type) {
+		switch (type) {
+			case "ON-OFF":
+				return "step";
+			case "OPEN-CLOSED":
+				return "step";
+			case "TEMPERATURE A":
+				return "natural";
+			case "COUNTER":
+				return "linear";
+		}
+	}
+
+	parseDate(type, data) {
+		switch (type) {
+			case "COUNTER":
+				let sum;
+				return (data = data.map((elem, index) => {
+					sum = (sum || 0) + elem.value;
+					return {
+						name: elem.name,
+						value: sum
+					};
+				}));
+		}
 	}
 
 	render() {
 		const { width } = this.state;
-		const { values } = this.props;
+		const { values, type } = this.props;
 		let data = [];
 		values.forEach(val => {
 			data.push({
-				name: new Date(val.created_at).toISOString(),
+				name: new Date(val.created_at).toString(),
 				value: +val.value
 			});
 		});
+
+		data = this.parseDate(type, data);
 
 		return (
 			<div className="row">
@@ -46,11 +88,12 @@ export default class ChartDevice extends Component {
 						height={400}
 						data={data}
 						syncId="anyId"
+						baseValue={"dataMin"}
 						margin={{
-							top: 10,
-							right: 30,
-							left: 0,
-							bottom: 0
+							top: 20,
+							right: 20,
+							left: 20,
+							bottom: 20
 						}}
 					>
 						<defs>
@@ -64,11 +107,13 @@ export default class ChartDevice extends Component {
 						<YAxis />
 						<Tooltip />
 						<Area
-							type="monotone"
+							type={this.typeChart(type)}
 							dataKey="value"
 							stroke="#8884d8"
 							dot={true}
 							isAnimationActive={true}
+							animationEasing={"linear"}
+							baseLine={8}
 							fillOpacity={1}
 							fill="url(#colorValue)"
 						/>
@@ -79,3 +124,10 @@ export default class ChartDevice extends Component {
 		);
 	}
 }
+
+ChartDevice.propTypes = {
+	values: PropTypes.array,
+	type: PropTypes.string
+};
+
+export default ChartDevice;

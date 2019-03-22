@@ -8,7 +8,9 @@
 		}
 	},
 	"rules": {
+		"no-debugger": 2,
 		"semi": "error",
-		"no-unused-vars": "off"
+		"no-unused-vars": "off",
+		"react/prop-types": "on"
 	}
 }

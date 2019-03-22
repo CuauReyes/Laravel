@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Plants.scss";
 import axios from "axios";
-import Card from "react-bootstrap/Card";
 import PlantCard from "./PlantCard/PlantCard";
 import Header from "../Header/Header";
 import { api } from "../../const/api";
@@ -15,9 +14,11 @@ export default class Plants extends Component {
 	}
 
 	componentDidMount() {
-		axios.get(api.plants.all).then(response => {
+		let user = JSON.parse(window.localStorage.getItem("user"));
+		console.log(user);
+		axios.get(api.users.get(user._id)).then(response => {
 			this.setState({
-				plants: response.data
+				plants: response.data.plants
 			});
 		});
 	}
@@ -35,7 +36,10 @@ export default class Plants extends Component {
 
 					<div className="col-sm-12 d-flex flex-wrap">
 						{plants.map((plant, key) => (
-							<div key={key} className="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-2">
+							<div
+								key={key}
+								className="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-2"
+							>
 								<PlantCard plant={plant} />
 							</div>
 						))}
