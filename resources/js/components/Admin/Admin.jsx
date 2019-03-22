@@ -140,17 +140,11 @@ export default class Admin extends Component {
 		console.log(this.state.user_id)
 		axios
 			.put(
-				api.users.get(this.state.user_id)+"addPlant",
+				api.users.get(this.state.user_id)+"/addPlant",
 				{
-					user: this.state.user_id,
-					plants: this.state.addplantas	
+					user_id: this.state.user_id,
+					plant_id: this.state.addplantas	
 				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-						"X-Requested-With": "XMLHttpRequest"
-					}
-				}
 			)
 			.then(response => {
 			
@@ -346,24 +340,7 @@ export default class Admin extends Component {
 												<option value="1">Activo</option>
 												<option value="0">Inactivo</option>
 											</select>
-										</div>
-										<div className="card-header">Selecciona una planta existente (Opcional)</div>
-										<div className="form-group">
-										<select
-												className="form-control"
-												id="plantas"
-												name="plantas"
-												value={this.state.plantas}
-												onChange={this.handleChange}
-											>
-												<option value="0">Selecciona planta</option>
-												{plants.map((plant, key) => (
-													<option key={key} value={plant._id}>
-														{plant._id}
-													</option>
-												))}
-											</select>
-										</div>
+										</div>					
 										<button
 											type="submit"
 											className="btn btn-primary"
@@ -450,6 +427,8 @@ export default class Admin extends Component {
 										<button
 											type="submit"
 											className="btn btn-primary"
+											data-toggle="modal"
+											data-target="#myModal2"
 										>
 											Aceptar
 										</button>
@@ -630,23 +609,12 @@ export default class Admin extends Component {
 											value={this.state.type}
 											onChange={this.handleChange}
 										>
-											<option value="0">Selecciona usuario</option>
+											<option value="0">Selecciona tipo de sensor</option>
 											<option value="ON-OFF">ON-OFF</option>
 											<option value="TEMP">TEMPERATURE A</option>
 											<option value="COUNTER">COUNTER</option>
 										</select>
 									</div>
-									<div className="form-group">
-											<label htmlFor="img">Imagen:</label>
-											<input
-											
-												type="file"
-												className="form-control-file border"
-												id="img"
-												name="img"
-												
-											/>
-										</div>
 										<div className="form-group">
 											<label htmlFor="description">Descripción:</label>
 											<input
@@ -1087,22 +1055,6 @@ export default class Admin extends Component {
 									accessor: d => d.type,
                   filterMethod: (filter, rows) =>
                     matchSorter(rows, filter.value, { keys: ["type"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Descripcion",
-									id: "description",
-									accessor: d => d.description,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["description"] }),
-                  filterAll: true
-								},
-								{
-									Header: "Imagen",
-									id: "img",
-									accessor: d => d.img,
-                  filterMethod: (filter, rows) =>
-                    matchSorter(rows, filter.value, { keys: ["img"] }),
                   filterAll: true
 								},
 								{
