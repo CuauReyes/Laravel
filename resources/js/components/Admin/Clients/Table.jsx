@@ -99,59 +99,82 @@ export default class ClientsTable extends Component {
 									accessor: d => d.status,
 									filterMethod: (filter, rows) =>
 										matchSorter(rows, filter.value, { keys: ["status"] }),
-									filterAll: true,
-									maxWidth: 50
+									filterAll: true
 								},
 								{
 									Header: "Creado",
 									id: "created_at",
+									filterable: false,
 									accessor: d => d.created_at,
 									filterMethod: (filter, rows) =>
-										matchSorter(rows, filter.value, { keys: ["created_at"] }),
-									filterAll: true
+										matchSorter(rows, filter.value, { keys: ["created_at"] })
 								},
 								{
 									Header: "Acciones",
-									accessor: "_id",
-									Cell: row => (
-										<div>
-											<Button type="button" variant="secondary">
-												<Link to={"/user/" + row.value}>Ver más</Link>
-											</Button>
-											<Button type="button" className="btn btn-light">
-												<Link to={"/user/" + row.value}>Modificar</Link>
-											</Button>
-											<Button
-												type="button"
-												variant="success"
-												data-toggle="modal"
-												data-target="#habilitar"
-												onClick={() => this.setUserOn(row.value)}
-											>
-												Habilitar
-											</Button>
-											<Button
-												type="button"
-												variant="warning"
-												data-toggle="modal"
-												data-target="#deshabilitar"
-												onClick={() => this.setUserOff(row.value)}
-											>
-												Deshabilitar
-											</Button>
-											<Button
-												type="button"
-												variant="danger"
-												data-toggle="modal"
-												data-target="#eliminar"
-												onClick={() => this.deleteUser(row.value)}
-											>
-												Eliminar
-											</Button>
-										</div>
-									),
-									filterAll: false,
-									minWidth: 400
+									columns: [
+										{
+											Header: "Ver más",
+											accessor: "_id",
+											filterable: false,
+											Cell: row => (
+												<Button type="button" variant="secondary">
+													<Link to={"/user/" + row.value}> Ver más </Link>
+												</Button>
+											)
+										},
+										{
+											Header: "Modificar",
+											accessor: "_id",
+											filterable: false,
+											Cell: row => (
+												<Button type="button" variant="light">
+													<Link to={"/user/" + row.value}> Modificar </Link>
+												</Button>
+											)
+										},
+										{
+											Header: "Habilitar",
+											accessor: "_id",
+											filterable: false,
+											Cell: row => (
+												<Button
+													type="button"
+													variant="success"
+													onClick={() => this.setUserOn(row.value)}
+												>
+													Habilitar
+												</Button>
+											)
+										},
+										{
+											Header: "Deshabilitar",
+											accessor: "_id",
+											filterable: false,
+											Cell: row => (
+												<Button
+													type="button"
+													variant="warning"
+													onClick={() => this.setUserOff(row.value)}
+												>
+													Deshabilitar
+												</Button>
+											)
+										},
+										{
+											Header: "Eliminar",
+											accessor: "_id",
+											filterable: false,
+											Cell: row => (
+												<Button
+													type="button"
+													variant="danger"
+													onClick={() => this.deleteUser(row.value)}
+												>
+													Eliminar
+												</Button>
+											)
+										}
+									]
 								}
 							]}
 							defaultPageSize={10}

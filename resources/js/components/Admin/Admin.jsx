@@ -58,9 +58,11 @@ export default class Admin extends Component {
 		const { users, plants, devices } = this.state;
 
 		return (
-			<div className="container-fluid">
+			<div className="container-fluid p-5">
 				<div className="row">
-					<h1>Admin</h1>
+					<div className="col-sm-12">
+						<h1>Admin</h1>
+					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-4">
@@ -84,7 +86,7 @@ export default class Admin extends Component {
 				<div className="row">
 					<ClientsTable users={users} loadData={this.loadData} />
 				</div>
-				<PlantsTable plants={plants} />
+				<PlantsTable plants={plants} loadData={this.loadData} />
 				<DevicesTable devices={devices} />
 			</div>
 		);

@@ -199,8 +199,8 @@ export default class ClientsAdd extends Component {
 								<Form.Label> Seleccionar planta </Form.Label>
 								<Form.Control
 									as="select"
-									name="user_id"
-									value={this.state.user_id}
+									name="plant_id"
+									value={this.state.plant_id}
 									onChange={this.handleChange}
 								>
 									<option value="" defaultValue>

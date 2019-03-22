@@ -98,7 +98,7 @@ export default class DevicesAdd extends Component {
 		return (
 			<div>
 				<Card>
-					<Card.Header>Agregar Device:</Card.Header>
+					<Card.Header>Agregar Device</Card.Header>
 					<Card.Body>
 						<Form onSubmit={this.handleSubmit}>
 							<Form.Group>
@@ -191,47 +191,49 @@ export default class DevicesAdd extends Component {
 					</Card.Body>
 				</Card>
 
-				<Card className="card mt-4">
-					<Card.Header>Añadir imagen al device</Card.Header>
-					<Card.Body>
-						<Form onSubmit={this.handleSubmitImg}>
-							<Form.Group>
-								<Form.Label>Seleccione device</Form.Label>
-								<Form.Control
-									as="select"
-									name="device_id"
-									value={this.state.device_id}
-									onChange={this.handleChange}
-									required
-								>
-									<option value="" defaultValue>
-										Selecciona
-									</option>
-									{devices.map((device, key) => (
-										<option key={key} value={device._id}>
-											{device.name}
+				{devices ? (
+					<Card className="card mt-4">
+						<Card.Header>Añadir imagen al device</Card.Header>
+						<Card.Body>
+							<Form onSubmit={this.handleSubmitImg}>
+								<Form.Group>
+									<Form.Label>Seleccione device</Form.Label>
+									<Form.Control
+										as="select"
+										name="device_id"
+										value={this.state.device_id}
+										onChange={this.handleChange}
+										required
+									>
+										<option value="" defaultValue>
+											Selecciona
 										</option>
-									))}
-								</Form.Control>
-							</Form.Group>
+										{devices.map((device, key) => (
+											<option key={key} value={device._id}>
+												{device.name}
+											</option>
+										))}
+									</Form.Control>
+								</Form.Group>
 
-							<Form.Group>
-								<Form.Label> Imagen </Form.Label>
-								<Form.Control
-									type="file"
-									name="img"
-									value={this.state.img}
-									onChange={this.handleChange}
-									required
-								/>
-							</Form.Group>
+								<Form.Group>
+									<Form.Label> Imagen </Form.Label>
+									<Form.Control
+										type="file"
+										name="img"
+										value={this.state.img}
+										onChange={this.handleChange}
+										required
+									/>
+								</Form.Group>
 
-							<Button type="submit" variant="primary">
-								Aceptar
-							</Button>
-						</Form>
-					</Card.Body>
-				</Card>
+								<Button type="submit" variant="primary">
+									Aceptar
+								</Button>
+							</Form>
+						</Card.Body>
+					</Card>
+				) : null}
 
 				<Modal centered show={this.state.show} onHide={this.handleClose}>
 					<Modal.Header closeButton>

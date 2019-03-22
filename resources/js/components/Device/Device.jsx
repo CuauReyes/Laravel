@@ -3,7 +3,6 @@ import "./Device.scss";
 import axios from "axios";
 import Header from "../Header/Header";
 import { api } from "../../const/api";
-import deviceImg from "./assets/device1.jpg";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

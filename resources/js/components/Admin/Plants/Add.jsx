@@ -17,9 +17,11 @@ export default class PlantsAdd extends Component {
 			img: "",
 			key: "",
 			status: -1,
-			user_id: -1,
+			user_id: this.props.user_id || -1,
 			show: false
 		};
+
+		console.log(this.props.user_id);
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,7 +64,7 @@ export default class PlantsAdd extends Component {
 					img: "",
 					key: "",
 					status: -1,
-					user_id: -1
+					user_id: this.props.user_id || -1
 				});
 			})
 			.catch(err => {
@@ -81,7 +83,7 @@ export default class PlantsAdd extends Component {
 		return (
 			<div>
 				<Card>
-					<Card.Header> O agrega una planta nueva </Card.Header>
+					<Card.Header> Agregar planta </Card.Header>
 					<Card.Body>
 						<Form onSubmit={this.handleSubmit}>
 							<Form.Group>
@@ -145,25 +147,27 @@ export default class PlantsAdd extends Component {
 								/>
 							</Form.Group>
 
-							<Form.Group controlId="userSelect">
-								<Form.Label> Usuario </Form.Label>
-								<Form.Control
-									as="select"
-									name="user_id"
-									value={this.state.user_id}
-									onChange={this.handleChange}
-									required
-								>
-									<option value="" defaultValue>
-										Selecciona
-									</option>
-									{users.map((user, key) => (
-										<option key={key} value={user._id}>
-											{user.name}
+							{users ? (
+								<Form.Group controlId="userSelect">
+									<Form.Label> Usuario </Form.Label>
+									<Form.Control
+										as="select"
+										name="user_id"
+										value={this.state.user_id}
+										onChange={this.handleChange}
+										required
+									>
+										<option value="" defaultValue>
+											Selecciona
 										</option>
-									))}
-								</Form.Control>
-							</Form.Group>
+										{users.map((user, key) => (
+											<option key={key} value={user._id}>
+												{user.name}
+											</option>
+										))}
+									</Form.Control>
+								</Form.Group>
+							) : null}
 
 							<Form.Group controlId="statusSelect">
 								<Form.Label> Estado </Form.Label>

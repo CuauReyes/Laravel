@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./Chart.scss";
 
 import {
@@ -6,21 +7,33 @@ import {
 	YAxis,
 	CartesianGrid,
 	Tooltip,
-	Legend,
 	Brush,
 	AreaChart,
 	Area
 } from "recharts";
 
-export default class ChartDevice extends Component {
+class ChartDevice extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			width: 800
 		};
+		this.onResize = this.onResize.bind(this);
 	}
 
 	componentDidMount() {
+		let width = document.getElementById("chart").clientWidth;
+		this.setState({
+			width
+		});
+		window.addEventListener("resize", this.onResize, false);
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.onResize, false);
+	}
+
+	onResize() {
 		let width = document.getElementById("chart").clientWidth;
 		this.setState({
 			width
@@ -40,6 +53,20 @@ export default class ChartDevice extends Component {
 		}
 	}
 
+	parseDate(type, data) {
+		switch (type) {
+			case "COUNTER":
+				let sum;
+				return (data = data.map((elem, index) => {
+					sum = (sum || 0) + elem.value;
+					return {
+						name: elem.name,
+						value: sum
+					};
+				}));
+		}
+	}
+
 	render() {
 		const { width } = this.state;
 		const { values, type } = this.props;
@@ -50,6 +77,8 @@ export default class ChartDevice extends Component {
 				value: +val.value
 			});
 		});
+
+		data = this.parseDate(type, data);
 
 		return (
 			<div className="row">
@@ -95,3 +124,10 @@ export default class ChartDevice extends Component {
 		);
 	}
 }
+
+ChartDevice.propTypes = {
+	values: PropTypes.array,
+	type: PropTypes.string
+};
+
+export default ChartDevice;
