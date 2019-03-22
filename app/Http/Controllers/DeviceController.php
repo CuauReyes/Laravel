@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Device;
 use Illuminate\Http\Request;
+use File;
 
 class DeviceController extends Controller
 {
@@ -40,6 +41,23 @@ class DeviceController extends Controller
 			'type'    => $request->type,
 			'plant_id' => $request->plant_id
 		]);
+
+		if ($request->hasFile('img')) {
+			$this->validate($request, [
+				'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+			]);
+			$destinationPath = public_path('/images/devices/');
+
+			if (File::exists($destinationPath . $device->img)) {
+				File::delete($destinationPath . $device->img);
+			}
+			$image = $request->file('img');
+			$name = time() . '.' . $image->getClientOriginalExtension();
+			$image->move($destinationPath, $name);
+
+			$device->img = $name;
+		}
+
 		$device->save();
 	}
 
@@ -114,23 +132,27 @@ class DeviceController extends Controller
 	public function fileUpload(Request $request)
 	{
 		$deviceId = $request->route('id');
-
 		$device = Device::find($deviceId);
-
 		$this->validate($request, [
-			'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+			'input_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 		]);
 
-		print_r($request->hasFile('img'));
-		if ($request->hasFile('img')) {
-			$image = $request->file('img');
+		if ($request->hasFile('input_img')) {
+			$image = $request->file('input_img');
 			$name = time() . '.' . $image->getClientOriginalExtension();
-			$destinationPath = public_path('/images');
+			$destinationPath = public_path('/images/devices/');
+
+			if (File::exists($destinationPath . $device->img)) {
+				File::delete($destinationPath . $device->img);
+			}
 			$image->move($destinationPath, $name);
 
-			$device->img = $destinationPath;
+			$device->img = $name;
+			$device->save();
 
-			return back()->with('success', 'Image Upload successfully');
+			return response()->json([
+				'message' => 'Image Upload successfully',
+			]);
 		}
 	}
 }

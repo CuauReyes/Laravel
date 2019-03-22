@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "./Chart.scss";
-
 import {
 	XAxis,
 	YAxis,
@@ -12,7 +11,12 @@ import {
 	Area
 } from "recharts";
 
-class ChartDevice extends Component {
+export default class ChartDevice extends Component {
+	static propTypes = {
+		values: PropTypes.array,
+		type: PropTypes.string
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -124,10 +128,3 @@ class ChartDevice extends Component {
 		);
 	}
 }
-
-ChartDevice.propTypes = {
-	values: PropTypes.array,
-	type: PropTypes.string
-};
-
-export default ChartDevice;
