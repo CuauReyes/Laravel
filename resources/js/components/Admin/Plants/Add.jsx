@@ -24,6 +24,7 @@ export default class PlantsAdd extends Component {
 		this.onChangeInput = this.onChangeInput.bind(this);
 		this.onChangeImage = this.onChangeImage.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleSubmitImg = this.handleSubmitImg.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 	}
 
@@ -69,6 +70,7 @@ export default class PlantsAdd extends Component {
 					url: "",
 					img: "",
 					key: "",
+					input_img:"",
 					status: -1,
 					user_id: this.props.user_id || -1
 				});
@@ -82,9 +84,27 @@ export default class PlantsAdd extends Component {
 		this.setState({ show: false });
 		this.props.loadData();
 	}
+	handleSubmitImg(event) {
+		event.preventDefault();
+		let bodyFormData = new FormData();
+		bodyFormData.append("input_img", this.state.input_img);
+
+		console.log(this.state.input_img);
+
+		Axios.post(api.plants.get(this.state.plant_id) + "/image", bodyFormData, {
+			headers: { "content-type": "multipart/form-data" }
+		})
+			.then(function(response) {
+				this.setState({ input_img: "", modalShow: true });
+			})
+			.catch(function(response) {
+				console.log(response);
+			});
+	}
 
 	render() {
 		const { users } = this.props;
+		const { plants } = this.props;
 
 		return (
 			<div>
@@ -196,7 +216,49 @@ export default class PlantsAdd extends Component {
 						</Form>
 					</Card.Body>
 				</Card>
-				
+
+				{plants ? (
+					<Card className="card mt-4">
+						<Card.Header>Añadir imagen al device</Card.Header>
+						<Card.Body>
+							<Form onSubmit={this.handleSubmitImg}>
+								<Form.Group>
+									<Form.Label>Seleccione device</Form.Label>
+									<Form.Control
+										as="select"
+										name="plant_id"
+										value={this.state.plant_id}
+										onChange={this.onChangeInput}
+										required
+									>
+										<option value="" defaultValue>
+											Selecciona
+										</option>
+										{plants.map((plant, key) => (
+											<option key={key} value={plant._id}>
+												{plant.name}
+											</option>
+										))}
+									</Form.Control>
+								</Form.Group>
+
+								<Form.Group>
+									<Form.Label> Imagen </Form.Label>
+									<Form.Control
+										type="file"
+										name="input_img"
+										onChange={this.onChangeImage}
+										required
+									/>
+								</Form.Group>
+
+								<Button type="submit" variant="primary">
+									Aceptar
+								</Button>
+							</Form>
+						</Card.Body>
+					</Card>
+				) : null}
 
 				<Modal centered show={this.state.show} onHide={this.handleClose}>
 					<Modal.Header closeButton>

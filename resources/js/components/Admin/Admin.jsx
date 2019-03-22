@@ -71,7 +71,7 @@ export default class Admin extends Component {
 						/>
 					</div>
 					<div className="col-md-4">
-						<PlantsAdd users={users} loadData={this.loadData} />
+						<PlantsAdd plants={plants} users={users} loadData={this.loadData} />
 					</div>
 					<div className="col-md-4">
 						<DevicesAdd
