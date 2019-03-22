@@ -191,6 +191,7 @@ export default class PlantsAdd extends Component {
 						</Form>
 					</Card.Body>
 				</Card>
+				
 
 				<Modal centered show={this.state.show} onHide={this.handleClose}>
 					<Modal.Header closeButton>
