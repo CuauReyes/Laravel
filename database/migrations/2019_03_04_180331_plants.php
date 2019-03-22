@@ -22,6 +22,7 @@ class Plants extends Migration
 			$collection->string('key');
 			$collection->string('img')->nullable();
 			$collection->integer('status')->nullable();
+			$collection->array('user_ids')->nullable();
 			$collection->timestamps();
 		});
 	}

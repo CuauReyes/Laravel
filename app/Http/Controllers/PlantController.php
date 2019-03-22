@@ -121,6 +121,28 @@ class PlantController extends Controller
 		$Plant->save();
 	}
 
+	public function fileUpload(Request $request)
+	{
+		$plantId = $request->route('id');
+
+		$plant = Plant::find($plantId);
+
+		$this->validate($request, [
+			'input_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+		]);
+
+		if ($request->hasFile('input_img')) {
+			$image = $request->file('input_img');
+			$name = time() . '.' . $image->getClientOriginalExtension();
+			$destinationPath = public_path('/images');
+			$image->move($destinationPath, $name);
+
+			$plant->img = $destinationPath;
+
+			return back()->with('success', 'Image Upload successfully');
+		}
+	}
+
 	public function addUser(Request $request)
 	{
 		if (!$request->user_id) {
@@ -132,5 +154,21 @@ class PlantController extends Controller
 
 		$plant->users()->attach($request->user_id);
 		$plant->save();
+	}
+
+	public function removeUser(Request $request)
+	{
+
+		if (!$request->user_id) {
+			return back()->with('failed', 'Not a user id');
+		}
+		$plantId = $request->route('id');
+
+		$plant = Plant::find($plantId);
+
+		$plant->plants()->dettach($request->user_id);
+		$plant->save();
+
+		return back()->with('success', 'User removed');
 	}
 }

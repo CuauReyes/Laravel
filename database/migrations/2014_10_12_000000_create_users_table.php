@@ -14,15 +14,16 @@ class CreateUsersTable extends Migration
 	public function up()
 	{
 		$this->down();
-		Schema::connection('mongodb')->create('users', function (Blueprint $table) {
-			$table->index('id');
-			$table->string('name');
-			$table->unique('email', '120');
-			$table->timestamp('email_verified_at')->nullable();
-			$table->string('password');
-			$table->string('status')->nullable();
-			$table->rememberToken();
-			$table->timestamps();
+		Schema::connection('mongodb')->create('users', function (Blueprint $collection) {
+			$collection->index('id');
+			$collection->string('name');
+			$collection->unique('email', '120');
+			$collection->timestamp('email_verified_at')->nullable();
+			$collection->string('password');
+			$collection->string('status')->nullable();
+			$collection->array('plant_ids')->nullable();
+			$collection->rememberToken();
+			$collection->timestamps();
 		});
 	}
 
