@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./DeviceCard.scss";
 
+const imagesHost = window.location.origin + "/images/devices/";
 export default class DeviceCard extends Component {
-	constructor() {
-		super();
-	}
+	static propTypes = {
+		device: PropTypes.object
+	};
 
 	formatValue(type, value) {
 		switch (type) {
@@ -101,7 +102,7 @@ export default class DeviceCard extends Component {
 					</div>
 				</Card.Header>
 				<div className="d-flex flex-row justify-content-center align-items-center">
-					<Card.Img variant="top" src={device.img} />
+					<Card.Img variant="top" src={imagesHost + device.img} />
 				</div>
 				<Card.Body className="d-flex flex-column">
 					<Card
@@ -152,7 +153,3 @@ export default class DeviceCard extends Component {
 		);
 	}
 }
-
-DeviceCard.propTypes = {
-	device: PropTypes.object
-};

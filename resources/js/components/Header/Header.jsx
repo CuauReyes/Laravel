@@ -4,6 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { LinkContainer } from "react-router-bootstrap";
 import NavLink from "react-bootstrap/NavLink";
+import logo from "./assets/logo.svg";
 import "./Header.scss";
 import { withRouter } from "react-router-dom";
 
@@ -24,7 +25,14 @@ class Header extends React.Component {
 			<header>
 				<Navbar bg="dark" variant="dark" expand="md">
 					<LinkContainer to="/">
-						<Navbar.Brand> NoTe </Navbar.Brand>
+						<Navbar.Brand>
+							<img
+								src={logo}
+								height="30"
+								className="d-inline-block align-top"
+								alt="NoTe logo"
+							/>
+						</Navbar.Brand>
 					</LinkContainer>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">

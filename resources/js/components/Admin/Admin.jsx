@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./Admin.scss";
-import Sidebar from "./Assets/Sidebar";
 import ClientsTable from "./Clients/Table";
 import DevicesTable from "./Devices/Table";
 import PlantsTable from "./Plants/Table";
@@ -56,7 +55,6 @@ export default class Admin extends Component {
 
 	render() {
 		const { users, plants, devices } = this.state;
-
 		return (
 			<div className="container-fluid p-5">
 				<div className="row">
@@ -84,10 +82,16 @@ export default class Admin extends Component {
 					</div>
 				</div>
 				<div className="row">
-					<ClientsTable users={users} loadData={this.loadData} />
+					<div className="col">
+						<ClientsTable users={users} loadData={this.loadData} />
+					</div>
 				</div>
-				<PlantsTable plants={plants} loadData={this.loadData} />
-				<DevicesTable devices={devices} />
+				{plants ? (
+					<PlantsTable plants={plants} loadData={this.loadData} />
+				) : null}
+				{devices ? (
+					<DevicesTable devices={devices} loadData={this.loadData} />
+				) : null}
 			</div>
 		);
 	}

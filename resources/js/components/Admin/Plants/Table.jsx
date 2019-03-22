@@ -8,8 +8,13 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
 import Axios from "axios";
+import PropTypes from "prop-types";
 
 export default class PlantsTable extends Component {
+	static propTypes = {
+		plants: PropTypes.array
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {

@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-import mitsubishi from "../assets/mitsubishi.png";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./PlantCard.scss";
+const imagesHost = window.location.origin + "/images/plants/";
 
 export default class PlantCard extends Component {
-	constructor() {
-		super();
-	}
+	static propTypes = {
+		plant: PropTypes.object
+	};
 
 	render() {
 		const { plant } = this.props;
@@ -18,12 +19,13 @@ export default class PlantCard extends Component {
 					<Card.Header className="text-truncate">{plant.name}</Card.Header>
 				</Link>
 				<div className="d-flex flex-row justify-content-center align-items-center">
-					<Card.Img variant="top" src={plant.img} />
+					<Link to={"/plants/" + plant._id}>
+						<Card.Img variant="top" src={imagesHost + plant.img} />
+					</Link>
 				</div>
-				<Card.Body className="d-flex flex-column">
-					<Card.Text className="flex-fill"> {plant.description} </Card.Text>
-				</Card.Body>
-				<Card.Footer>
+				{/* <Card.Body className="d-flex flex-column" /> */}
+				<Card.Footer className="flex-fill">
+					<Card.Text> {plant.description} </Card.Text>
 					<div className="flex-row align-items-center">
 						<FontAwesomeIcon icon="microchip" className="mr-2" />
 						{plant.devices.length}
