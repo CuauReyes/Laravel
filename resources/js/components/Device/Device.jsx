@@ -160,7 +160,9 @@ export default class Device extends Component {
 					{
 						title: "Última conexión",
 						value: device.values
-							? this.lastConnection(device.values[0].created_at)
+							? this.lastConnection(
+									device.values[device.values.length - 1].created_at
+							  )
 							: null,
 						classes: "bg-dark text-white",
 						icon: "wifi"
