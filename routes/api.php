@@ -23,6 +23,7 @@ Route::group(['prefix' => 'v1'], function () {
 		Route::put('{id}/OFF', 'UserController@OFF');
 		Route::put('{id}/addPlant', 'UserController@addPlant');
 		Route::put('{id}/removePlant', 'UserController@removePlant');
+		Route::put('{id}/editUser', 'UserController@update');
 	});
 
 	Route::group(['prefix' => 'plants'], function () {

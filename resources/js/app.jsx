@@ -37,6 +37,7 @@ import {
 	faCheck,
 	faTimes
 } from "@fortawesome/free-solid-svg-icons";
+import UserEdit from "./components/UserEdit/UserEdit";
 library.add(
 	faMicrochip,
 	faBatteryEmpty,
@@ -70,6 +71,7 @@ class App extends Component {
 					<PrivateRoute exact path="/device/:deviceId" component={Device} />
 					<PrivateRoute exact path="/admin" component={Admin} />
 					<PrivateRoute exact path="/user/:userId" component={User} />
+					<PrivateRoute exact path="/userEdit/:userId" component={UserEdit} />
 					<PrivateRoute exact path="/profile" component={Profile} />
 					<Route exact default path="/login" component={SignIn} />
 					<Route exact path="/register" component={SignUp} />

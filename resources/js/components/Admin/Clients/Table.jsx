@@ -128,7 +128,7 @@ export default class ClientsTable extends Component {
 											filterable: false,
 											Cell: row => (
 												<Button type="button" variant="light">
-													<Link to={"/user/" + row.value}> Modificar </Link>
+													<Link to={"/userEdit/" + row.value}> Modificar </Link>
 												</Button>
 											)
 										},
