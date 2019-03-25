@@ -16,6 +16,7 @@ class Device extends Eloquent
 		'battery',
 		'status',
 		'count',
+		'counter',
 		'img',
 		'plant_id',
 	];

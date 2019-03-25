@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import defaultImg from "./microchip.svg";
 import "./DeviceCard.scss";
 
 const imagesHost = window.location.origin + "/images/devices/";
@@ -81,6 +82,7 @@ export default class DeviceCard extends Component {
 			default:
 				classes = "bg-success text-white";
 		}
+		console.log(device.img);
 		return (
 			<Card className="plant-card">
 				<Card.Header className="text-truncate d-flex flex-row">
@@ -103,7 +105,11 @@ export default class DeviceCard extends Component {
 					</div>
 				</Card.Header>
 				<div className="d-flex flex-row justify-content-center align-items-center">
-					<Card.Img variant="top" src={imagesHost + device.img} />
+					{device.img ? (
+						<Card.Img variant="top" src={imagesHost + device.img} />
+					) : (
+						<Card.Img variant="top" src={defaultImg} />
+					)}
 				</div>
 				<Card.Body className="d-flex flex-column">
 					<Card
