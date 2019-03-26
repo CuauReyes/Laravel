@@ -12,6 +12,7 @@ import Plants from "./components/Plants/Plants";
 import Plant from "./components/Plant/Plant";
 import Device from "./components/Device/Device";
 import Profile from "./components/Profile/Profile";
+
 import PrivateRoute from "./components/PrivateRoute";
 
 import "xlsx";
@@ -38,6 +39,8 @@ import {
 	faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import UserEdit from "./components/UserEdit/UserEdit";
+import PlantEdit from "./components/PlantEdit/PlantEdit";
+import DeviceEdit from "./components/DeviceEdit/DeviceEdit";
 library.add(
 	faMicrochip,
 	faBatteryEmpty,
@@ -68,7 +71,9 @@ class App extends Component {
 					<PrivateRoute exact path="/" component={Plants} />
 					<PrivateRoute exact path="/plants" component={Plants} />
 					<PrivateRoute exact path="/plants/:plantId" component={Plant} />
+					<PrivateRoute exact path="/plantEdit/:plantId" component={PlantEdit} />
 					<PrivateRoute exact path="/device/:deviceId" component={Device} />
+					<PrivateRoute exact path="/deviceEdit/:deviceId" component={DeviceEdit} />
 					<PrivateRoute exact path="/admin" component={Admin} />
 					<PrivateRoute exact path="/user/:userId" component={User} />
 					<PrivateRoute exact path="/userEdit/:userId" component={UserEdit} />

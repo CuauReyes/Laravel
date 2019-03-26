@@ -87,7 +87,7 @@ export default class DevicesTable extends Component {
 								filterable: false,
 								Cell: row => (
 									<Button type="button" variant="light">
-										<Link to={"device/" + row.value}> Modificar </Link>
+											<Link to={"/deviceEdit/" + row.value}> Modificar </Link>
 									</Button>
 								)
 							},

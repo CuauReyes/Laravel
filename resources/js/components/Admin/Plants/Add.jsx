@@ -219,11 +219,11 @@ export default class PlantsAdd extends Component {
 
 				{plants ? (
 					<Card className="card mt-4">
-						<Card.Header>Añadir imagen al device</Card.Header>
+						<Card.Header>Añadir imagen a la planta</Card.Header>
 						<Card.Body>
 							<Form onSubmit={this.handleSubmitImg}>
 								<Form.Group>
-									<Form.Label>Seleccione device</Form.Label>
+									<Form.Label>Seleccione planta</Form.Label>
 									<Form.Control
 										as="select"
 										name="plant_id"

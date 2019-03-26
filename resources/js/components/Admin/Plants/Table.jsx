@@ -127,7 +127,7 @@ export default class PlantsTable extends Component {
 											filterable: false,
 											Cell: row => (
 												<Button type="button" variant="light">
-													<Link to={"plant/" + row.value}> Modificar </Link>
+														<Link to={"/plantEdit/" + row.value}> Modificar </Link>
 												</Button>
 											)
 										},

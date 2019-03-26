@@ -93,9 +93,15 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
-	public function update(Request $request, Device $device)
+	public function update(Request $request, $id)
 	{
-		//
+		$Device = Device::find($id);
+		$Device->name = $request->name;
+		$Device->type = $request->type;
+		$Device->description = $request->description;
+		$Device->status = $request->status;
+
+		$Device->save();
 	}
 
 	/**

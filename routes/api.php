@@ -36,6 +36,7 @@ Route::group(['prefix' => 'v1'], function () {
 		Route::put('{id}/addUser', 'PlantController@addUser');
 		Route::put('{id}/removeUser', 'PlantController@removeUser');
 		Route::post('{id}/image', 'PlantController@fileUpload');
+		Route::post('{id}/editPlant', 'PlantController@update');
 	});
 
 	Route::group(['prefix' => 'devices'], function () {
@@ -46,6 +47,7 @@ Route::group(['prefix' => 'v1'], function () {
 		Route::put('{id}/ON', 'DeviceController@ON');
 		Route::put('{id}/OFF', 'DeviceController@OFF');
 		Route::post('{id}/image', 'DeviceController@fileUpload');
+		Route::post('{id}/editDevice', 'DeviceController@update');
 	});
 
 	Route::post('values', 'ValueController@store');

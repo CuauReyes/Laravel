@@ -101,9 +101,17 @@ class PlantController extends Controller
      * @param  \App\Plant  $plant
      * @return \Illuminate\Http\Response
      */
-	public function update(Request $request, Plant $plant)
+	public function update(Request $request, $id)
 	{
-		//
+		$Plant = Plant::find($id);
+		$Plant->name = $request->name;
+		$Plant->description = $request->description;
+		$Plant->location = $request->location;
+		$Plant->url = $request->url;
+		$Plant->key = $request->key;
+
+		$Plant->save();
+		//print_r('Acceso ok');
 	}
 
 	/**
