@@ -10,10 +10,22 @@ const imagesHost = window.location.origin + "/images/devices/";
 
 export default class DeviceCard extends Component {
 	static propTypes = {
-		device: PropTypes.object
+		device: PropTypes.shape({
+			_id: PropTypes.string.isRequired,
+			created_at: PropTypes.string,
+			devices: PropTypes.array,
+			url: PropTypes.string,
+			key: PropTypes.string,
+			name: PropTypes.string,
+			status: PropTypes.number,
+			img: PropTypes.string,
+			counter: PropTypes.number,
+			type: PropTypes.string,
+			last_value: PropTypes.object
+		})
 	};
 
-	formatValue(type, value, values = null) {
+	formatValue(type, value, device) {
 		switch (type) {
 			case "ON-OFF":
 				return +value ? "ENCENDIDO" : "APAGADO";
@@ -22,7 +34,7 @@ export default class DeviceCard extends Component {
 			case "TEMPERATURE A":
 				return +value + "º C";
 			case "COUNTER":
-				return +value + " activado";
+				return device.counter + " veces";
 		}
 	}
 
@@ -82,7 +94,7 @@ export default class DeviceCard extends Component {
 			default:
 				classes = "bg-success text-white";
 		}
-		console.log(device.img);
+
 		return (
 			<Card className="plant-card">
 				<Card.Header className="text-truncate d-flex flex-row">
@@ -111,7 +123,7 @@ export default class DeviceCard extends Component {
 						</Link>
 					) : (
 						<Link to={"/device/" + device._id}>
-						<Card.Img variant="top" src={defaultImg} />
+							<Card.Img variant="top" src={defaultImg} />
 						</Link>
 					)}
 				</div>
@@ -123,10 +135,16 @@ export default class DeviceCard extends Component {
 						}
 					>
 						<span>
-							Ultimo valor:{" "}
+							{device.type === "COUNTER"
+								? "Veces activado: "
+								: "Ultimo valor: "}
 							<b>
 								{device.last_value
-									? this.formatValue(device.type, device.last_value.value)
+									? this.formatValue(
+											device.type,
+											device.last_value.value,
+											device
+									  )
 									: null}
 							</b>
 						</span>

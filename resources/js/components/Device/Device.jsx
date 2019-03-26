@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Device.scss";
 import axios from "axios";
 import Header from "../Header/Header";
 import { api } from "../../const/api";
@@ -7,21 +6,36 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import "react-table/react-table.css";
 import HistoryDevice from "./History/History";
 import ChartDevice from "./Chart/Chart";
 import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import ReactExport from "react-data-export";
 
+import Moment from "moment";
+import momentLocalizer from "react-widgets-moment";
+import DateTimePicker from "react-widgets/lib/DateTimePicker";
+
+import "./Device.scss";
+import "react-table/react-table.css";
+import "react-widgets/dist/css/react-widgets.css";
+
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 const imagesHost = window.location.origin + "/images/devices/";
 
+Moment.locale("en");
+momentLocalizer();
+
 export default class Device extends Component {
 	constructor() {
 		super();
+
+		let today = new Date();
+		let prevDate = today;
+		prevDate.setDate(prevDate.getDate() - 7);
+
 		this.state = {
 			device: null,
 			plant: {},
@@ -31,7 +45,9 @@ export default class Device extends Component {
 					value: 0
 				}
 			],
-			range: "week"
+			range: "week",
+			minInterval: prevDate,
+			maxInterval: new Date()
 		};
 
 		this.changeRangeDate = this.changeRangeDate.bind(this);
@@ -45,47 +61,44 @@ export default class Device extends Component {
 				device: response.data,
 				plant: response.data.plant
 			});
-			this.changeRangeDate(this.state.range);
+			this.handleChangeRange(this.state.range);
 		});
 	}
 
-	changeRangeDate(range = "day") {
+	changeRangeDate(minDate, maxDate = new Date()) {
 		let data = this.state.device.values;
-		const today = new Date();
-		let previousDate = today;
 
-		switch (range) {
+		data = data.filter(
+			val =>
+				minDate < new Date(val.created_at) && new Date(val.created_at) < maxDate
+		);
+
+		this.setState({
+			data,
+			minInterval: minDate,
+			maxInterval: maxDate
+		});
+	}
+
+	handleChangeRange(interval) {
+		let today = new Date();
+		let previousDate = today;
+		switch (interval) {
 			case "day":
-				previousDate = new Date(
-					previousDate.setDate(previousDate.getDate() - 1)
-				);
+				previousDate.setDate(previousDate.getDate() - 1);
 				break;
 			case "week":
-				previousDate = new Date(
-					previousDate.setDate(previousDate.getDate() - 7)
-				);
+				previousDate.setDate(previousDate.getDate() - 7);
 				break;
 			case "month":
-				previousDate = new Date(
-					previousDate.setMonth(previousDate.getMonth() - 1)
-				);
+				previousDate.setMonth(previousDate.getMonth() - 1);
 				break;
 			case "year":
-				previousDate = new Date(
-					previousDate.setFullYear(previousDate.getFullYear() - 1)
-				);
+				previousDate.setFullYear(previousDate.getFullYear() - 1);
 				break;
 		}
-
-		data = data.filter(val => previousDate < new Date(val.created_at));
-		this.setState({
-			data
-		});
-	}
-
-	handleChangeRange(event) {
-		this.setState({ range: event.target.value });
-		this.changeRangeDate(event.target.value);
+		this.setState({ range: interval });
+		this.changeRangeDate(previousDate);
 	}
 
 	formatValue(type, value) {
@@ -130,6 +143,7 @@ export default class Device extends Component {
 				);
 			}
 			return (
+				"Hoy a las " +
 				last.getFullYear() +
 				"-" +
 				this.transformDigit(last.getMonth() + 1) +
@@ -143,6 +157,9 @@ export default class Device extends Component {
 
 	render() {
 		const { device, plant, data } = this.state;
+
+		let yesterday = new Date();
+		yesterday.setDate(yesterday.getDate() - 1);
 
 		let deviceCards = device
 			? [
@@ -203,11 +220,18 @@ export default class Device extends Component {
 		}
 
 		if (device && device.type === "COUNTER") {
-			deviceCards[0].title = "Activaciones";
+			deviceCards[0].title = "Activaciones totales";
 			deviceCards[0].value = device.values.reduce(
 				(prev, val) => (prev += val.value),
 				0
 			);
+			let cardRange = {
+				title: "Activaciones por fecha",
+				value: this.state.data.reduce((prev, val) => (prev += val.value), 0),
+				classes: "bg-info text-white",
+				icon: "clock"
+			};
+			deviceCards.splice(1, 0, cardRange);
 		}
 
 		return (
@@ -261,6 +285,23 @@ export default class Device extends Component {
 
 						<div className="col-sm-12 d-flex flex-wrap mb-5">
 							<div className="row col-sm-12 d-flex justify-content-end align-items-center">
+								<DateTimePicker
+									defaultValue={this.state.minInterval}
+									max={this.state.maxInterval}
+									min={new Date(device.values[0].created_at)}
+									onChange={minInterval =>
+										this.changeRangeDate(minInterval, this.state.maxInterval)
+									}
+								/>
+								<DateTimePicker
+									defaultValue={this.state.maxInterval}
+									max={new Date()}
+									min={this.state.minInterval}
+									onChange={maxInterval =>
+										this.changeRangeDate(this.state.minInterval, maxInterval)
+									}
+								/>
+
 								<Form.Group
 									className="m-0 mr-3"
 									controlId="exampleForm.ControlSelect1"
@@ -268,7 +309,9 @@ export default class Device extends Component {
 									<Form.Control
 										as="select"
 										value={this.state.range}
-										onChange={this.handleChangeRange}
+										onChange={event =>
+											this.handleChangeRange(event.target.value)
+										}
 									>
 										<option value="day"> Día</option>
 										<option value="week" defaultValue>
