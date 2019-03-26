@@ -106,9 +106,13 @@ export default class DeviceCard extends Component {
 				</Card.Header>
 				<div className="d-flex flex-row justify-content-center align-items-center">
 					{device.img ? (
-						<Card.Img variant="top" src={imagesHost + device.img} />
+						<Link to={"/device/" + device._id}>
+							<Card.Img variant="top" src={imagesHost + device.img} />
+						</Link>
 					) : (
+						<Link to={"/device/" + device._id}>
 						<Card.Img variant="top" src={defaultImg} />
+						</Link>
 					)}
 				</div>
 				<Card.Body className="d-flex flex-column">
