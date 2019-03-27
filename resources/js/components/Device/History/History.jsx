@@ -6,16 +6,22 @@ import "react-table/react-table.css";
 
 export default class HistoryDevice extends Component {
 	static propTypes = {
-		values: PropTypes.array
+		values: PropTypes.arrayOf(
+			PropTypes.shape({
+				created_at: PropTypes.string,
+				value: PropTypes.number,
+				count: PropTypes.number,
+				_id: PropTypes.string
+			})
+		)
 	};
 
 	render() {
 		const { values } = this.props;
 
-		let data = values.reverse();
 		return (
 			<ReactTable
-				data={data}
+				data={values}
 				columns={[
 					{
 						Header: "ID",

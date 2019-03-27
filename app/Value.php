@@ -10,6 +10,7 @@ class Value extends Eloquent
 {
 	protected $connection = 'mongodb';
 	protected $collection = 'values';
+
 	//
 	/**
 	 * The attributes that are mass assignable.
@@ -18,6 +19,15 @@ class Value extends Eloquent
 	 */
 	protected $fillable = [
 		'count', 'value', 'device_id'
+	];
+
+	/**
+	 * The attributes that should be hidden for arrays.
+	 *
+	 * @var array
+	 */
+	protected $hidden = [
+		'device_id', 'updated_at'
 	];
 
 	public function device()

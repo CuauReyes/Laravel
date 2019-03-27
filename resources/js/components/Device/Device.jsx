@@ -59,7 +59,8 @@ export default class Device extends Component {
 		axios.get(api.devices.get(deviceId)).then(response => {
 			this.setState({
 				device: response.data,
-				plant: response.data.plant
+				plant: response.data.plant,
+				data: response.data.values
 			});
 			this.handleChangeRange(this.state.range);
 		});

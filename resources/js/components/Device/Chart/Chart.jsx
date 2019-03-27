@@ -13,12 +13,20 @@ import {
 
 export default class ChartDevice extends Component {
 	static propTypes = {
-		values: PropTypes.array,
+		values: PropTypes.arrayOf(
+			PropTypes.shape({
+				created_at: PropTypes.string,
+				value: PropTypes.number,
+				count: PropTypes.number,
+				_id: PropTypes.string
+			})
+		),
 		type: PropTypes.string
 	};
 
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			width: 800
 		};
@@ -61,28 +69,22 @@ export default class ChartDevice extends Component {
 		switch (type) {
 			case "COUNTER":
 				let sum;
-				return (data = data.map((elem, index) => {
-					sum = (sum || 0) + elem.value;
+				return data.map(val => {
+					sum = (sum || 0) + val.value;
 					return {
-						name: elem.name,
+						name: val.created_at,
 						value: sum
 					};
-				}));
+				});
+			default:
+				return data.map(val => ({ name: val.created_at, value: sum }));
 		}
 	}
 
 	render() {
 		const { width } = this.state;
 		const { values, type } = this.props;
-		let data = [];
-		values.forEach(val => {
-			data.push({
-				name: new Date(val.created_at).toString(),
-				value: +val.value
-			});
-		});
-
-		data = this.parseDate(type, data);
+		let data = this.parseDate(type, values);
 
 		return (
 			<div className="row">
