@@ -44,4 +44,14 @@ class User extends Authenticatable
 	{
 		return $this->belongsToMany('App\Plant', null, 'user_ids', 'plant_ids');
 	}
+
+	/**
+ * The channels the user receives notification broadcasts on.
+ *
+ * @return string
+ */
+	public function receivesBroadcastNotificationsOn()
+	{
+		return 'App.User.' . $this->id;
+	}
 }
