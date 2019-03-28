@@ -10,9 +10,14 @@
 | used to check if an authenticated user can listen to the channel.
 |
 */
+// Broadcast::routes(['middleware' => ['web', 'auth:admin']]);
 
 Broadcast::channel('App.User.{id}', function ($user, $id) {
+	print_r($id);
 	return (int)$user->id === (int)$id;
 });
 
-Broadcast::channel('value.{value}', ValueChannel::class);
+Broadcast::channel('devices.{id}', function ($user, $id) {
+	// return $user->id == \App\Post::find($id)->user_id;
+	return true;
+});

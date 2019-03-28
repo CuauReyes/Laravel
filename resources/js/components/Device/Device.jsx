@@ -11,6 +11,7 @@ import ChartDevice from "./Chart/Chart";
 import Button from "react-bootstrap/Button";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import ReactExport from "react-data-export";
+import Echo from "laravel-echo";
 
 import Moment from "moment";
 import momentLocalizer from "react-widgets-moment";
@@ -24,6 +25,7 @@ const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 const imagesHost = window.location.origin + "/images/devices/";
+import defaultImg from "./assets/microchip.svg";
 
 Moment.locale("en");
 momentLocalizer();
@@ -39,12 +41,8 @@ export default class Device extends Component {
 		this.state = {
 			device: null,
 			plant: {},
-			data: [
-				{
-					created_at: new Date().toISOString(),
-					value: 0
-				}
-			],
+			data: [],
+			values: [],
 			range: "week",
 			minInterval: prevDate,
 			maxInterval: new Date()
@@ -57,19 +55,29 @@ export default class Device extends Component {
 	componentDidMount() {
 		const { deviceId } = this.props.match.params;
 		axios.get(api.devices.get(deviceId)).then(response => {
+			const device = response.data;
 			this.setState({
-				device: response.data,
+				device,
 				plant: response.data.plant,
+				values: response.data.values,
 				data: response.data.values
 			});
 			this.handleChangeRange(this.state.range);
+
+			window.Echo.channel("devices." + device._id).listen("NewValue", response => {
+				const { values, minInterval, maxInterval } = this.state;
+				values.push(response.value);
+				this.setState({
+					values
+				});
+				this.changeRangeDate(minInterval, maxInterval);
+			});
 		});
 	}
 
 	changeRangeDate(minDate, maxDate = new Date()) {
-		let data = this.state.device.values;
-
-		data = data.filter(
+		let { values } = this.state;
+		let data = values.filter(
 			val =>
 				minDate < new Date(val.created_at) && new Date(val.created_at) < maxDate
 		);
@@ -157,7 +165,7 @@ export default class Device extends Component {
 	}
 
 	render() {
-		const { device, plant, data } = this.state;
+		const { device, plant, data, values } = this.state;
 
 		let yesterday = new Date();
 		yesterday.setDate(yesterday.getDate() - 1);
@@ -166,21 +174,16 @@ export default class Device extends Component {
 			? [
 					{
 						title: "Último dato",
-						value: device.values
-							? this.formatValue(
-									device.type,
-									device.values[device.values.length - 1].value
-							  )
+						value: values
+							? this.formatValue(device.type, values[values.length - 1].value)
 							: null,
 						classes: "bg-primary text-white",
 						icon: "clock"
 					},
 					{
 						title: "Última conexión",
-						value: device.values
-							? this.lastConnection(
-									device.values[device.values.length - 1].created_at
-							  )
+						value: values
+							? this.lastConnection(values[values.length - 1].created_at)
 							: null,
 						classes: "bg-dark text-white",
 						icon: "wifi"
@@ -199,21 +202,19 @@ export default class Device extends Component {
 			deviceCards.unshift(
 				{
 					title: "Temperatura actual",
-					value: device.values[device.values.length - 1].value + "º",
+					value: values[values.length - 1].value + "º",
 					classes: "bg-primary text-white",
 					icon: "thermometer-half"
 				},
 				{
 					title: "Temperatura máxima",
-					value:
-						Math.max.apply(Math, device.values.map(val => val.value)) + "º",
+					value: Math.max.apply(Math, values.map(val => val.value)) + "º",
 					classes: "bg-danger text-white",
 					icon: "temperature-high"
 				},
 				{
 					title: "Temperatura mínima",
-					value:
-						Math.min.apply(Math, device.values.map(val => val.value)) + "º",
+					value: Math.min.apply(Math, values.map(val => val.value)) + "º",
 					classes: "bg-info text-white",
 					icon: "temperature-low"
 				}
@@ -222,13 +223,13 @@ export default class Device extends Component {
 
 		if (device && device.type === "COUNTER") {
 			deviceCards[0].title = "Activaciones totales";
-			deviceCards[0].value = device.values.reduce(
+			deviceCards[0].value = values.reduce(
 				(prev, val) => (prev += val.value),
 				0
 			);
 			let cardRange = {
 				title: "Activaciones por fecha",
-				value: this.state.data.reduce((prev, val) => (prev += val.value), 0),
+				value: data.reduce((prev, val) => (prev += val.value), 0),
 				classes: "bg-info text-white",
 				icon: "clock"
 			};
@@ -254,7 +255,9 @@ export default class Device extends Component {
 							<div className="col-sm-2 col-lg-1">
 								{device.img ? (
 									<img className="device-img" src={imagesHost + device.img} />
-								) : null}
+								) : (
+									<img className="device-img" src={defaultImg} />
+								)}
 							</div>
 							<div className="col-sm-10">
 								<h2> {device.name} </h2>
@@ -289,7 +292,7 @@ export default class Device extends Component {
 								<DateTimePicker
 									defaultValue={this.state.minInterval}
 									max={this.state.maxInterval}
-									min={new Date(device.values[0].created_at)}
+									min={new Date(values[0].created_at)}
 									onChange={minInterval =>
 										this.changeRangeDate(minInterval, this.state.maxInterval)
 									}

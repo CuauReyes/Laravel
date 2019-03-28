@@ -59,6 +59,7 @@ class DeviceController extends Controller
 		}
 
 		$device->save();
+		return $device->toJson();
 	}
 
 	/**

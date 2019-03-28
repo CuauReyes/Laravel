@@ -32,7 +32,6 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Styles -->
-    <!-- Styles -->
     @if (config('app.env') === 'production')
     <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
     @else
