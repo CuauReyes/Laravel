@@ -6,6 +6,7 @@ import { api } from "../../const/api";
 import axios from "axios";
 import Axios from "axios";
 import "./User.scss";
+import Modal from "react-bootstrap/Modal";
 import matchSorter from "match-sorter";
 
 
@@ -14,6 +15,7 @@ export default class UserEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			showUpdate:false,
 			name: "",
 			user_id: "",
 			email: "",
@@ -24,6 +26,7 @@ export default class UserEdit extends Component {
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 	}
 
 	componentDidMount() {
@@ -48,6 +51,7 @@ export default class UserEdit extends Component {
 			});
 		});
 	}
+
 	handleSubmit(event) {
 		event.preventDefault();
 		Axios.put(api.users.get(this.state.user._id) + "/editUser", {
@@ -55,10 +59,21 @@ export default class UserEdit extends Component {
 			email: this.state.email,
 			password: this.state.password
 		})
-			.then(response => {})
+			.then(response => {
+				this.setState({
+					showUpdate: true
+				})
+			})
 			.catch(err => {
 				console.log(err);
 			});
+	}
+
+
+	async handleClose() {
+		this.setState({
+			showUpdate: false,
+		});
 	}
 
 	render() {
@@ -107,14 +122,27 @@ export default class UserEdit extends Component {
 									required
 								/>
 							</Form.Group>
-
-							<Button type="submit" variant="primary">
+							<Button type="submit" variant="primary" data-toggle="modal" data-target="#myModal">
 								Aceptar
 							</Button>
 						</Form>
 					</Card.Body>
 				</Card>
-				</div>
+
+				<Modal centered show={this.state.showUpdate} onHide={this.handleClose}>
+					<Modal.Header closeButton>
+						<Modal.Title>NoTE Admin</Modal.Title>
+					</Modal.Header>
+
+					<Modal.Body>Registro Actualizado...</Modal.Body>
+
+					<Modal.Footer>
+						<Button type="button" variant="primary" onClick={this.handleClose}>
+							Cerrar
+						</Button>
+					</Modal.Footer>
+				</Modal>
+  </div>
 			</div>
 		);
 	}

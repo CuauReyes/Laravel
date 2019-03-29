@@ -17,7 +17,8 @@ export default class DevicesAdd extends Component {
 			type: -1,
 			status: -1,
 			plant_id: -1,
-			show: false
+			show: false,
+			showIMG: false
 		};
 
 		this.onChangeInput = this.onChangeInput.bind(this);
@@ -58,7 +59,7 @@ export default class DevicesAdd extends Component {
 		Axios.post(api.devices.all, bodyFormData, {
 			headers: { "Content-Type": "multipart/form-data" }
 		})
-			.then(function(response) {
+			.then((response) => {
 				this.setState({
 					name: "",
 					description: "",
@@ -66,7 +67,7 @@ export default class DevicesAdd extends Component {
 					type: -1,
 					status: -1,
 					plant_id: -1,
-					modalShow: true
+					show: true
 				});
 			})
 			.catch(function(response) {
@@ -84,17 +85,19 @@ export default class DevicesAdd extends Component {
 		Axios.post(api.devices.get(this.state.device_id) + "/image", bodyFormData, {
 			headers: { "content-type": "multipart/form-data" }
 		})
-			.then(function(response) {
-				this.setState({ input_img: "", modalShow: true });
+			.then((response) => {
+				this.setState({ input_img: "", modalShow: true, showIMG: true });
 			})
 			.catch(function(response) {
 				console.log(response);
 			});
 	}
 
-	handleClose() {
-		this.setState({ show: false });
-		this.props.loadData();
+	async handleClose() {
+		this.setState({
+			show: false,
+			showIMG: false
+		});
 	}
 
 	render() {
@@ -244,6 +247,19 @@ export default class DevicesAdd extends Component {
 					</Modal.Header>
 
 					<Modal.Body>Device agregado correctamente...</Modal.Body>
+
+					<Modal.Footer>
+						<Button type="button" variant="primary" onClick={this.handleClose}>
+							Cerrar
+						</Button>
+					</Modal.Footer>
+				</Modal>
+				<Modal centered show={this.state.showIMG} onHide={this.handleClose}>
+					<Modal.Header closeButton>
+						<Modal.Title>NoTE Admin</Modal.Title>
+					</Modal.Header>
+
+					<Modal.Body>Imagen agregada correctamente...</Modal.Body>
 
 					<Modal.Footer>
 						<Button type="button" variant="primary" onClick={this.handleClose}>

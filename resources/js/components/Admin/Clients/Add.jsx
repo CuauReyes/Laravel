@@ -13,6 +13,7 @@ export default class ClientsAdd extends Component {
 			name: "",
 			email: "",
 			password: "",
+			role: "",
 			status: -1,
 			plant_id: -1,
 			show: false
@@ -22,6 +23,7 @@ export default class ClientsAdd extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleSubmitAddPlant = this.handleSubmitAddPlant.bind(this);
 		this.handleClose = this.handleClose.bind(this);
+		//this.openModal = this.openModal.bind(this);
 	}
 
 	handleChange(event) {
@@ -44,6 +46,7 @@ export default class ClientsAdd extends Component {
 				email: this.state.email,
 				password: this.state.password,
 				password_confirmation: this.state.password,
+				role: this.state.role,
 				status: this.state.status,
 				plant_id: this.state.plant_id
 			},
@@ -54,18 +57,15 @@ export default class ClientsAdd extends Component {
 				}
 			}
 		)
-
 			.then(response => {
-				if (response.data) {
-					window.localStorage.setItem("token", response.data.access_token);
 					this.setState({
+						show: true,
 						name: "",
 						email: "",
 						password: "",
 						status: -1,
 						plant_id: -1
 					});
-				}
 			})
 			.catch(err => {
 				console.log(err);
@@ -77,16 +77,21 @@ export default class ClientsAdd extends Component {
 		Axios.put(api.users.get(this.state.user_id) + "/addPlant", {
 			plant_id: this.state.plant_id
 		})
-			.then(response => {})
+			.then(response => {
+				this.setState({
+					show: true
+				})
+			})
 			.catch(err => {
 				console.log(err);
 			});
 	}
 
-	handleClose() {
-		this.setState({ show: false });
-		this.props.loadData();
-	}
+	async handleClose() {
+		this.setState({
+			show: false,
+		});
+	}s
 
 	render() {
 		const { plants, users } = this.props;
@@ -131,7 +136,24 @@ export default class ClientsAdd extends Component {
 							</Form.Group>
 
 							<Form.Group controlId="plantSelect">
-								<Form.Label> Estado </Form.Label>
+								<Form.Label> Rol </Form.Label>
+								<Form.Control
+									as="select"
+									name="role"
+									value={this.state.role}
+									onChange={this.handleChange}
+									required
+								>
+									<option value="" defaultValue>
+										Selecciona
+									</option>
+									<option value="admin">Administrador</option>
+									<option value="client">Cliente</option>
+								</Form.Control>
+							</Form.Group>
+
+							<Form.Group controlId="plantSelect">
+								<Form.Label> Estado (Opcional)</Form.Label>
 								<Form.Control
 									as="select"
 									name="status"
@@ -145,6 +167,7 @@ export default class ClientsAdd extends Component {
 									<option value="0">Inactivo</option>
 								</Form.Control>
 							</Form.Group>
+
 
 							<Form.Group controlId="plantSelect">
 								<Form.Label> Planta (opcional) </Form.Label>
@@ -226,7 +249,7 @@ export default class ClientsAdd extends Component {
 						<Modal.Title>NoTE Admin</Modal.Title>
 					</Modal.Header>
 
-					<Modal.Body>Usuario registrado correctamente...</Modal.Body>
+					<Modal.Body>Registro registrado correctamente...</Modal.Body>
 
 					<Modal.Footer>
 						<Button type="button" variant="primary" onClick={this.handleClose}>
