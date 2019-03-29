@@ -18,7 +18,8 @@ export default class PlantsAdd extends Component {
 			key: "",
 			status: -1,
 			user_id: this.props.user_id || -1,
-			show: false
+			show: false,
+			showIMG: false
 		};
 
 		this.onChangeInput = this.onChangeInput.bind(this);
@@ -64,6 +65,7 @@ export default class PlantsAdd extends Component {
 		})
 			.then(response => {
 				this.setState({
+					show: true,
 					name: "",
 					description: "",
 					location: "",
@@ -80,10 +82,8 @@ export default class PlantsAdd extends Component {
 			});
 	}
 
-	handleClose() {
-		this.setState({ show: false });
-		this.props.loadData();
-	}
+	
+
 	handleSubmitImg(event) {
 		event.preventDefault();
 		let bodyFormData = new FormData();
@@ -94,12 +94,23 @@ export default class PlantsAdd extends Component {
 		Axios.post(api.plants.get(this.state.plant_id) + "/image", bodyFormData, {
 			headers: { "content-type": "multipart/form-data" }
 		})
-			.then(function(response) {
-				this.setState({ input_img: "", modalShow: true });
+			.then((response) => {
+				this.setState({ 
+					input_img: "", 
+					//modalShow: true, 
+					showIMG: true 
+				});
 			})
 			.catch(function(response) {
 				console.log(response);
 			});
+	}
+
+	async handleClose() {
+		this.setState({
+			show: false,
+			showIMG: false
+		});
 	}
 
 	render() {
@@ -266,6 +277,19 @@ export default class PlantsAdd extends Component {
 					</Modal.Header>
 
 					<Modal.Body>Planta registrada correctamente...</Modal.Body>
+
+					<Modal.Footer>
+						<Button type="button" variant="primary" onClick={this.handleClose}>
+							Cerrar
+						</Button>
+					</Modal.Footer>
+				</Modal>
+				<Modal centered show={this.state.showIMG} onHide={this.handleClose}>
+					<Modal.Header closeButton>
+						<Modal.Title>NoTE Admin</Modal.Title>
+					</Modal.Header>
+
+					<Modal.Body>Imagen agregada correctamente...</Modal.Body>
 
 					<Modal.Footer>
 						<Button type="button" variant="primary" onClick={this.handleClose}>

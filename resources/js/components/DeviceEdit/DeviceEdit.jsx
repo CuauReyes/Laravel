@@ -6,6 +6,8 @@ import { api } from "../../const/api";
 import axios from "axios";
 import Axios from "axios";
 import "./DeviceEdit.scss";
+import Modal from "react-bootstrap/Modal";
+
 import matchSorter from "match-sorter";
 
 
@@ -23,6 +25,7 @@ export default class DeviceEdit extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.onChangeImage = this.onChangeImage.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 	}
 
 	componentDidMount() {
@@ -74,10 +77,19 @@ export default class DeviceEdit extends Component {
 			//img: this.state.img,
 			status: this.state.status,
 		})
-			.then(response => {})
+			.then(response => {
+				this.setState({
+					showUpdate: true
+				})
+			})
 			.catch(err => {
 				console.log(err);
 			});
+	}
+	async handleClose() {
+		this.setState({
+			showUpdate: false,
+		});
 	}
 
 	render() {
@@ -153,7 +165,19 @@ export default class DeviceEdit extends Component {
 						</Form>
 					</Card.Body>
 				</Card>
+				<Modal centered show={this.state.showUpdate} onHide={this.handleClose}>
+					<Modal.Header closeButton>
+						<Modal.Title>NoTE Admin</Modal.Title>
+					</Modal.Header>
 
+					<Modal.Body>Registro Actualizado...</Modal.Body>
+
+					<Modal.Footer>
+						<Button type="button" variant="primary" onClick={this.handleClose}>
+							Cerrar
+						</Button>
+					</Modal.Footer>
+				</Modal>
 				</div>
 			</div>
 		);

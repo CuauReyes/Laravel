@@ -56,6 +56,7 @@ class UserController extends Controller
 		$user = new User([
 			'name'     => $request->name,
 			'email'    => $request->email,
+			'role'    => $request->role,
 			'plants'    => $request->plants,
 			'status'    => $request->status,
 			'password' => bcrypt($request->password),

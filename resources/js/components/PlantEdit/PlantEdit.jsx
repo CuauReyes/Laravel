@@ -6,8 +6,8 @@ import { api } from "../../const/api";
 import axios from "axios";
 import Axios from "axios";
 import "./PlantEdit.scss";
-import matchSorter from "match-sorter";
-import PlantsAdd from "../Admin/Plants/Add";
+import Modal from "react-bootstrap/Modal";
+
 
 
 
@@ -29,6 +29,7 @@ export default class PlantEdit extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.onChangeImage = this.onChangeImage.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 	}
 
 	componentDidMount() {
@@ -81,11 +82,21 @@ export default class PlantEdit extends Component {
 			url: this.state.url,
 			key: this.state.key
 		})
-			.then(response => {})
+			.then(response => {
+				this.setState({
+					showUpdate: true
+				})
+			})
 			.catch(err => {
 				console.log(err);
 			});
 	}
+	async handleClose() {
+		this.setState({
+			showUpdate: false,
+		});
+	}
+
 
 	render() {
 		const {plants} = this.state;
@@ -159,6 +170,19 @@ export default class PlantEdit extends Component {
 						</Form>
 					</Card.Body>
 				</Card>
+				<Modal centered show={this.state.showUpdate} onHide={this.handleClose}>
+					<Modal.Header closeButton>
+						<Modal.Title>NoTE Admin</Modal.Title>
+					</Modal.Header>
+
+					<Modal.Body>Registro Actualizado...</Modal.Body>
+
+					<Modal.Footer>
+						<Button type="button" variant="primary" onClick={this.handleClose}>
+							Cerrar
+						</Button>
+					</Modal.Footer>
+				</Modal>
 				</div>
 			</div>
 		);

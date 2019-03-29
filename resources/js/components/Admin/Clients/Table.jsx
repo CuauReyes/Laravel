@@ -26,7 +26,7 @@ export default class ClientsTable extends Component {
 	deleteUser(id) {
 		Axios.delete(api.users.get(id)).then(response => {
 			this.setState({
-				showDisabled: true
+				showDeleted: true
 			});
 		});
 	}
@@ -203,11 +203,8 @@ export default class ClientsTable extends Component {
 						</Button>
 					</Modal.Footer>
 				</Modal>
-				<Modal
-					centered
-					show={this.state.showDisabled}
-					onHide={this.handleClose}
-				>
+
+				<Modal centered show={this.state.showDisabled} onHide={this.handleClose}>
 					<Modal.Header closeButton>
 						<Modal.Title>NoTE Admin</Modal.Title>
 					</Modal.Header>
@@ -220,6 +217,9 @@ export default class ClientsTable extends Component {
 						</Button>
 					</Modal.Footer>
 				</Modal>
+
+
+				
 				<Modal centered show={this.state.showDeleted} onHide={this.handleClose}>
 					<Modal.Header closeButton>
 						<Modal.Title>NoTE Admin</Modal.Title>
