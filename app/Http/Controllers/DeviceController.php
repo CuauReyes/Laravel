@@ -46,16 +46,22 @@ class DeviceController extends Controller
 			$this->validate($request, [
 				'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 			]);
-			$destinationPath = public_path('/images/devices/');
 
-			if (File::exists($destinationPath . $device->img)) {
-				File::delete($destinationPath . $device->img);
+			$image = $request->file('input_img');
+			$image_resize = Image::make($image->getRealPath());
+			$image_resize->resize(null, 400);
+
+			$filenamewithextension = $image->getClientOriginalName();
+			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+			$extension = $image->getClientOriginalExtension();
+			$filenametostore = $filename . '_' . uniqid() . '.' . $extension;
+
+			if ($device->img) {
+				Storage::disk('ftp')->delete($device->img);
 			}
-			$image = $request->file('img');
-			$name = time() . '.' . $image->getClientOriginalExtension();
-			$image->move($destinationPath, $name);
 
-			$device->img = $name;
+			Storage::disk('ftp')->put($filenametostore, $image_resize->stream()->detach());
+			$device->img = $filenametostore;
 		}
 
 		$device->save();
@@ -142,21 +148,28 @@ class DeviceController extends Controller
 		$device = Device::find($deviceId);
 
 		$this->validate($request, [
-			'input_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+			'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 		]);
 
 
-		if ($request->hasFile('input_img')) {
+		if ($request->hasFile('img')) {
+
 			$image = $request->file('input_img');
-			$name = time() . '.' . $image->getClientOriginalExtension();
-			$destinationPath = public_path('/images/devices/');
+			$image_resize = Image::make($image->getRealPath());
+			$image_resize->resize(null, 400);
 
-			if ($device->img && File::exists($destinationPath . $device->img)) {
-				File::delete($destinationPath . $device->img);
+			$filenamewithextension = $image->getClientOriginalName();
+			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+			$extension = $image->getClientOriginalExtension();
+			$filenametostore = $filename . '_' . uniqid() . '.' . $extension;
+
+			if ($device->img) {
+				Storage::disk('ftp')->delete($device->img);
 			}
-			$image->move($destinationPath, $name);
 
-			$device->img = $name;
+			Storage::disk('ftp')->put($filenametostore, $image_resize->stream()->detach());
+			$device->img = $filenametostore;
+
 			$device->save();
 
 			return response()->json([

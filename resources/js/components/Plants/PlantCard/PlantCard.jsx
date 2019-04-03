@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./PlantCard.scss";
-const imagesHost = window.location.origin + "/images/plants/";
+const imagesHost = "https://www.note-iiot.com/app.note-iiot.com/images/";
 
 export default class PlantCard extends Component {
 	static propTypes = {

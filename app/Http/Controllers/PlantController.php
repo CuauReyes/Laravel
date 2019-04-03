@@ -6,6 +6,9 @@ use App\Plant;
 use App\Device;
 use Illuminate\Http\Request;
 use File;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
+
 
 class PlantController extends Controller
 {
@@ -55,17 +58,21 @@ class PlantController extends Controller
 				'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 			]);
 
-			$image = $request->file('img');
-			$name = time() . '.' . $image->getClientOriginalExtension();
-			$destinationPath = public_path('/images/plants');
+			$image = $request->file('input_img');
+			$image_resize = Image::make($image->getRealPath());
+			$image_resize->resize(null, 400);
 
-			if (File::exists($destinationPath . $plant->img)) {
-				File::delete($destinationPath . $plant->img);
+			$filenamewithextension = $image->getClientOriginalName();
+			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+			$extension = $image->getClientOriginalExtension();
+			$filenametostore = $filename . '_' . uniqid() . '.' . $extension;
+
+			if ($plant->img) {
+				Storage::disk('ftp')->delete($plant->img);
 			}
 
-			$image->move($destinationPath, $name);
-
-			$plant->img = $name;
+			Storage::disk('ftp')->put($filenametostore, $image_resize->stream()->detach());
+			$plant->img = $filenametostore;
 		}
 
 		$plant->save();
@@ -149,26 +156,28 @@ class PlantController extends Controller
 	{
 
 		$plantId = $request->route('id');
-
 		$plant = Plant::find($plantId);
 
-		$this->validate($request, [
-			'input_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-		]);
-
-
 		if ($request->hasFile('input_img')) {
-			$image = $request->file('input_img');
-			$name = time() . '.' . $image->getClientOriginalExtension();
-			$destinationPath = public_path('/images/plants/');
+			$this->validate($request, [
+				'input_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+			]);
 
-			if (File::exists($destinationPath . $plant->img)) {
-				File::delete($destinationPath . $plant->img);
+			$image = $request->file('input_img');
+			$image_resize = Image::make($image->getRealPath());
+			$image_resize->resize(null, 400);
+
+			$filenamewithextension = $image->getClientOriginalName();
+			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+			$extension = $image->getClientOriginalExtension();
+			$filenametostore = $filename . '_' . uniqid() . '.' . $extension;
+
+			if ($plant->img) {
+				Storage::disk('ftp')->delete($plant->img);
 			}
 
-			$image->move($destinationPath, $name);
-
-			$plant->img = $name;
+			Storage::disk('ftp')->put($filenametostore, $image_resize->stream()->detach());
+			$plant->img = $filenametostore;
 			$plant->save();
 
 			return response()->json([

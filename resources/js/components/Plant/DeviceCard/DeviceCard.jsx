@@ -17,7 +17,7 @@ export default class DeviceCard extends Component {
 			url: PropTypes.string,
 			key: PropTypes.string,
 			name: PropTypes.string,
-			status: PropTypes.number,
+			status: PropTypes.string,
 			img: PropTypes.string,
 			counter: PropTypes.number,
 			type: PropTypes.string,
@@ -106,9 +106,9 @@ export default class DeviceCard extends Component {
 						<div
 							className={
 								"status " +
-								(device.status === 0
+								(device.status == 0
 									? "bg-success"
-									: device.status === 1
+									: device.status == 1
 									? "bg-warning"
 									: "bg-danger")
 							}
