@@ -90,9 +90,16 @@ export default class ChartDevice extends Component {
 
 		let dataTime = [];
 		let base = new Date(values[0].created_at);
+
 		let sum = 0;
+
 		values.forEach(value => {
-			if (base.getHours() !== new Date(value.created_at).getHours()) {
+			if (!value.create_at) {
+			}
+			if (
+				value.created_at &&
+				base.getHours() !== new Date(value.created_at).getHours()
+			) {
 				dataTime.push({
 					name: new Date(
 						base.getFullYear(),
@@ -135,6 +142,7 @@ export default class ChartDevice extends Component {
 		const { values, type } = this.props;
 		let data = this.parseDate(type, values);
 
+		console.log(values.length);
 		return (
 			<div className="row">
 				<div className="row col-sm-12 justify-content-center">
@@ -174,7 +182,7 @@ export default class ChartDevice extends Component {
 						<Brush data={data} />
 					</AreaChart>
 
-					{type === "COUNTER" ? this.renderBarChart() : null}
+					{type === "COUNTER" && values.length ? this.renderBarChart() : null}
 				</div>
 			</div>
 		);
