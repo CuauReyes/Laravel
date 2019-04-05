@@ -10,7 +10,6 @@ import {
 	AreaChart,
 	BarChart,
 	Bar,
-	Legend,
 	Area
 } from "recharts";
 import moment from "moment";
@@ -159,32 +158,42 @@ export default class ChartDevice extends Component {
 		if (values.length) {
 			let base = new Date(values[0].created_at);
 			let sum = 0;
+			let tmp = moment(base);
+			data.push({
+				name: tmp.format("h:00, MM D YYYY"),
+				value: 0
+			});
 
 			values.forEach(value => {
-				if (!value.create_at) {
-				}
 				if (
 					value.created_at &&
-					base.getHours() !== new Date(value.created_at).getHours()
+					base.getHours() === new Date(value.created_at).getHours()
 				) {
+					data[data.length - 1].value += value.value;
+				} else {
 					let tmp = moment(base);
 					data.push({
 						name: tmp.format("h:00, MM D YYYY"),
-						value: sum
+						value: value.value
 					});
-					sum = 0;
 					base = new Date(value.created_at);
 				}
-				sum += value.value;
 			});
 		}
+
+		data.push({
+			name: moment().format("h:00, MM D YYYY"),
+			value: 0
+		});
 		return data;
 	}
 
 	render() {
 		const { values, type } = this.props;
-		let data = this.groupByHour(values);
 
+		console.log("Values", values);
+
+		let data = this.groupByHour(values);
 		return (
 			<div className="row">
 				<div className="row col-sm-12 justify-content-center">

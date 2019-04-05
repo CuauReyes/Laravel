@@ -37,6 +37,7 @@ export default class Device extends Component {
 		let today = new Date();
 		let prevDate = today;
 		prevDate.setDate(prevDate.getDate() - 1);
+		prevDate.setHours(prevDate.getHours() - 1);
 
 		this.state = {
 			device: null,
