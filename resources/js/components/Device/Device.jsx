@@ -24,7 +24,7 @@ import "react-widgets/dist/css/react-widgets.css";
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-const imagesHost = window.location.origin + "/images/devices/";
+const imagesHost = "https://www.note-iiot.com/app.note-iiot.com/images/";
 import defaultImg from "./assets/microchip.svg";
 
 Moment.locale("en");
@@ -36,14 +36,14 @@ export default class Device extends Component {
 
 		let today = new Date();
 		let prevDate = today;
-		prevDate.setDate(prevDate.getDate() - 7);
+		prevDate.setDate(prevDate.getDate() - 1);
 
 		this.state = {
 			device: null,
 			plant: {},
 			data: [],
 			values: [],
-			range: "week",
+			range: "day",
 			minInterval: prevDate,
 			maxInterval: new Date()
 		};
@@ -59,19 +59,21 @@ export default class Device extends Component {
 			this.setState({
 				device,
 				plant: response.data.plant,
-				values: response.data.values,
-				data: response.data.values
+				values: response.data.values || []
 			});
 			this.handleChangeRange(this.state.range);
 
-			window.Echo.channel("devices." + device._id).listen("NewValue", response => {
-				const { values, minInterval, maxInterval } = this.state;
-				values.push(response.value);
-				this.setState({
-					values
-				});
-				this.changeRangeDate(minInterval, maxInterval);
-			});
+			window.Echo.channel("devices." + device._id).listen(
+				"NewValue",
+				response => {
+					const { values, minInterval, maxInterval } = this.state;
+					values.push(response.value);
+					this.setState({
+						values
+					});
+					this.changeRangeDate(minInterval, maxInterval);
+				}
+			);
 		});
 	}
 
@@ -92,6 +94,7 @@ export default class Device extends Component {
 	handleChangeRange(interval) {
 		let today = new Date();
 		let previousDate = today;
+		console.log(interval);
 		switch (interval) {
 			case "day":
 				previousDate.setDate(previousDate.getDate() - 1);
@@ -141,7 +144,7 @@ export default class Device extends Component {
 		if (today.getFullYear() === last.getFullYear()) {
 			if (today.getMonth() === last.getMonth()) {
 				if (today.getDate() === last.getDate()) {
-					return hour;
+					return "Hoy a las " + hour;
 				}
 				return (
 					this.transformDigit(last.getMonth() + 1) +
@@ -152,7 +155,6 @@ export default class Device extends Component {
 				);
 			}
 			return (
-				"Hoy a las " +
 				last.getFullYear() +
 				"-" +
 				this.transformDigit(last.getMonth() + 1) +
@@ -174,25 +176,26 @@ export default class Device extends Component {
 			? [
 					{
 						title: "Último dato",
-						value: values
+						value: values.length
 							? this.formatValue(device.type, values[values.length - 1].value)
-							: null,
+							: "No hay datos",
 						classes: "bg-primary text-white",
 						icon: "clock"
 					},
 					{
 						title: "Última conexión",
-						value: values
+						value: values.length
 							? this.lastConnection(values[values.length - 1].created_at)
-							: null,
+							: "No hay datos",
 						classes: "bg-dark text-white",
 						icon: "wifi"
 					},
 					{
 						title: "Estado",
-						value: "OK",
-						classes: "bg-success text-white",
-						icon: "check"
+						value: device.status == 1 ? "OK" : "Inactivo",
+						classes:
+							"text-white " + (device.status == 1 ? "bg-success" : "bg-danger"),
+						icon: device.status == 1 ? "check" : "times"
 					}
 			  ]
 			: [];
@@ -202,7 +205,9 @@ export default class Device extends Component {
 			deviceCards.unshift(
 				{
 					title: "Temperatura actual",
-					value: values[values.length - 1].value + "º",
+					value: values.length
+						? values[values.length - 1].value + "º"
+						: "No hay datos",
 					classes: "bg-primary text-white",
 					icon: "thermometer-half"
 				},
@@ -243,7 +248,7 @@ export default class Device extends Component {
 					<div className="container-fluid pt-3">
 						<div className="d-flex flex-wrap col-sm-12 mb-3">
 							<div className="col-sm-12">
-								<Link to={`/plants/${plant._id}`}> Plantas </Link>
+								<Link to={`/plants`}> Plantas </Link>
 								<span>&nbsp; > &nbsp; </span>
 								<Link to={`/plants/${plant._id}`}> {plant.name} </Link>
 								<span>&nbsp; > &nbsp; </span>
@@ -292,7 +297,9 @@ export default class Device extends Component {
 								<DateTimePicker
 									defaultValue={this.state.minInterval}
 									max={this.state.maxInterval}
-									min={new Date(values[0].created_at)}
+									min={
+										values.length ? new Date(values[0].created_at) : new Date()
+									}
 									onChange={minInterval =>
 										this.changeRangeDate(minInterval, this.state.maxInterval)
 									}
@@ -350,7 +357,9 @@ export default class Device extends Component {
 							</div>
 						</div>
 					</div>
-				) : null}
+				) : (
+					"Cargando..."
+				)}
 			</div>
 		);
 	}

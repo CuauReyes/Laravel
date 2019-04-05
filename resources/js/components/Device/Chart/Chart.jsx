@@ -13,6 +13,7 @@ import {
 	Legend,
 	Area
 } from "recharts";
+import moment from "moment";
 
 export default class ChartDevice extends Component {
 	static propTypes = {
@@ -31,9 +32,11 @@ export default class ChartDevice extends Component {
 		super(props);
 
 		this.state = {
-			width: 800
+			width: 800,
+			data: []
 		};
 		this.onResize = this.onResize.bind(this);
+		this.groupByHour = this.groupByHour.bind(this);
 	}
 
 	componentDidMount() {
@@ -84,42 +87,13 @@ export default class ChartDevice extends Component {
 		}
 	}
 
-	renderBarChart() {
+	renderBarChart(data) {
 		const { width } = this.state;
-		const { values } = this.props;
-
-		let dataTime = [];
-		let base = new Date(values[0].created_at);
-
-		let sum = 0;
-
-		values.forEach(value => {
-			if (!value.create_at) {
-			}
-			if (
-				value.created_at &&
-				base.getHours() !== new Date(value.created_at).getHours()
-			) {
-				dataTime.push({
-					name: new Date(
-						base.getFullYear(),
-						base.getMonth(),
-						base.getDate(),
-						base.getHours()
-					).toString(),
-					value: sum
-				});
-				sum = 0;
-				base = new Date(value.created_at);
-			}
-			sum += value.value;
-		});
-
 		return (
 			<BarChart
 				width={width}
 				height={400}
-				data={dataTime}
+				data={data}
 				margin={{
 					top: 20,
 					right: 20,
@@ -132,57 +106,90 @@ export default class ChartDevice extends Component {
 				<YAxis />
 				<Tooltip />
 				<Bar dataKey="value" fill="#8884d8" />
-				<Brush data={dataTime} />
+				{data.length ? <Brush data={data} /> : null}
 			</BarChart>
 		);
 	}
 
-	render() {
+	renderAreaChart(data) {
 		const { width } = this.state;
-		const { values, type } = this.props;
-		let data = this.parseDate(type, values);
+		const { type } = this.props;
 
-		console.log(values.length);
+		return (
+			<AreaChart
+				width={width}
+				height={400}
+				data={data}
+				baseValue={"dataMin"}
+				margin={{
+					top: 20,
+					right: 20,
+					left: 20,
+					bottom: 20
+				}}
+			>
+				<defs>
+					<linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+						<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+						<stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+					</linearGradient>
+				</defs>
+				<CartesianGrid strokeDasharray="3 3" />
+				<XAxis dataKey="name" />
+				<YAxis />
+				<Tooltip />
+				<Area
+					type={this.typeChart(type)}
+					dataKey="value"
+					stroke="#8884d8"
+					dot={true}
+					isAnimationActive={true}
+					animationEasing={"linear"}
+					baseLine={8}
+					fillOpacity={1}
+					fill="url(#colorValue)"
+				/>
+				{data.length ? <Brush data={data} /> : null}
+			</AreaChart>
+		);
+	}
+
+	groupByHour(values) {
+		let data = [];
+		if (values.length) {
+			let base = new Date(values[0].created_at);
+			let sum = 0;
+
+			values.forEach(value => {
+				if (!value.create_at) {
+				}
+				if (
+					value.created_at &&
+					base.getHours() !== new Date(value.created_at).getHours()
+				) {
+					let tmp = moment(base);
+					data.push({
+						name: tmp.format("h:00, MM D YYYY"),
+						value: sum
+					});
+					sum = 0;
+					base = new Date(value.created_at);
+				}
+				sum += value.value;
+			});
+		}
+		return data;
+	}
+
+	render() {
+		const { values, type } = this.props;
+		let data = this.groupByHour(values);
+
 		return (
 			<div className="row">
 				<div className="row col-sm-12 justify-content-center">
-					<AreaChart
-						width={width}
-						height={400}
-						data={data}
-						baseValue={"dataMin"}
-						margin={{
-							top: 20,
-							right: 20,
-							left: 20,
-							bottom: 20
-						}}
-					>
-						<defs>
-							<linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-								<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-								<stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-							</linearGradient>
-						</defs>
-						<CartesianGrid strokeDasharray="3 3" />
-						<XAxis dataKey="name" />
-						<YAxis />
-						<Tooltip />
-						<Area
-							type={this.typeChart(type)}
-							dataKey="value"
-							stroke="#8884d8"
-							dot={true}
-							isAnimationActive={true}
-							animationEasing={"linear"}
-							baseLine={8}
-							fillOpacity={1}
-							fill="url(#colorValue)"
-						/>
-						<Brush data={data} />
-					</AreaChart>
-
-					{type === "COUNTER" && values.length ? this.renderBarChart() : null}
+					{this.renderAreaChart(data)}
+					{type === "COUNTER" ? this.renderBarChart(data) : null}
 				</div>
 			</div>
 		);

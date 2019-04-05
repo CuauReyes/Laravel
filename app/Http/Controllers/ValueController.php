@@ -6,17 +6,19 @@ use Illuminate\Http\Request;
 use App\Device;
 use App\Value;
 use App\Events\NewValue;
+use DateTime;
+use Carbon\Carbon;
 
 class ValueController extends Controller
 {
 	//
 
 	/**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function store(Request $request)
 	{
 		$data = json_decode($request->getContent(), true);
@@ -37,11 +39,23 @@ class ValueController extends Controller
 		]);
 
 		$value->save();
+
+		$parsed = substr($data['time'], 0, -2) . 'Z';
+		$parsedDate = new DateTime($parsed);
+		$valueElem = [
+			'id' => $device->count,
+			'value' => $data['payload_fields']['Cvalue'],
+			'count' => $device->count,
+			'device_id' => $device->id,
+			'created_at' => new \MongoDB\BSON\UTCDateTime($parsedDate),
+		];
+
+		$device->push('values', $valueElem);
+
 		$device->save();
 
-
-		// event(new NewValue($value));
 		broadcast(new NewValue($value));
+		// broadcast(new NewValue(new Value($value)));
 
 
 		return $value->toJson();

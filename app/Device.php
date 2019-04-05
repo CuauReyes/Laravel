@@ -18,6 +18,7 @@ class Device extends Eloquent
 		'count',
 		'counter',
 		'img',
+		'values',
 		'plant_id',
 	];
 
@@ -29,6 +30,7 @@ class Device extends Eloquent
 	public function values()
 	{
 		return $this->hasMany('App\Value')->orderBy('created_at', 'asc');
+		// return $this->hasMany('App\Value')->orderBy('created_at', 'asc');
 	}
 
 	public function lastValue()

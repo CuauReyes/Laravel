@@ -7,10 +7,10 @@ use Illuminate\Database\Migrations\Migration;
 class Devices extends Migration
 {
 	/**
-     * Run the migrations.
-     *
-     * @return void
-     */
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
 	public function up()
 	{
 		$this->down();
@@ -23,16 +23,17 @@ class Devices extends Migration
 			$collection->bigInteger('count')->default(0);
 			$collection->bigInteger('counter')->nullable;
 			$collection->integer('battery')->nullable();
+			$collection->array('values')->default([]);
 			$collection->integer('status')->nullable();
 			$collection->timestamps();
 		});
 	}
 
 	/**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
 	public function down()
 	{
 		Schema::connection('mongodb')->dropIfExists('devices');

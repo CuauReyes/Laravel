@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import defaultImg from "./microchip.svg";
 import "./DeviceCard.scss";
 
-const imagesHost = window.location.origin + "/images/devices/";
+const imagesHost = "https://www.note-iiot.com/app.note-iiot.com/images/";
 
 export default class DeviceCard extends Component {
 	static propTypes = {
@@ -76,6 +76,7 @@ export default class DeviceCard extends Component {
 				hour
 			);
 		}
+		return "No hay información";
 	}
 
 	render() {
@@ -105,12 +106,7 @@ export default class DeviceCard extends Component {
 					<div className="col-sm d-flex flex-column justify-content-center align-items-center p-0">
 						<div
 							className={
-								"status " +
-								(device.status == 0
-									? "bg-success"
-									: device.status == 1
-									? "bg-warning"
-									: "bg-danger")
+								"status " + (device.status == 1 ? "bg-success" : "bg-danger")
 							}
 						/>
 						<FontAwesomeIcon icon="battery-full" className="fa-2x" />
@@ -145,7 +141,7 @@ export default class DeviceCard extends Component {
 											device.last_value.value,
 											device
 									  )
-									: null}
+									: "No hay datos"}
 							</b>
 						</span>
 					</Card>
@@ -161,7 +157,7 @@ export default class DeviceCard extends Component {
 							<b>
 								{device.last_value
 									? this.lastConnection(device.last_value.created_at)
-									: null}
+									: "No hay datos"}
 							</b>
 						</span>
 					</Card>
@@ -173,7 +169,9 @@ export default class DeviceCard extends Component {
 					>
 						<span>
 							Total de datos:{" "}
-							<b>{device.last_value ? device.last_value.count : null}</b>
+							<b>
+								{device.last_value ? device.last_value.count : "No hay datos"}
+							</b>
 						</span>
 					</Card>
 				</Card.Body>
