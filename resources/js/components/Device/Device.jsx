@@ -95,7 +95,6 @@ export default class Device extends Component {
 	handleChangeRange(interval) {
 		let today = new Date();
 		let previousDate = today;
-		console.log(interval);
 		switch (interval) {
 			case "day":
 				previousDate.setDate(previousDate.getDate() - 1);

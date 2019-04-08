@@ -15,7 +15,6 @@ export default class Plants extends Component {
 
 	componentDidMount() {
 		let user = JSON.parse(window.localStorage.getItem("user"));
-		console.log(user);
 		axios.get(api.users.get(user._id)).then(response => {
 			this.setState({
 				plants: response.data.plants
@@ -35,14 +34,16 @@ export default class Plants extends Component {
 					</div>
 
 					<div className="col-sm-12 d-flex flex-wrap">
-						{plants.map((plant, key) => (
-							<div
-								key={key}
-								className="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-2"
-							>
-								<PlantCard plant={plant} />
-							</div>
-						))}
+						{plants
+							? plants.map((plant, key) => (
+									<div
+										key={key}
+										className="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-2"
+									>
+										<PlantCard plant={plant} />
+									</div>
+							  ))
+							: null}
 					</div>
 				</div>
 			</div>

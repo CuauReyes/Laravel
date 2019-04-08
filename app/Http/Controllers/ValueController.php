@@ -42,17 +42,17 @@ class ValueController extends Controller
 
 		$value->save();
 
-		$parsed = substr($data['metadata']['time'], 0, -2) . 'Z';
-		$parsedDate = new DateTime($parsed);
-		$valueElem = [
-			'id' => $count,
-			'value' => $data['payload_fields']['Cvalue'],
-			'count' => $count,
-			'device_id' => $device->id,
-			'created_at' => new \MongoDB\BSON\UTCDateTime($parsedDate),
-		];
+		// $parsed = substr($data['metadata']['time'], 0, -2) . 'Z';
+		// $parsedDate = new DateTime($parsed);
+		// $valueElem = [
+		// 	'id' => $count,
+		// 	'value' => $data['payload_fields']['Cvalue'],
+		// 	'count' => $count,
+		// 	'device_id' => $device->id,
+		// 	'created_at' => new \MongoDB\BSON\UTCDateTime($parsedDate),
+		// ];
 
-		$device->push('values', $valueElem);
+		// $device->push('values', $valueElem);
 
 		$device->save();
 

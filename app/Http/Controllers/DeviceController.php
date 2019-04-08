@@ -55,17 +55,17 @@ class DeviceController extends Controller
 			$image_resize = Image::make($image->getRealPath());
 			$image_resize->resize(null, 400);
 
-			$filenamewithextension = $image->getClientOriginalName();
-			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+			$filenameWithExtension = $image->getClientOriginalName();
+			$filename = pathinfo($filenameWithExtension, PATHINFO_FILENAME);
 			$extension = $image->getClientOriginalExtension();
-			$filenametostore = $filename . '_' . uniqid() . '.' . $extension;
+			$filenameToStore = $filename . '_' . uniqid() . '.' . $extension;
 
 			if ($device->img) {
 				Storage::disk('ftp')->delete($device->img);
 			}
 
-			Storage::disk('ftp')->put($filenametostore, $image_resize->stream()->detach());
-			$device->img = $filenametostore;
+			Storage::disk('ftp')->put($filenameToStore, $image_resize->stream()->detach());
+			$device->img = $filenameToStore;
 		}
 
 		$device->save();
