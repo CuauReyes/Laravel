@@ -55,8 +55,6 @@ class ValueController extends Controller
 		$device->save();
 
 		broadcast(new NewValue($value));
-		// broadcast(new NewValue(new Value($value)));
-
 
 		return $value->toJson();
 	}
