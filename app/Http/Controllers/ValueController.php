@@ -28,7 +28,7 @@ class ValueController extends Controller
 		$name = $data['dev_id'];
 
 		$device = Device::where('name', '=', $name)->firstOrFail();
-		$device->count++;
+		$count = $device->count + 1;
 
 		if ($device->type == 'COUNTER') {
 			$device->counter += $data['payload_fields']['Cvalue'];
@@ -36,18 +36,18 @@ class ValueController extends Controller
 
 		$value = new Value([
 			'value' => $data['payload_fields']['Cvalue'],
-			'count' => $device->count,
+			'count' => $count,
 			'device_id' => $device->id
 		]);
 
 		$value->save();
 
-		$parsed = substr($data['time'], 0, -2) . 'Z';
+		$parsed = substr($data['metadata']['time'], 0, -2) . 'Z';
 		$parsedDate = new DateTime($parsed);
 		$valueElem = [
-			'id' => $device->count,
+			'id' => $count,
 			'value' => $data['payload_fields']['Cvalue'],
-			'count' => $device->count,
+			'count' => $count,
 			'device_id' => $device->id,
 			'created_at' => new \MongoDB\BSON\UTCDateTime($parsedDate),
 		];
