@@ -36,7 +36,7 @@ export default class Device extends Component {
 
 		let today = new Date();
 		let prevDate = today;
-		prevDate.setDate(prevDate.getDate() - 1);
+		prevDate.setDate(prevDate.getDate() - 7);
 		prevDate.setHours(prevDate.getHours() - 1);
 
 		this.state = {
@@ -44,7 +44,7 @@ export default class Device extends Component {
 			plant: {},
 			data: [],
 			values: [],
-			range: "day",
+			range: "week",
 			minInterval: prevDate,
 			maxInterval: new Date()
 		};

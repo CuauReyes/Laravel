@@ -35,7 +35,8 @@ export default class ChartDevice extends Component {
 			data: []
 		};
 		this.onResize = this.onResize.bind(this);
-		this.groupByHour = this.groupByHour.bind(this);
+		this.groupByHours = this.groupByHours.bind(this);
+		this.groupByDays = this.groupByDays.bind(this);
 	}
 
 	componentDidMount() {
@@ -153,14 +154,14 @@ export default class ChartDevice extends Component {
 		);
 	}
 
-	groupByHour(values) {
+	groupByHours(values) {
 		let data = [];
 		if (values.length) {
 			let base = new Date(values[0].created_at);
 			let sum = 0;
 			let tmp = moment(base);
 			data.push({
-				name: tmp.format("h:00, MM D YYYY"),
+				name: tmp.format("h:00, D/MM/YYYY"),
 				value: 0
 			});
 
@@ -173,7 +174,7 @@ export default class ChartDevice extends Component {
 				} else {
 					let tmp = moment(base);
 					data.push({
-						name: tmp.format("h:00, MM D YYYY"),
+						name: tmp.format("h:00, D/MM/YYYY"),
 						value: value.value
 					});
 					base = new Date(value.created_at);
@@ -182,7 +183,42 @@ export default class ChartDevice extends Component {
 		}
 
 		data.push({
-			name: moment().format("h:00, MM D YYYY"),
+			name: moment().format("h:00, D/MM/YYYY"),
+			value: 0
+		});
+		return data;
+	}
+
+	groupByDays(values) {
+		let data = [];
+		if (values.length) {
+			let base = new Date(values[0].created_at);
+			let sum = 0;
+			let tmp = moment(base);
+			data.push({
+				name: tmp.format("D/MM/YYYY"),
+				value: 0
+			});
+
+			values.forEach(value => {
+				if (
+					value.created_at &&
+					base.getDate() === new Date(value.created_at).getDate()
+				) {
+					data[data.length - 1].value += value.value;
+				} else {
+					let tmp = moment(base);
+					data.push({
+						name: tmp.format("D/MM/YYYY"),
+						value: value.value
+					});
+					base = new Date(value.created_at);
+				}
+			});
+		}
+
+		data.push({
+			name: moment().format("D/MM/YYYY"),
 			value: 0
 		});
 		return data;
@@ -191,14 +227,13 @@ export default class ChartDevice extends Component {
 	render() {
 		const { values, type } = this.props;
 
-		console.log("Values", values);
-
-		let data = this.groupByHour(values);
+		let dataDays = this.groupByDays(values);
+		let dataHours = this.groupByHours(values);
 		return (
 			<div className="row">
 				<div className="row col-sm-12 justify-content-center">
-					{this.renderAreaChart(data)}
-					{type === "COUNTER" ? this.renderBarChart(data) : null}
+					{this.renderAreaChart(dataDays)}
+					{type === "COUNTER" ? this.renderBarChart(dataHours) : null}
 				</div>
 			</div>
 		);
