@@ -138,11 +138,11 @@ export default class DevicesAdd extends Component {
 							</Form.Group>
 
 							<Form.Group>
-								<Form.Label> Imagen </Form.Label>
+								<Form.Label> Imagen URL </Form.Label>
 								<Form.Control
-									type="file"
+									type="text"
 									name="img"
-									onChange={this.onChangeImage}
+									onChange={this.onChangeInput}
 								/>
 							</Form.Group>
 
@@ -224,9 +224,9 @@ export default class DevicesAdd extends Component {
 								</Form.Group>
 
 								<Form.Group>
-									<Form.Label> Imagen </Form.Label>
+									<Form.Label> URL </Form.Label>
 									<Form.Control
-										type="file"
+										type="text"
 										name="input_img"
 										onChange={this.onChangeImage}
 										required
