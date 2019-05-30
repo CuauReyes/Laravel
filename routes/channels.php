@@ -13,7 +13,6 @@
 // Broadcast::routes(['middleware' => ['web', 'auth:admin']]);
 
 Broadcast::channel('App.User.{id}', function ($user, $id) {
-	print_r($id);
 	return (int)$user->id === (int)$id;
 });
 

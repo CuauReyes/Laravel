@@ -86,7 +86,8 @@ class PlantController extends Controller
 	 */
 	public function show($id)
 	{
-		$plant = Plant::with('users', 'devices', 'devices.lastValue')->find($id);
+		$plant = Plant::with('users', 'devices')->find($id);
+		// $plant = Plant::with('users', 'devices', 'devices.lastValue')->find($id);
 
 		// foreach ($plant->devices as $device) {
 		// 	$count = count($device->values);
@@ -125,7 +126,6 @@ class PlantController extends Controller
 		$Plant->key = $request->key;
 
 		$Plant->save();
-		//print_r('Acceso ok');
 	}
 
 	/**

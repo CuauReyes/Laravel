@@ -23,8 +23,6 @@ class ValueController extends Controller
 	{
 		$data = json_decode($request->getContent(), true);
 
-		print_r($data);
-
 		$name = $data['dev_id'];
 
 		$device = Device::where('name', '=', $name)->firstOrFail();

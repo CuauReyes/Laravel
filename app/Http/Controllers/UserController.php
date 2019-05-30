@@ -79,10 +79,7 @@ class UserController extends Controller
 	public function update(Request $request, $id)
 	{
 		//
-		print_r($request->password);
 		$Pass = bcrypt($request->password);
-		print_r($Pass);
-
 		$User = User::find($id);
 		$User->name = $request->name;
 		$User->email = $request->email;
