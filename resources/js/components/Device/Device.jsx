@@ -298,7 +298,9 @@ export default class Device extends Component {
 									defaultValue={this.state.minInterval}
 									max={this.state.maxInterval}
 									min={
-										values.length ? new Date(values[0].created_at) : new Date()
+										device.first_value
+											? new Date(device.first_value.created_at)
+											: new Date()
 									}
 									onChange={minInterval =>
 										this.changeRangeDate(minInterval, this.state.maxInterval)

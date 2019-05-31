@@ -19,6 +19,7 @@ export default class Plants extends Component {
 			this.setState({
 				plants: response.data.plants
 			});
+			console.log(response);
 		});
 	}
 

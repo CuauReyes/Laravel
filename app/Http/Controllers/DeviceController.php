@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Device;
+use App\Value;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Facades\Storage;
@@ -80,8 +81,10 @@ class DeviceController extends Controller
 	 */
 	public function show($id)
 	{
-		//
-		$device = Device::with('plant', 'values')->find($id)->limit(100);
+		$device = Device::with('plant', 'values')->find($id);
+
+		$firstValue = Value::where('device_id', $device->_id)->orderBy('created_at', 'asc')->first();
+		$device->first_value = $firstValue;
 
 		return response()->json($device, 200);
 	}

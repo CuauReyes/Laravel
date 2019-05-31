@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Plant;
 use App\Device;
+use App\Value;
 use Illuminate\Http\Request;
 use File;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,8 @@ class PlantController extends Controller
 	 */
 	public function index()
 	{
-		return Plant::with('users', 'devices')->get();
+		return Plant::with('users', 'devices', 'devices.lastValue')->get();
+		// return Plant::with('users', 'devices')->get();
 	}
 
 	/**
@@ -80,20 +82,18 @@ class PlantController extends Controller
 
 	/**
 	 * Display the specified resource.
-	 *
+	 *h
 	 * @param  \App\Plant $plant
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id)
 	{
 		$plant = Plant::with('users', 'devices')->find($id);
-		// $plant = Plant::with('users', 'devices', 'devices.lastValue')->find($id);
 
-		// foreach ($plant->devices as $device) {
-		// 	$count = count($device->values);
-		// 	$device->last_value = $device->values[$count - 1];
-		// 	unset($device->values);
-		// }
+		foreach ($plant->devices as $device) {
+			$lastValue = Value::where('device_id', $device->_id)->orderBy('created_at', 'desc')->first();
+			$device->last_value = $lastValue;
+		}
 
 		return response()->json($plant, 200);
 	}

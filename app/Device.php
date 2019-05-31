@@ -29,11 +29,11 @@ class Device extends Eloquent
 
 	public function values()
 	{
-		return $this->hasMany('App\Value')->orderBy('created_at', 'asc');
+		return $this->hasMany('App\Value')->orderBy('created_at', 'desc')->limit(1000);
 	}
 
 	public function lastValue()
 	{
-		return $this->hasOne('App\Value')->latest();
+		return $this->hasOne('App\Value');
 	}
 }
