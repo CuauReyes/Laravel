@@ -81,7 +81,7 @@ class DeviceController extends Controller
 	public function show($id)
 	{
 		//
-		$device = Device::with('plant', 'values')->find($id);
+		$device = Device::with('plant', 'values')->find($id)->limit(100);
 
 		return response()->json($device, 200);
 	}
