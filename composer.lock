@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2b0fb464915468bd8f0ca312817bd76",
+    "content-hash": "e60604cc21395ef6c8256d5ea0180e5c",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -3008,7 +3008,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",

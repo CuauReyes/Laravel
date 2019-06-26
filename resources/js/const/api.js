@@ -9,6 +9,7 @@ const AUTH = 'auth';
 const USERS = 'users';
 
 const api = {
+	root: apiURI,
 	plants: {
 		all: `${apiURI}/${PLANTS}`,
 		get: (id) => `${apiURI}/${PLANTS}/${id}`,

@@ -8,6 +8,7 @@ use App\Value;
 use App\Events\NewValue;
 use DateTime;
 use Carbon\Carbon;
+use GuzzleHttp;
 
 class ValueController extends Controller
 {
@@ -58,4 +59,15 @@ class ValueController extends Controller
 
 		return $value->toJson();
 	}
+
+
+	public function resend(Request $request)
+	{
+		$client = new GuzzleHttp\Client();
+		$res = $client->request('POST', $request->url,
+			['json' => ['value' => $request->value]]
+		);
+		return $res->getBody();
+	}
+
 }

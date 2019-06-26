@@ -57,10 +57,12 @@ export default class Device extends Component {
 		const { deviceId } = this.props.match.params;
 		axios.get(api.devices.get(deviceId)).then(response => {
 			const device = response.data;
+			const values = device.values.reverse();
+
 			this.setState({
 				device,
 				plant: response.data.plant,
-				values: response.data.values || []
+				values: values || []
 			});
 			this.handleChangeRange(this.state.range);
 
