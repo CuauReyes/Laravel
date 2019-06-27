@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Device;
 use App\Value;
+use App\Plant;
 use App\Events\NewValue;
 use DateTime;
 use Carbon\Carbon;
@@ -27,6 +28,15 @@ class ValueController extends Controller
 		$name = $data['dev_id'];
 
 		$device = Device::where('name', '=', $name)->firstOrFail();
+		$plant = Plant::where('id', '=', $device->id)->firstOrFail();
+
+		if ($plant && isset($plant->resendUrl)) {
+			$client = new GuzzleHttp\Client();
+			$res = $client->request('POST', url,
+				['json' => ['value' => $data['payload_fields']['Cvalue']]]
+			);
+		}
+
 		$count = $device->count + 1;
 
 		if ($device->type == 'COUNTER') {
@@ -61,10 +71,10 @@ class ValueController extends Controller
 	}
 
 
-	public function resend(Request $request)
+	public function resend($url)
 	{
 		$client = new GuzzleHttp\Client();
-		$res = $client->request('POST', $request->url,
+		$res = $client->request('POST', url,
 			['json' => ['value' => $request->value]]
 		);
 		return $res->getBody();

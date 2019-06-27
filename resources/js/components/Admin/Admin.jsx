@@ -27,7 +27,8 @@ export default class Admin extends Component {
 
 			url: '',
 			value: 0,
-			token: ''
+			token: '',
+			plant_id: ''
 		};
 
 		this.onChangeInput = this.onChangeInput.bind(this);
@@ -51,9 +52,8 @@ export default class Admin extends Component {
 		let bodyFormData = new FormData();
 		bodyFormData.set('url', this.state.url);
 		bodyFormData.set('token', this.state.token);
-		bodyFormData.set('value', this.state.value);
 
-		Axios.post(api.root + '/resend', bodyFormData, {
+		Axios.post(api.plants.setResend(this.state.plant_id), bodyFormData, {
 			headers: { 'Content-Type': 'multipart/form-data' }
 		})
 			.then(response => {
@@ -83,6 +83,7 @@ export default class Admin extends Component {
 
 	render() {
 		const { users, plants, devices } = this.state;
+
 		return (
 			<div className='container-fluid p-5'>
 				<div className='row'>
@@ -105,10 +106,24 @@ export default class Admin extends Component {
 					<div className='col-12'>
 						<Card className=''>
 							<Card.Header>
-								<Card.Title> Envíar datos</Card.Title>
+								<Card.Title> Redireccionar datos</Card.Title>
 							</Card.Header>
 							<Card.Body>
 								<Form onSubmit={this.handleSubmit}>
+									<Form.Group>
+										<Form.Label> Planta </Form.Label>
+										<Form.Control as='select' name='plant_id' value={this.state.plant_id} onChange={this.onChangeInput}>
+											<option value='' defaultValue>
+												Selecciona
+											</option>
+											{plants.map((plant, key) => (
+												<option key={key} value={plant._id}>
+													{plant.name}
+												</option>
+											))}
+										</Form.Control>
+									</Form.Group>
+
 									<Form.Group>
 										<Form.Label> URL </Form.Label>
 										<Form.Control type='text' name='url' value={this.state.url} onChange={this.onChangeInput} />
@@ -117,11 +132,6 @@ export default class Admin extends Component {
 									<Form.Group>
 										<Form.Label> Token </Form.Label>
 										<Form.Control type='text' name='token' value={this.state.token} onChange={this.onChangeInput} />
-									</Form.Group>
-
-									<Form.Group>
-										<Form.Label> Valor </Form.Label>
-										<Form.Control type='text' name='value' value={this.state.value} onChange={this.onChangeInput} />
 									</Form.Group>
 
 									<Button type='submit' variant='primary'>

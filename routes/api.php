@@ -37,6 +37,7 @@ Route::group(['prefix' => 'v1'], function () {
 		Route::put('{id}/removeUser', 'PlantController@removeUser');
 		Route::post('{id}/image', 'PlantController@fileUpload');
 		Route::post('{id}/editPlant', 'PlantController@update');
+		Route::post('{id}/setResend', 'PlantController@setResending');
 	});
 
 	Route::group(['prefix' => 'devices'], function () {

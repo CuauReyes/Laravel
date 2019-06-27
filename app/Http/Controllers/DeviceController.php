@@ -18,7 +18,7 @@ class DeviceController extends Controller
 	 */
 	public function index()
 	{
-		return Device::with('plant')->get();
+		return Device::all();
 	}
 
 	/**

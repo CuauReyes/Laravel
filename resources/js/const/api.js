@@ -13,6 +13,8 @@ const api = {
 	plants: {
 		all: `${apiURI}/${PLANTS}`,
 		get: (id) => `${apiURI}/${PLANTS}/${id}`,
+		setResend: (id) => `${apiURI}/${PLANTS}/${id}/setResend`,
+
 	},
 	devices: {
 		all: `${apiURI}/${DEVICES}`,

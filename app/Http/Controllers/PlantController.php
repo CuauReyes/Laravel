@@ -20,8 +20,8 @@ class PlantController extends Controller
 	 */
 	public function index()
 	{
-		return Plant::with('users', 'devices', 'devices.lastValue')->get();
-		// return Plant::with('users', 'devices')->get();
+		return Plant::with('users')->get();
+		// return Plant::with('users', 'devices', 'devices.lastValue')->get();
 	}
 
 	/**
@@ -221,4 +221,15 @@ class PlantController extends Controller
 
 		return back()->with('success', 'User removed');
 	}
+
+	public function setResending(Request $request, $id)
+	{
+		$plant = Plant::find($id);
+		$plant->resendUrl = $request->url;
+		$plant->resendToken = $request->token;
+		$plant->save();
+		return $plant;
+	}
+
+
 }
