@@ -44,7 +44,6 @@ Route::group(['prefix' => 'v1'], function () {
 		Route::get('', 'DeviceController@index');
 		Route::get('{id}', 'DeviceController@show');
 		// Route::middleware('auth:api')->group(function() {
-
 		// })
 		Route::post('', 'DeviceController@store');
 		Route::delete('{id}', 'DeviceController@destroy');

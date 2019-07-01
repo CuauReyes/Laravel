@@ -28,9 +28,9 @@ class ValueController extends Controller
 		$name = $data['dev_id'];
 
 		$device = Device::where('name', '=', $name)->firstOrFail();
-		$plant = Plant::where('id', '=', $device->id)->firstOrFail();
 
-		if ($plant && isset($plant->resendUrl)) {
+		$plant = Plant::find($device->plant_id);
+		if (isset($plant->resendUrl)) {
 			$client = new GuzzleHttp\Client();
 			$res = $client->request('POST', url,
 				['json' => ['value' => $data['payload_fields']['Cvalue']]]
@@ -50,19 +50,6 @@ class ValueController extends Controller
 		]);
 
 		$value->save();
-
-		// $parsed = substr($data['metadata']['time'], 0, -2) . 'Z';
-		// $parsedDate = new DateTime($parsed);
-		// $valueElem = [
-		// 	'id' => $count,
-		// 	'value' => $data['payload_fields']['Cvalue'],
-		// 	'count' => $count,
-		// 	'device_id' => $device->id,
-		// 	'created_at' => new \MongoDB\BSON\UTCDateTime($parsedDate),
-		// ];
-
-		// $device->push('values', $valueElem);
-
 		$device->save();
 
 		broadcast(new NewValue($value));
