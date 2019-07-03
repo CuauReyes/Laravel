@@ -30,9 +30,11 @@ class ValueController extends Controller
 		$device = Device::where('name', '=', $name)->firstOrFail();
 
 		$plant = Plant::find($device->plant_id);
+
 		if (isset($plant->resendUrl)) {
+
 			$client = new GuzzleHttp\Client();
-			$res = $client->request('POST', url,
+			$res = $client->request('POST', $plant->resendUrl,
 				['json' => ['value' => $data['payload_fields']['Cvalue']]]
 			);
 		}
