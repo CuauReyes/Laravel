@@ -35,7 +35,15 @@ class ValueController extends Controller
 
 			$client = new GuzzleHttp\Client();
 			$res = $client->request('POST', $plant->resendUrl,
-				['json' => ['value' => $data['payload_fields']['Cvalue']]]
+				[
+					'json' => [
+						'app_id' => $data['app_id'],
+						'dev_id' => $data['dev_id'],
+						'Atype' => $data['payload_fields']['Atype'],
+						'Cvalue' => $data['payload_fields']['Cvalue'],
+						'time' => $data['metadata']['time']
+					]
+				]
 			);
 		}
 
