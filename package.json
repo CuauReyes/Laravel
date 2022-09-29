@@ -40,8 +40,8 @@
 		"@fortawesome/fontawesome-svg-core": "^1.2.15",
 		"@fortawesome/free-solid-svg-icons": "^5.7.2",
 		"@fortawesome/react-fontawesome": "^0.1.4",
-		"d3": "^5.9.1",
-		"d3-brush": "^1.0.6",
+		"d3": "^7.6.1",
+		"d3-brush": "^3.0.0",
 		"file-saver": "^2.0.1",
 		"laravel-echo": "^1.5.3",
 		"match-sorter": "^2.3.0",
@@ -56,7 +56,7 @@
 		"react-table": "^6.9.2",
 		"react-widgets": "^4.4.10",
 		"react-widgets-moment": "^4.0.26",
-		"recharts": "^1.5.0",
+		"recharts": "^2.1.14",
 		"xlsx": "^0.14.1"
 	}
 }
